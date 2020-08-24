@@ -109,6 +109,7 @@ Scene sdfParser(std::string const& file){
                     in_sstream >> mid.y;
                     in_sstream >> mid.z;
                     in_sstream >> mat_name;
+
                     auto mat1 = mat_map.find(mat_name);
                     Sphere sphere(sphere_name,{clr_r,clr_g,clr_b},mat1->second,{mid.x,mid.y,mid.z},radius);
                     auto sphere_ptr = std::make_shared<Shape>(sphere);                    
@@ -116,11 +117,15 @@ Scene sdfParser(std::string const& file){
                 }
                 if("box" == class_name){
                     std::string box_name;
+                    float clr_r, clr_g, clr_b;
                     glm::vec3 min;
                     glm::vec3 max;
                     std::string mat_name;
 
                     in_sstream >> box_name;
+                    in_sstream >> clr_r;
+                    in_sstream >> clr_g;
+                    in_sstream >> clr_b;
                     in_sstream >> min.x;
                     in_sstream >> min.y;
                     in_sstream >> min.z;
@@ -128,6 +133,11 @@ Scene sdfParser(std::string const& file){
                     in_sstream >> max.y;
                     in_sstream >> max.z;
                     in_sstream >> mat_name;
+
+                    auto mat2 = mat_map.find(mat_name);
+                    Box box({min.x,min.y,min.z},{max.x,max.y,max.z},box_name,{clr_r,clr_g,clr_b},mat2->second);
+                    auto box_ptr = std::make_shared<Shape>(box);
+                    shape_vec.push_back(box_ptr); 
                 }
                 
             }

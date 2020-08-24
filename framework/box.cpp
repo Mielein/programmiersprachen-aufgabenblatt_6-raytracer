@@ -10,7 +10,11 @@ Box::Box(glm::vec3 min, glm::vec3 max,std::string name, Color colour):
     Shape(name, colour),
     min_{min},
     max_{max}{}
-    
+
+Box::Box(glm::vec3 min, glm::vec3 max,std::string name, Color colour, std::shared_ptr<Material> mat):
+    Shape(name, colour, mat),
+    min_{min},
+    max_{max}{}    
 
 float Box::area() const{
     float x = min_.x - max_.x;
