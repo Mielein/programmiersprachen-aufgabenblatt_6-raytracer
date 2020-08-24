@@ -161,7 +161,7 @@ Scene sdfParser(std::string const& file){
                 std::string render_name;
                 std::string cam_name;
                 std::string filename;
-                unsigned width;
+                unsigned width;                                             //STINKY!!
                 unsigned height;
 
                 in_sstream >> render_name;
