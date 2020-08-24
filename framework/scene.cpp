@@ -19,9 +19,8 @@ Scene sdfParser(std::string const& file){
     std::vector<std::shared_ptr<Shape>> shape_vec; 
     std::vector<std::shared_ptr<Light>> light_vec;
     std::map<std::string,std::shared_ptr<Material>> mat_map;
-    Camera cam{};
-    Ambient amby{};
 
+    Scene s;
 
     while(std::getline(in_file, line_buffer)){
         //std::cout<<++line_count<<": "<<line_buffer<<std::endl;
@@ -59,7 +58,7 @@ Scene sdfParser(std::string const& file){
 
                 Material mat(material_name,{ka_red,ka_green,ka_blue},{kd_red,kd_green,kd_blue},{ks_red,ks_green,ks_blue},m);
                 auto mat_ptr = std::make_shared<Material>(mat);
-                mat_map.insert({material_name, mat_ptr});  
+                s.mat_map.insert({material_name, mat_ptr}); 
             }
             if("light" == class_name){
                 std::string light_name;
@@ -78,7 +77,7 @@ Scene sdfParser(std::string const& file){
 
                 Light light(light_name,{pos.x,pos.y,pos.z},{clr_r,clr_g,clr_b},brightness);
                 auto light_ptr = std::make_shared<Light>(light);
-                light_vec.push_back(light_ptr);                  
+                s.light_vec.push_back(light_ptr);                  
             }
             if("camera" == class_name){
                 std::string camera_name;
@@ -94,7 +93,7 @@ Scene sdfParser(std::string const& file){
                 in_sstream >> direction.z;
                 in_sstream >> fovX;
 
-                cam{camera_name, {pos.x, pos.y, pos.z}, {direction.x, direction.y, direction.z}, fovX};
+                Camera cam({camera_name, {pos.x, pos.y, pos.z}, {direction.x, direction.y, direction.z}, fovX});
 
             }
             if("shape" == identifier){
@@ -119,7 +118,7 @@ Scene sdfParser(std::string const& file){
                     auto mat1 = mat_map.find(mat_name);
                     Sphere sphere(sphere_name,{clr_r,clr_g,clr_b},mat1->second,{mid.x,mid.y,mid.z},radius);
                     auto sphere_ptr = std::make_shared<Shape>(sphere);                    
-                    shape_vec.push_back(sphere_ptr); 
+                    s.shape_vec.push_back(sphere_ptr); 
                 }
                 if("box" == class_name){
                     std::string box_name;
@@ -143,7 +142,7 @@ Scene sdfParser(std::string const& file){
                     auto mat2 = mat_map.find(mat_name);
                     Box box({min.x,min.y,min.z},{max.x,max.y,max.z},box_name,{clr_r,clr_g,clr_b},mat2->second);
                     auto box_ptr = std::make_shared<Shape>(box);
-                    shape_vec.push_back(box_ptr); 
+                    s.shape_vec.push_back(box_ptr); 
                 }
                 
             }
@@ -155,7 +154,8 @@ Scene sdfParser(std::string const& file){
                 in_sstream >> clr_r;
                 in_sstream >> clr_g;
                 in_sstream >> clr_b;
-                amby{ambient_name, {clr_r, clr_g, clr_b}};
+                Ambient amby({ambient_name, {clr_r, clr_g, clr_b}});
+                s.background_ = amby;
             }
             if("render" == class_name){
                 std::string render_name;
@@ -174,6 +174,6 @@ Scene sdfParser(std::string const& file){
                 std::cout<<"Line was not valid!"<<std::endl;
             }
         }
-        return Scene(shape_vec, light_vec, mat_map, );
     }
+    return s;
 }
