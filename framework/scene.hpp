@@ -14,6 +14,7 @@
 #include "sdfParser.hpp"
 
 struct Scene{
+    Camera Beobachter();
     
 };
 

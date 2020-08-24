@@ -4,6 +4,7 @@
 #include <string> //buffer lines read from file
 #include <glm/vec3.hpp>
 #include "scene.hpp"
+#include "sdfParser.hpp"
 
 
 
@@ -16,7 +17,7 @@ Scene sdfParser(std::string const& file){
     std::string const in_file_path = argv[1]; */
 
     //open file in read-only && ASCII mode
-    std::ifstream in_file(in_file_path, std::ios::in);
+    std::ifstream in_file("in_file_path", std::ios::in);
     std::string line_buffer;
     int32_t line_count = 0;
     std::string identifier;
