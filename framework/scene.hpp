@@ -4,7 +4,6 @@
 #include <vector>
 #include <map>
 #include <set>
-#include <string>
 #include "material.hpp"
 #include "ambient.hpp"
 #include "box.hpp"
