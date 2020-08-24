@@ -2,7 +2,6 @@
 
 
 Scene sdfParser(std::string const& file){
-
 /*     if(argc < 2){
         std::cout<<"Usage: "<<argv[0]<<"<PATH_TOSDF_FILE:string"<<std::endl;
         return -1;
