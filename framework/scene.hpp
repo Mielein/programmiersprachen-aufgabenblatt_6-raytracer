@@ -25,7 +25,7 @@
 struct Scene{
     std::vector<std::shared_ptr<Shape>> shape_vec; 
     std::vector<std::shared_ptr<Light>> light_vec;
-    std::vector<std::shared_ptr<Material>> mat_vec;
+    std::map<std::string,std::shared_ptr<Material>> mat_map;
     Camera camera_;
     Ambient background_;
 };

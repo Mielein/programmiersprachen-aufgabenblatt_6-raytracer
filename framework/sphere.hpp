@@ -10,7 +10,8 @@
 class Sphere : public Shape{
 public:
     Sphere(glm::vec3 mid,float rad);
-    Sphere(glm::vec3 mid,float rad,std::string name, Color colour);
+    /* Sphere(glm::vec3 mid,float rad,std::string name, Color colour); */
+    Sphere(std::string name,Color colour,std::shared_ptr<Material> mat,glm::vec3 mid,float rad);
     ~Sphere() override;
     float area() const override;
     float volume() const override;

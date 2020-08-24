@@ -2,6 +2,7 @@
 #include <cmath>
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp>
+#include <memory>
 
 Sphere::Sphere(glm::vec3 mid,float rad):
     Shape(),
@@ -15,8 +16,8 @@ Sphere::Sphere(glm::vec3 mid,float rad):
         } 
     }
 
-Sphere::Sphere(glm::vec3 mid,float rad,std::string name,Color colour):
-    Shape(name,colour),
+Sphere::Sphere(std::string name,Color colour,std::shared_ptr<Material> mat,glm::vec3 mid,float rad):
+    Shape(name,colour,mat),
     mid_{mid},
     radius_{rad}{}
 
