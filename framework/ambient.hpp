@@ -3,10 +3,8 @@
 #include "color.hpp"
 
 struct Ambient{
+    std::string name_;
     Color colour_;
-
-    Ambient(Color colour):
-        colour_(colour){};
 };
 
 
