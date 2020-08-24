@@ -5,21 +5,20 @@
 #include <glm/vec3.hpp>
 #include "scene.hpp"
 
-int main(int argc, char** argv){
 
-    if(argc < 2){
+
+Scene sdfParser(std::string const& file){
+
+/*     if(argc < 2){
         std::cout<<"Usage: "<<argv[0]<<"<PATH_TOSDF_FILE:string"<<std::endl;
         return -1;
     }
-    std::string const in_file_path = argv[1];
+    std::string const in_file_path = argv[1]; */
 
     //open file in read-only && ASCII mode
     std::ifstream in_file(in_file_path, std::ios::in);
-
     std::string line_buffer;
-
     int32_t line_count = 0;
-
     std::string identifier;
     std::string class_name;
 
