@@ -23,10 +23,9 @@
 #include <glm/vec3.hpp>
 
 struct Scene{
-    /* std::vector<std::shared_ptr<Shape>> shape_vec; */
-    /* std::vector<std::shared_ptr<Light>> light_vec; */
-    Sphere sphere_;
-    Light light_;
+    std::vector<std::shared_ptr<Shape>> shape_vec; 
+    std::vector<std::shared_ptr<Light>> light_vec;
+    std::vector<std::shared_ptr<Material>> mat_vec;
     Camera camera_;
     Ambient background_;
 };
