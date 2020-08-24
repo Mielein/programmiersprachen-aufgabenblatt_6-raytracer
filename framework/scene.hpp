@@ -14,13 +14,19 @@
 #include "hitpoint.hpp"
 #include "sdfParser.hpp"
 
+#include <iostream> //debug prints
+#include <fstream> //open / read / write / close files
+#include <sstream> //stringstram -> easy parsing mechanics
+#include <string> //buffer lines read from file
+#include <glm/vec3.hpp>
+
 struct Scene{
     std::vector<Shape> objects_;
     std::map<std::string, Camera> cameras_;
     std::map<std::string, Light> lightsources_;
     Ambient background_;
-    
 };
 
+Scene sdfParser(std::string const& file);
 
 #endif
