@@ -4,6 +4,7 @@
 #include <glm/gtx/intersect.hpp>
 #include "sphere.hpp"
 #include "box.hpp"
+#include "sdfParser.cpp"
 
 TEST_CASE("testing_sphere_area","[sphere_area]"){
   Sphere test1({1.0f,1.0f,1.0f},1.0f);
@@ -112,6 +113,10 @@ TEST_CASE("and_another_intersect_test_case","[intersect]"){
   Ray ray{ray_origin,ray_direction};
   HitPoint hit = sphere.intersect(ray);
   REQUIRE(hit.intersection);
+}
+
+TEST_CASE("sdfParser test","[SDFParser]"){
+  Box bernd({0.0,1.0,0.0},{2.0,2.0,1.0},"bernd",{1.0,0.0,0.0});
 }
 
 void aufgabe8(){
