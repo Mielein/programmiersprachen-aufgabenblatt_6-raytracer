@@ -4,7 +4,6 @@
 #include <glm/gtx/intersect.hpp>
 #include "sphere.hpp"
 #include "box.hpp"
-#include "sdfParser.cpp"
 
 TEST_CASE("testing_sphere_area","[sphere_area]"){
   Sphere test1({1.0f,1.0f,1.0f},1.0f);
