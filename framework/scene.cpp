@@ -56,7 +56,7 @@ Scene sdfParser(std::string const& file){
 
                 Material mat(material_name,{ka_red,ka_green,ka_blue},{kd_red,kd_green,kd_blue},{ks_red,ks_green,ks_blue},m);
                 auto mat_ptr = std::make_shared<Material>(mat);
-                mat_vec.push_back(mat_ptr);  
+                mat_map.insert({material_name, mat_ptr});
             }
             if("light" == class_name){
                 std::string light_name;
@@ -110,7 +110,7 @@ Scene sdfParser(std::string const& file){
                     in_sstream >> mid.z;
                     in_sstream >> mat_name;
                     auto mat1 = mat_map.find(mat_name);
-                    Sphere sphere(sphere_name,{clr_r,clr_g,clr_b},mat1,{mid.x,mid.y,mid.z},radius);
+                    Sphere sphere(sphere_name,{clr_r,clr_g,clr_b},mat1->second,{mid.x,mid.y,mid.z},radius);
                     auto sphere_ptr = std::make_shared<Shape>(sphere);
                     shape_vec.push_back(sphere_ptr); 
                 }
