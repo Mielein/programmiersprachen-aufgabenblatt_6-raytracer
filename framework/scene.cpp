@@ -1,5 +1,6 @@
 #include "scene.hpp"
 
+
 Scene sdfParser(std::string const& file){
 
 /*     if(argc < 2){

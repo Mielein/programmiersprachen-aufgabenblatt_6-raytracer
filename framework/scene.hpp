@@ -12,7 +12,6 @@
 #include "sphere.hpp"
 #include "light.hpp"
 #include "hitpoint.hpp"
-#include "sdfParser.hpp"
 
 #include <iostream> //debug prints
 #include <fstream> //open / read / write / close files
