@@ -16,10 +16,12 @@ Scene sdfParser(std::string const& file){
     std::string identifier;
     std::string class_name;
 
-
     std::vector<std::shared_ptr<Shape>> shape_vec; 
     std::vector<std::shared_ptr<Light>> light_vec;
     std::map<std::string,std::shared_ptr<Material>> mat_map;
+    Camera cam{};
+    Ambient amby{};
+
 
     while(std::getline(in_file, line_buffer)){
         //std::cout<<++line_count<<": "<<line_buffer<<std::endl;
@@ -57,7 +59,7 @@ Scene sdfParser(std::string const& file){
 
                 Material mat(material_name,{ka_red,ka_green,ka_blue},{kd_red,kd_green,kd_blue},{ks_red,ks_green,ks_blue},m);
                 auto mat_ptr = std::make_shared<Material>(mat);
-                mat_map.insert({material_name, mat_ptr});
+                mat_map.insert({material_name, mat_ptr});  
             }
             if("light" == class_name){
                 std::string light_name;
@@ -81,7 +83,7 @@ Scene sdfParser(std::string const& file){
             if("camera" == class_name){
                 std::string camera_name;
                 glm::vec3 pos, direction;
-                unsigned int foxV;
+                unsigned int fovX;
 
                 in_sstream >> camera_name;
                 in_sstream >> pos.x;
@@ -90,7 +92,10 @@ Scene sdfParser(std::string const& file){
                 in_sstream >> direction.x;
                 in_sstream >> direction.y;
                 in_sstream >> direction.z;
-                in_sstream >> foxV;
+                in_sstream >> fovX;
+
+                cam{camera_name, {pos.x, pos.y, pos.z}, {direction.x, direction.y, direction.z}, fovX};
+
             }
             if("shape" == identifier){
                 std::cout<<"Identifier: "<<identifier<<std::endl;
@@ -113,7 +118,7 @@ Scene sdfParser(std::string const& file){
 
                     auto mat1 = mat_map.find(mat_name);
                     Sphere sphere(sphere_name,{clr_r,clr_g,clr_b},mat1->second,{mid.x,mid.y,mid.z},radius);
-                    auto sphere_ptr = std::make_shared<Shape>(sphere);
+                    auto sphere_ptr = std::make_shared<Shape>(sphere);                    
                     shape_vec.push_back(sphere_ptr); 
                 }
                 if("box" == class_name){
@@ -150,6 +155,7 @@ Scene sdfParser(std::string const& file){
                 in_sstream >> clr_r;
                 in_sstream >> clr_g;
                 in_sstream >> clr_b;
+                amby{ambient_name, {clr_r, clr_g, clr_b}};
             }
             if("render" == class_name){
                 std::string render_name;
@@ -168,5 +174,6 @@ Scene sdfParser(std::string const& file){
                 std::cout<<"Line was not valid!"<<std::endl;
             }
         }
+        return Scene(shape_vec, light_vec, mat_map, );
     }
 }
