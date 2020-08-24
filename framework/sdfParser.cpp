@@ -3,6 +3,7 @@
 #include <sstream> //stringstram -> easy parsing mechanics
 #include <string> //buffer lines read from file
 #include <glm/vec3.hpp>
+#include "scene.hpp"
 
 int main(int argc, char** argv){
 
@@ -34,7 +35,7 @@ int main(int argc, char** argv){
             in_sstream>>class_name;
             //check for shape type, then: parse attributes (including material lookup)
         }
-        else if("material" == class_name){
+        if("material" == class_name){
             //parse material attributes
             std::string material_name;
             //ka -> ambiente
@@ -50,15 +51,13 @@ int main(int argc, char** argv){
 
             std::cout << ka_red <<" "<<ka_green<<" "<<ka_blue<<std::endl;
         }
-        else if("light" == class_name){
-            //TO-DO
+        if("light" == class_name){
             std::string light_name;
-            in_sstream >> light_name;
-
             float clr_r, clr_g, clr_b;
             glm::vec3 pos;
             float brightness;
 
+            in_sstream >> light_name;
             in_sstream >> clr_r;
             in_sstream >> clr_g;
             in_sstream >> clr_b;
@@ -66,8 +65,73 @@ int main(int argc, char** argv){
             in_sstream >> pos.y;
             in_sstream >> pos.z;
             in_sstream >> brightness;
+        }
+        if("camera" == class_name){
+            std::string camera_name;
+            glm::vec3 pos, direction;
+            unsigned int foxV;
 
+            in_sstream >> camera_name;
+            in_sstream >> pos.x;
+            in_sstream >> pos.y;
+            in_sstream >> pos.z;
+            in_sstream >> direction.x;
+            in_sstream >> direction.y;
+            in_sstream >> direction.z;
+            in_sstream >> foxV;
+        }
+        if("shape" == identifier){
+            std::cout<<"Identifier: "<<identifier<<std::endl;
+            if("sphere" == class_name){
+                std::string sphere_name;
+                float radius;
+                glm::vec3 mid;
+                std::string mat_name;
 
+                in_sstream >> sphere_name;
+                in_sstream >> radius;
+                in_sstream >> mid.x;
+                in_sstream >> mid.y;
+                in_sstream >> mid.z;
+                in_sstream >> mat_name;
+            }
+            if("box" == class_name){
+                std::string box_name;
+                glm::vec3 min;
+                glm::vec3 max;
+                std::string mat_name;
+
+                in_sstream >> box_name;
+                in_sstream >> min.x;
+                in_sstream >> min.y;
+                in_sstream >> min.z;
+                in_sstream >> max.x;
+                in_sstream >> max.y;
+                in_sstream >> max.z;
+                in_sstream >> mat_name;
+            }
+        }
+        if("ambient" == class_name){
+            std::string ambient_name;
+            float clr_r, clr_g, clr_b;
+
+            in_sstream >> ambient_name;
+            in_sstream >> clr_r;
+            in_sstream >> clr_g;
+            in_sstream >> clr_b;
+        }
+        if("render" == class_name){
+            std::string render_name;
+            std::string cam_name;
+            std::string filename;
+            unsigned width;
+            unsigned height;
+
+            in_sstream >> render_name;
+            in_sstream >> cam_name;
+            in_sstream >> filename;
+            in_sstream >> width;
+            in_sstream >> height;
         }
         else {
             std::cout<<"Line was not valid!"<<std::endl;
