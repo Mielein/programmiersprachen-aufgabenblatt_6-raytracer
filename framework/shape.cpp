@@ -2,18 +2,11 @@
 
 Shape::Shape():
 name_{" "},
-colour_{1.0f,0.0f,0.0f},
-material_{}{}
+colour_{1.0f,0.0f,0.0f}{}
 
 Shape::Shape(std::string name, Color colour):
 name_{name},
-colour_{colour},
-material_{}{}
-
-Shape::Shape(std::string name, Color colour, Material material):
-name_{name},
-colour_{colour},
-material_{material}{}
+colour_{colour}{}
 
 Shape::~Shape(){
     std::cout<<"Shape destructor is here to destruct!!"<<std::endl;
