@@ -4,6 +4,10 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <iostream>
+#include <fstream>
+#include <ostream>
+#include <memory>
 #include "material.hpp"
 #include "ambient.hpp"
 #include "box.hpp"
@@ -19,9 +23,11 @@
 #include <glm/vec3.hpp>
 
 struct Scene{
-    std::vector<Shape> objects_;
-    std::map<std::string, Camera> cameras_;
-    std::map<std::string, Light> lightsources_;
+    /* std::vector<std::shared_ptr<Shape>> shape_vec; */
+    /* std::vector<std::shared_ptr<Light>> light_vec; */
+    Sphere sphere_;
+    Light light_;
+    Camera camera_;
     Ambient background_;
 };
 
