@@ -9,13 +9,21 @@
 
 #include "renderer.hpp"
 
-Renderer::Renderer(unsigned w, unsigned h, std::string const& file)
-  : width_(w)
-  , height_(h)
-  , color_buffer_(w*h, Color{0.0, 0.0, 0.0})
-  , filename_(file)
-  , ppm_(width_, height_)
-{}
+Renderer::Renderer(unsigned w, unsigned h, std::string const& file):
+  width_(w),
+  height_(h),
+  color_buffer_(w*h, Color{0.0, 0.0, 0.0}),
+  filename_(file),
+  ppm_(width_, height_){}
+
+Renderer::Renderer(unsigned w, unsigned h, std::string const& file, Scene const& scene):
+  width_(w),
+  height_(h),
+  color_buffer_(w*h, Color{0.0, 0.0, 0.0}),
+  filename_(file),
+  ppm_(width_, height_),
+  scene_(scene){}
+
 
 void Renderer::render()
 {
@@ -33,6 +41,7 @@ void Renderer::render()
       write(p);
     }
   }
+  
   ppm_.save(filename_);
 }
 
