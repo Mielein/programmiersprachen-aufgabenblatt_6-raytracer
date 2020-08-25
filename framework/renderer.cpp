@@ -45,6 +45,10 @@ void Renderer::render()
   ppm_.save(filename_);
 }
 
+Color Renderer::trace(Ray const ray, Scene const& scene){
+  
+}
+
 void Renderer::write(Pixel const& p)
 {
   // flip pixels, because of opengl glDrawPixels
