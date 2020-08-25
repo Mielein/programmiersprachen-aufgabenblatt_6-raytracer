@@ -27,6 +27,10 @@ float Box::volume() const{
     return abs((min_.x-max_.x)*(min_.y-max_.y)*(min_.z-max_.z));
 }
 
+HitPoint Box::intersect(Ray const& ray) const{
+
+}
+
 std::ostream& Box::print( std::ostream& os) const{
     Shape::print(os);
     os<<"minimum: "<<min_.x<<", "<<min_.y<<", "<<min_.z<<"\n";
