@@ -2,16 +2,12 @@
 
 
 Scene sdfParser(std::string const& file){
-/*     if(argc < 2){
-        std::cout<<"Usage: "<<argv[0]<<"<PATH_TOSDF_FILE:string"<<std::endl;
-        return -1;
-    }
-    std::string const in_file_path = argv[1]; */
 
     //open file in read-only && ASCII mode
-    std::ifstream in_file("in_file_path", std::ios::in);
+    std::ifstream in_file;
+    in_file.open(file);
     std::string line_buffer;
-    int32_t line_count = 0;
+
     std::string identifier;
     std::string class_name;
 
@@ -25,7 +21,7 @@ Scene sdfParser(std::string const& file){
         //std::cout<<++line_count<<": "<<line_buffer<<std::endl;
         //construct stringstream using line_buffer string
         std::istringstream in_sstream(line_buffer);
-        in_sstream>>identifier;
+        in_sstream >> identifier;
         std::cout<<"Identifier content: "<<identifier<<std::endl;
 
         //check for shapes / material / lights
@@ -95,8 +91,7 @@ Scene sdfParser(std::string const& file){
                 Camera cam({camera_name, {pos.x, pos.y, pos.z}, {direction.x, direction.y, direction.z}, fovX});
 
             }
-            if("shape" == identifier){
-                std::cout<<"Identifier: "<<identifier<<std::endl;
+            if("shape" == class_name){
                 if("sphere" == class_name){
                     std::string sphere_name;
                     float clr_r,clr_g,clr_b;
@@ -116,7 +111,7 @@ Scene sdfParser(std::string const& file){
 
                     auto mat1 = mat_map.find(mat_name);
                     Sphere sphere(sphere_name,{clr_r,clr_g,clr_b},mat1->second,{mid.x,mid.y,mid.z},radius);
-                    auto sphere_ptr = std::make_shared<Shape>(sphere);                    
+                    std::shared_ptr<Shape> sphere_ptr = std::make_shared<Sphere>(sphere);                    
                     s.shape_vec.push_back(sphere_ptr); 
                 }
                 if("box" == class_name){
@@ -140,7 +135,7 @@ Scene sdfParser(std::string const& file){
 
                     auto mat2 = mat_map.find(mat_name);
                     Box box({min.x,min.y,min.z},{max.x,max.y,max.z},box_name,{clr_r,clr_g,clr_b},mat2->second);
-                    auto box_ptr = std::make_shared<Shape>(box);
+                    std::shared_ptr<Shape> box_ptr = std::make_shared<Box>(box);
                     s.shape_vec.push_back(box_ptr); 
                 }
                 
@@ -160,7 +155,7 @@ Scene sdfParser(std::string const& file){
                 std::string render_name;
                 std::string cam_name;
                 std::string filename;
-                unsigned width;                                             //STINKY!!
+                unsigned width;                                           
                 unsigned height;
 
                 in_sstream >> render_name;
