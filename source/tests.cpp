@@ -2,9 +2,9 @@
 #include <catch.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp>
-#include "sphere.hpp"
-#include "box.hpp"
-#include "scene.hpp"
+#include "../framework/box.hpp"
+#include "../framework/sphere.hpp"
+#include "../framework/scene.hpp"
 
 TEST_CASE("testing_sphere_area","[sphere_area]"){
   Sphere test1({1.0f,1.0f,1.0f},1.0f);
