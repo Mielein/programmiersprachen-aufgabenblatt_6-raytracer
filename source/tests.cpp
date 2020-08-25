@@ -4,6 +4,7 @@
 #include <glm/gtx/intersect.hpp>
 #include "sphere.hpp"
 #include "box.hpp"
+#include "scene.hpp"
 
 TEST_CASE("testing_sphere_area","[sphere_area]"){
   Sphere test1({1.0f,1.0f,1.0f},1.0f);
@@ -114,10 +115,6 @@ TEST_CASE("and_another_intersect_test_case","[intersect]"){
   REQUIRE(hit.intersection);
 }
 
-TEST_CASE("sdfParser test","[SDFParser]"){
-  Box bernd({0.0,1.0,0.0},{2.0,2.0,1.0},"bernd",{1.0,0.0,0.0});
-}
-
 void aufgabe8(){
   Color red{255,0,0};
   glm::vec3 position {0.0f,0.0f,0.0f};
@@ -132,8 +129,8 @@ void aufgabe8(){
   delete s2 ;
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
+  Scene s = sdfParser("/home/marie/programmiersprachen-aufgabenblatt_6-raytracer/source/example.sdf");
   aufgabe8();
   return Catch::Session().run(argc, argv);
 }

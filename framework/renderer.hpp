@@ -15,6 +15,7 @@
 #include "ppmwriter.hpp"
 #include <string>
 #include <glm/glm.hpp>
+#include "scene.hpp"
 
 class Renderer
 {
@@ -30,11 +31,13 @@ public:
   }
 
 private:
+
   unsigned width_;
   unsigned height_;
   std::vector<Color> color_buffer_;
   std::string filename_;
   PpmWriter ppm_;
+  Scene scene_;
 };
 
 #endif // #ifndef BUW_RENDERER_HPP
