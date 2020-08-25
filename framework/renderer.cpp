@@ -8,6 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "renderer.hpp"
+#include "memory"
 
 Renderer::Renderer(unsigned w, unsigned h, std::string const& file):
   width_(w),
@@ -45,8 +46,16 @@ void Renderer::render()
   ppm_.save(filename_);
 }
 
-Color Renderer::trace(Ray const ray, Scene const& scene){
-  
+Color Renderer::trace(Ray const& ray, Scene const& scene){
+  Color background;
+  std::shared_ptr<HitPoint> hit_pt = nullptr;
+  std::shared_ptr<HitPoint> hit_closest = nullptr;
+  std::shared_ptr<Shape> clst_obj = nullptr;
+  float closest_dist;
+
+  for(auto i : scene.shape_vec){
+    hit_pt = i->intersect(ray);
+  }
 }
 
 void Renderer::write(Pixel const& p)
