@@ -91,10 +91,10 @@ REQUIRE(distance == Approx(4.0f));
 Sphere sphere{sphere_center,sphere_radius,"stinky",{0.0f,0.0f,1.0}};
 Ray ray{ray_origin,ray_direction};
 HitPoint hitpoint = sphere.intersect(ray);
-REQUIRE(hitpoint.intersection);
-REQUIRE(hitpoint.distance == Approx(4.0f));
-REQUIRE(hitpoint.intersect_direction == ray_direction);
-REQUIRE(hitpoint.intersect_pt == ray_origin+(distance*ray_direction));
+REQUIRE(hitpoint.intersection_);
+REQUIRE(hitpoint.distance_ == Approx(4.0f));
+REQUIRE(hitpoint.intersect_direction_ == ray_direction);
+REQUIRE(hitpoint.intersect_pt_ == ray_origin+(distance*ray_direction));
 }
 
 TEST_CASE("another_intersect_test_case","[intersect]"){
@@ -102,8 +102,8 @@ TEST_CASE("another_intersect_test_case","[intersect]"){
   glm::vec3 ray_origin{0.0f,0.0f,0.0f};
   glm::vec3 ray_direction {0.0f,0.0f,0.0f};
   Ray ray{ray_origin,ray_direction};
-  HitPoint hit = sphere.intersect(ray);
-  REQUIRE(false == hit.intersection);
+  std::shared_ptr<HitPoint> *hit = sphere.intersect(ray);
+  REQUIRE(false == hit.intersection_);
 }
 
 TEST_CASE("and_another_intersect_test_case","[intersect]"){

@@ -47,16 +47,12 @@ void Renderer::render()
 }
 
 Color Renderer::trace(Ray const& ray, Scene const& scene){
-  Color background;
-  std::shared_ptr<HitPoint> hit_pt = nullptr;
-  std::shared_ptr<HitPoint> hit_closest = nullptr;
-  std::shared_ptr<Shape> clst_obj = nullptr;
-  float closest_dist;
 
-  for(auto i : scene.shape_vec){
-    hit_pt = i->intersect(ray);
-  }
 }
+
+  Color shade (Scene const& scene, Shape const& object, Ray const& ray, std::shared_ptr<HitPoint> hit){
+
+  }
 
 void Renderer::write(Pixel const& p)
 {

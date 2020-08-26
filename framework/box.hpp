@@ -2,6 +2,7 @@
 #define BOX_HPP
 
 #include "shape.hpp"
+#include "plane.hpp"
 #include <glm/vec3.hpp>
 
 class Box : public Shape{
@@ -13,7 +14,7 @@ class Box : public Shape{
     float volume() const override;
     HitPoint intersect(Ray const& ray) const override;
     std::ostream& print( std::ostream& os) const override;
-
+    
     private:
     glm::vec3 min_;
     glm::vec3 max_;
