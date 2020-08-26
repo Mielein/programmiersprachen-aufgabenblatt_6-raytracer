@@ -102,7 +102,7 @@ TEST_CASE("another_intersect_test_case","[intersect]"){
   glm::vec3 ray_origin{0.0f,0.0f,0.0f};
   glm::vec3 ray_direction {0.0f,0.0f,0.0f};
   Ray ray{ray_origin,ray_direction};
-  std::shared_ptr<HitPoint> *hit = sphere.intersect(ray);
+  HitPoint hit = sphere.intersect(ray);
   REQUIRE(false == hit.intersection_);
 }
 
@@ -112,7 +112,7 @@ TEST_CASE("and_another_intersect_test_case","[intersect]"){
   glm::vec3 ray_direction {1.0f,0.5f,1.0f};
   Ray ray{ray_origin,ray_direction};
   HitPoint hit = sphere.intersect(ray);
-  REQUIRE(hit.intersection);
+  REQUIRE(hit.intersection_);
 }
 
 void aufgabe8(){

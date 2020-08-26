@@ -8,7 +8,8 @@
 // -----------------------------------------------------------------------------
 
 #include "renderer.hpp"
-#include "memory"
+#include <memory>
+#include <glm/glm.hpp>
 
 Renderer::Renderer(unsigned w, unsigned h, std::string const& file):
   width_(w),
@@ -26,8 +27,7 @@ Renderer::Renderer(unsigned w, unsigned h, std::string const& file, Scene const&
   scene_(scene){}
 
 
-void Renderer::render()
-{
+void Renderer::render(){
   std::size_t const checker_pattern_size = 20;
 
   for (unsigned y = 0; y < height_; ++y) {
@@ -42,21 +42,40 @@ void Renderer::render()
       write(p);
     }
   }
-  
   ppm_.save(filename_);
 }
 
 Color Renderer::trace(Ray const& ray, Scene const& scene, int depth){
+/*   HitPoint closest_t;
+  HitPoint closest_o;
+  for(auto i : scene.shape_vec){ 
+    auto t = i->intersect(ray);
+    if(glm::length(t.intersect_pt_-ray.origin)<glm::length(closest_t.intersect_pt_-ray.origin)){
+      closest_t = t;
+      //closest_o = *i; 
+    }  
+  }
+  if(closest_o != nullptr){
+        return shade(scene,ray, closest_t, );
+      }
+      else{
+        return;
+      } */
+       
+    
+ 
   //TO-DO
 }
-Color Renderer::shade (Scene const& scene, Ray const& ray, int closest, int depth){
+Color Renderer::shade (Scene const& scene, Ray const& ray, HitPoint hit){
   //TO-DO
 }
 Color Renderer::tonemapping (Color const& clr){
   //TO-DO
 }
 Color Renderer::calculateAmbient(HitPoint const& hit){
-  //TO-DO
+  Color ambient = scene_.background_.colour_;
+  Color ka = hit.material_->ka_;
+  return {ambient.r*ka.r,ambient.g*ka.g,ambient.b*ka.b};
 }
 Color Renderer::claculateDiffuse(HitPoint const& hit){
   //TO-DO

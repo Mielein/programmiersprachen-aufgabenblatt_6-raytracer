@@ -25,7 +25,7 @@ public:
 
   void render();
   Color trace(Ray const& ray, Scene const& scene, int depth);
-  Color shade (Scene const& scene, Ray const& ray, int closest, int depth);
+  Color shade (Scene const& scene, Ray const& ray, HitPoint hit);
   Color tonemapping (Color const& clr);
   Color calculateAmbient(HitPoint const& hit);
   Color claculateDiffuse(HitPoint const& hit);
