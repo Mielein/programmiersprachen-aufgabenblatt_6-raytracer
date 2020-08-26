@@ -46,16 +46,29 @@ void Renderer::render()
   ppm_.save(filename_);
 }
 
-Color Renderer::trace(Ray const& ray, Scene const& scene){
-
+Color Renderer::trace(Ray const& ray, Scene const& scene, int depth){
+  //TO-DO
+}
+Color Renderer::shade (Scene const& scene, Ray const& ray, int closest, int depth){
+  //TO-DO
+}
+Color Renderer::tonemapping (Color const& clr){
+  //TO-DO
+}
+Color Renderer::calculateAmbient(HitPoint const& hit){
+  //TO-DO
+}
+Color Renderer::claculateDiffuse(HitPoint const& hit){
+  //TO-DO
+}
+Color Renderer::calculateReflection(HitPoint const& hit, int depth){
+  //TO-DO
+}
+Color Renderer::calculateSpecular(HitPoint const& hit){
+  //TO-DO
 }
 
-  Color shade (Scene const& scene, Shape const& object, Ray const& ray, std::shared_ptr<HitPoint> hit){
-
-  }
-
-void Renderer::write(Pixel const& p)
-{
+void Renderer::write(Pixel const& p){
   // flip pixels, because of opengl glDrawPixels
   size_t buf_pos = (width_*p.y + p.x);
   if (buf_pos >= color_buffer_.size() || (int)buf_pos < 0) {
@@ -66,6 +79,5 @@ void Renderer::write(Pixel const& p)
   } else {
     color_buffer_[buf_pos] = p.color;
   }
-
   ppm_.write(p);
 }

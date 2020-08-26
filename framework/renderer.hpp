@@ -24,9 +24,16 @@ public:
   Renderer(unsigned w, unsigned h, std::string const& file, Scene const& scene);
 
   void render();
-  Color trace(Ray const& ray, Scene const& scene);
-  void write(Pixel const& p);
-  Color shade (Scene const& scene, Shape const& object, Ray const& ray, std::shared_ptr<HitPoint> hit);
+  Color trace(Ray const& ray, Scene const& scene, int depth);
+  Color shade (Scene const& scene, Ray const& ray, int closest, int depth);
+  Color tonemapping (Color const& clr);
+  Color calculateAmbient(HitPoint const& hit);
+  Color claculateDiffuse(HitPoint const& hit);
+  Color calculateSpecular(HitPoint const& hit);
+  Color calculateReflection(HitPoint const& hit, int depth);
+  
+  
+  void write(Pixel const& p);  
   inline std::vector<Color> const& color_buffer() const
   {
     return color_buffer_;
