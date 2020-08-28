@@ -23,8 +23,8 @@ public:
   Renderer(unsigned w, unsigned h, std::string const& file);
   Renderer(unsigned w, unsigned h, std::string const& file, Scene const& scene);
 
-  void render();
-  Color trace(Ray const& ray, Scene const& scene, int depth);
+  void render(Scene const& scene);
+  Color trace(Ray const& ray, Scene const& scene);
   Color shade (Scene const& scene, Ray const& ray, HitPoint hit);
   Color tonemapping (Color const& clr);
   Color calculateAmbient(HitPoint const& hit);

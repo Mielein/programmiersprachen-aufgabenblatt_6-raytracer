@@ -27,40 +27,45 @@ Renderer::Renderer(unsigned w, unsigned h, std::string const& file, Scene const&
   scene_(scene){}
 
 
-void Renderer::render(){
-  std::size_t const checker_pattern_size = 20;
+void Renderer::render(Scene const& scene){
+  /* std::size_t const checker_pattern_size = 20; */
 
   for (unsigned y = 0; y < height_; ++y) {
     for (unsigned x = 0; x < width_; ++x) {
       Pixel p(x,y);
-      if ( ((x/checker_pattern_size)%2) != ((y/checker_pattern_size)%2)) {
+/*       if ( ((x/checker_pattern_size)%2) != ((y/checker_pattern_size)%2)) {
         p.color = Color{0.0f, 1.0f, float(x)/height_};
       } else {
         p.color = Color{1.0f, 0.0f, float(y)/width_};
-      }
-
+      } */
+      glm::vec3 origin{0,0,0};
+      glm::vec3 direction = glm::normalize(glm::vec3{(x-width_/2.0f),(y-height_/2.0f),-(width_/2)/tan(scene.camera_.fovX/2*M_PI/180)});
+      Ray ray{origin,direction};
+      Color colour{0.0,0.0,0.0};
+      colour = trace(ray,scene);
+      p.color = colour;
       write(p);
     }
   }
   ppm_.save(filename_);
 }
 
-Color Renderer::trace(Ray const& ray, Scene const& scene, int depth){
-/*   HitPoint closest_t;
-  HitPoint closest_o;
+Color Renderer::trace(Ray const& ray, Scene const& scene){
+  HitPoint closest_t;
+  std::shared_ptr<Shape> closest_o = nullptr;
   for(auto i : scene.shape_vec){ 
     auto t = i->intersect(ray);
     if(glm::length(t.intersect_pt_-ray.origin)<glm::length(closest_t.intersect_pt_-ray.origin)){
       closest_t = t;
-      //closest_o = *i; 
+      closest_o = i; 
     }  
   }
   if(closest_o != nullptr){
-        return shade(scene,ray, closest_t, );
+        return shade(scene,ray, closest_t);
       }
       else{
-        return;
-      } */
+        return scene.background_.colour_;
+      }
        
     
  

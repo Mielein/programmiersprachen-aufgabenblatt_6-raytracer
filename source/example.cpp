@@ -1,5 +1,6 @@
 #include "fensterchen.hpp"
 #include "renderer.hpp"
+#include "scene.hpp"
 #include <GLFW/glfw3.h>
 #include <utility>
 #include <cmath>
@@ -14,9 +15,21 @@ int main(int argc, char* argv[]){
   Renderer renderer{image_width, image_height, filename};
 
   std::cout<<"reading sdf"<<std::endl;
-  Scene s = sdfParser("/home/marie/programmiersprachen-aufgabenblatt_6-raytracer/source/example.sdf");
+  std::vector<std::shared_ptr<Shape>> shape_vec; 
+  std::vector<std::shared_ptr<Light>> light_vec;
+  std::map<std::string,std::shared_ptr<Material>> mat_map;
+  Sphere sphere{{1.0,1.0,1.0},3.0,"pussy",{1.0,0.0,0.0}};
+  std::shared_ptr<Shape>spheres = std::make_shared<Sphere>(sphere);
+  shape_vec.push_back(spheres);
+  Light light{};
+  std::shared_ptr<Light>lights = std::make_shared<Light>(light);
+  light_vec.push_back(lights);
+  Camera cam{};
+  Ambient amby{"a",{1.0,0.2,1.4}};
+  Scene s{shape_vec,light_vec,mat_map,cam,amby};
+  /* sdfParser("/home/marie/programmiersprachen-aufgabenblatt_6-raytracer/source/example.sdf"); */
   std::cout<<"sdf read"<<std::endl;
-  renderer.render();
+  renderer.render(s);
 
   Window window{{image_width, image_height}};
 
