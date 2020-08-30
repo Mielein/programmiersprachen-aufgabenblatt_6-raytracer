@@ -66,12 +66,11 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
       else{
         return scene.background_.colour_;
       }
-       
-    
- 
+
   //TO-DO
 }
 Color Renderer::shade (Scene const& scene, Ray const& ray, HitPoint hit){
+
   //TO-DO
 }
 Color Renderer::tonemapping (Color const& clr){
@@ -87,6 +86,33 @@ Color Renderer::calculateAmbient(HitPoint const& hit){
   return {ambient.r*ka.r,ambient.g*ka.g,ambient.b*ka.b};
 }
 Color Renderer::claculateDiffuse(HitPoint const& hit){
+  Color diffused_clr{0.0f,0.0f,0.0f};
+  std::vector<Color> calc_clrs;
+  
+  for(auto light : scene_.light_vec){
+    bool obstacle = false;
+
+    HitPoint hit;
+    glm::vec3 vec_lights = glm::normalize(light->pos_ - hit.intersect_pt_);
+    Ray ray_lights{hit.intersect_pt_+0.1f*hit.normal_,vec_lights}; //checks if obstacle is between Light and intersection
+
+    for(std::shared_ptr<Shape> const& shapes : scene_.shape_vec){
+      if(hit.intersection_){
+        obstacle = true;
+      }
+      if(!obstacle){
+        Color ip{light->colour_.r*light->brightness_,light->colour_.g*light->brightness_,light->colour_.b*light->brightness_};
+        Color kd = hit.material_->kd_;
+        float cross_prod = glm::dot(vec_lights,glm::normalize(hit.normal_));
+        calc_clrs.push_back({kd.r*cross_prod*ip.r,kd.g*cross_prod*ip.g,kd.b*cross_prod*ip.b});
+      }
+    }
+    for(auto clr : calc_clrs){
+      diffused_clr += clr;
+    }
+    return diffused_clr;
+
+  }
   //TO-DO
 }
 Color Renderer::calculateReflection(HitPoint const& hit, int depth){
