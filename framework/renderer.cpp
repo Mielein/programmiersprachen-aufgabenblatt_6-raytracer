@@ -75,7 +75,11 @@ Color Renderer::shade (Scene const& scene, Ray const& ray, HitPoint hit){
   //TO-DO
 }
 Color Renderer::tonemapping (Color const& clr){
-  //TO-DO
+  Color colour{0.0f,0.0f,0.0f};
+  colour.r = clr.r / (clr.r + 1.0f);
+  colour.g = clr.g / (clr.g + 1.0f);
+  colour.b = clr.b / (clr.b + 1.0f);
+  return colour;
 }
 Color Renderer::calculateAmbient(HitPoint const& hit){
   Color ambient = scene_.background_.colour_;
