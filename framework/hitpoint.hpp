@@ -10,7 +10,7 @@
 struct HitPoint{
 
     bool intersection_ = false;
-    float distance_ = 0.0f;
+    float distance_ = INFINITY;
     std::string name_ = " ";
     Color colour_{1.0f,0.0f,0.0f};
     glm::vec3 intersect_pt_{0.0f,0.0f,0.0f};

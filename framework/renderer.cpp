@@ -38,19 +38,20 @@ void Renderer::render(Scene const& scene){
       } else {
         p.color = Color{1.0f, 0.0f, float(y)/width_};
       } */
-      glm::vec3 origin{0,0,0};
-      glm::vec3 direction = glm::normalize(glm::vec3{(x-width_/2.0f),(y-height_/2.0f),-(width_/2)/tan(scene.camera_.fovX/2*M_PI/180)});
-      Ray ray{origin,{/* direction */ 0.0,0.0,-1.0}};
-/*       if(p.x == 42 && p.y == 42){
+       if(p.x == 42 && p.y == 42){
+        glm::vec3 origin{0,0,0};
+        glm::vec3 direction = glm::normalize(glm::vec3{(x-width_/2.0f),(y-height_/2.0f),-(width_/2)/tan(scene.camera_.fovX/2*M_PI/180)});
+        Ray ray{origin,{/* direction */ 0.0,0.0,-1.0}};
         std::cout<<"origin \n";
         std::cout<<ray.origin.x<<"\n"<<ray.origin.y<<"\n"<<ray.origin.z<<std::endl;
         std::cout<<"direction \n";
         std::cout<<ray.direction.x<<"\n"<<ray.direction.y<<"\n"<<ray.direction.z<<std::endl;
-      } */
-      Color colour{0.0,0.0,0.0};
-      colour = trace(ray,scene);
-      p.color = colour;
-      write(p);
+        Color colour{0.0,0.0,0.0};
+        colour = trace(ray,scene);
+        p.color = colour;
+        write(p);
+      } 
+
     }
   }
   ppm_.save(filename_);
@@ -61,29 +62,16 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
   std::shared_ptr<Shape> closest_o = nullptr;
   for(auto i : scene.shape_vec){ 
     auto t = i->intersect(ray);
-    std::cout<<t.distance_;
-    std::cout<<closest_t.distance_;
+    std::cout<<std::endl;
+    std::cout<<t.distance_<< std::endl;
+    std::cout<<closest_t.distance_ << std::endl;
     if(t.distance_< closest_t.distance_){
-
       closest_t = t;
       closest_o = i; 
-<<<<<<< HEAD
-    }  
-  }
-  if(closest_o != nullptr){
-    std::cout << closest_t.distance_ << std::endl;
-    return shade(scene,ray, closest_t);
-  }
-  else{
-    return scene.background_.colour_;
-=======
-      std::cout<<closest_t.name_;
+      std::cout<<closest_t.name_<<std::endl;
     }
-
->>>>>>> 9d37a43f32507cf8f9aeceec243c83e30c2155fd
   }
-/*     if(closest_t != nullptr){
-      
+/*      if(closest_o != nullptr){
       return shade(scene,ray, closest_t);
     }
     else{
@@ -96,6 +84,7 @@ Color Renderer::shade (Scene const& scene, Ray const& ray, HitPoint hit){
   Color ambientLight{0.0f,0.0f,0.0f};
   for(auto shapes : scene.shape_vec){
     ambientLight = shapes->getMat()->ka_ * scene.background_.colour_;
+  
   }
 
   //TO-DO
