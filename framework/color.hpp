@@ -58,6 +58,7 @@ struct Color
     return tmp;
   }
 
+  
 
 
   float r;
