@@ -40,7 +40,7 @@ void Renderer::render(Scene const& scene){
       } */
         glm::vec3 origin{0,0,0};
         glm::vec3 direction = glm::normalize(glm::vec3{(x-width_/2.0f),(y-height_/2.0f),-(width_/2)/tan(scene.camera_.fovX/2*M_PI/180)});
-        Ray ray{origin,direction};
+        Ray ray{origin, /* direction */ {0.0f, 0.0f, -1.0f}};
 /*         std::cout<<"origin \n";
         std::cout<<ray.origin.x<<"\n"<<ray.origin.y<<"\n"<<ray.origin.z<<std::endl;
         std::cout<<"direction \n";
@@ -63,10 +63,11 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
 /*     std::cout<<std::endl;
     std::cout<<t.distance_<< std::endl;
     std::cout<<closest_t.distance_ << std::endl; */
-    if(t.distance_< closest_t.distance_){
+    
+    if(t.distance_< closest_t.distance_ && t.intersection_){
       closest_t = t;
       closest_o = i; 
-      std::cout<<closest_t.name_<<std::endl;
+      //std::cout<<closest_t.name_<<std::endl;
     }
   }
   if(closest_o != nullptr){
