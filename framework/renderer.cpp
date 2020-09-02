@@ -40,7 +40,13 @@ void Renderer::render(Scene const& scene){
       } */
       glm::vec3 origin{0,0,0};
       glm::vec3 direction = glm::normalize(glm::vec3{(x-width_/2.0f),(y-height_/2.0f),-(width_/2)/tan(scene.camera_.fovX/2*M_PI/180)});
-      Ray ray{origin,direction};
+      Ray ray{origin,{/* direction */ 0.0,0.0,-1.0}};
+      if(p.x == 42 && p.y == 42){
+        std::cout<<"origin \n";
+        std::cout<<ray.origin.x<<"\n"<<ray.origin.y<<"\n"<<ray.origin.z<<std::endl;
+        std::cout<<"direction \n";
+        std::cout<<ray.direction.x<<"\n"<<ray.direction.y<<"\n"<<ray.direction.z<<std::endl;
+      }
       Color colour{0.0,0.0,0.0};
       colour = trace(ray,scene);
       p.color = colour;
