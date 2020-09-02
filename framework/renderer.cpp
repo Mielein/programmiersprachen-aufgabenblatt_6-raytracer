@@ -38,19 +38,17 @@ void Renderer::render(Scene const& scene){
       } else {
         p.color = Color{1.0f, 0.0f, float(y)/width_};
       } */
-       if(p.x == 42 && p.y == 42){
         glm::vec3 origin{0,0,0};
         glm::vec3 direction = glm::normalize(glm::vec3{(x-width_/2.0f),(y-height_/2.0f),-(width_/2)/tan(scene.camera_.fovX/2*M_PI/180)});
-        Ray ray{origin,{/* direction */ 0.0,0.0,-1.0}};
-        std::cout<<"origin \n";
+        Ray ray{origin,direction};
+/*         std::cout<<"origin \n";
         std::cout<<ray.origin.x<<"\n"<<ray.origin.y<<"\n"<<ray.origin.z<<std::endl;
         std::cout<<"direction \n";
-        std::cout<<ray.direction.x<<"\n"<<ray.direction.y<<"\n"<<ray.direction.z<<std::endl;
+        std::cout<<ray.direction.x<<"\n"<<ray.direction.y<<"\n"<<ray.direction.z<<std::endl; */
         Color colour{0.0,0.0,0.0};
         colour = trace(ray,scene);
         p.color = colour;
         write(p);
-      } 
 
     }
   }
@@ -62,32 +60,31 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
   std::shared_ptr<Shape> closest_o = nullptr;
   for(auto i : scene.shape_vec){ 
     auto t = i->intersect(ray);
-    std::cout<<std::endl;
+/*     std::cout<<std::endl;
     std::cout<<t.distance_<< std::endl;
-    std::cout<<closest_t.distance_ << std::endl;
+    std::cout<<closest_t.distance_ << std::endl; */
     if(t.distance_< closest_t.distance_){
       closest_t = t;
       closest_o = i; 
       std::cout<<closest_t.name_<<std::endl;
     }
   }
-/*      if(closest_o != nullptr){
+  if(closest_o != nullptr){
       return shade(scene,ray, closest_t);
     }
     else{
       return scene.background_.colour_;
-    } */
+    }
 
   //(TO-DO)
 }
 Color Renderer::shade (Scene const& scene, Ray const& ray, HitPoint hit){
-  Color ambientLight{0.0f,0.0f,0.0f};
+/*   Color ambientLight{0.0f,0.0f,0.0f};
   for(auto shapes : scene.shape_vec){
     ambientLight = shapes->getMat()->ka_ * scene.background_.colour_;
+  } */
+  return{0.34,0.67,2};
   
-  }
-
-  //TO-DO
 }
 
 
