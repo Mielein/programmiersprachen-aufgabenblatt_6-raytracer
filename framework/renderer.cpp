@@ -61,11 +61,11 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
     }  
   }
   if(closest_o != nullptr){
-        return shade(scene,ray, closest_t);
-      }
-      else{
-        return scene.background_.colour_;
-      }
+    return shade(scene,ray, closest_t);
+  }
+  else{
+    return scene.background_.colour_;
+  }
 
   //(TO-DO)
 }
