@@ -1,4 +1,4 @@
-#include "fensterchen.hpp"
+#include "../framework/fensterchen.hpp"
 #include "renderer.hpp"
 #include "scene.hpp"
 #include <GLFW/glfw3.h>
