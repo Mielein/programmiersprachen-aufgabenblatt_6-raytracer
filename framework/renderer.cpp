@@ -39,8 +39,8 @@ void Renderer::render(Scene const& scene){
         p.color = Color{1.0f, 0.0f, float(y)/width_};
       } */
         glm::vec3 origin{0,0,0};
-        glm::vec3 direction = glm::normalize(glm::vec3{(x-width_/2.0f),(y-height_/2.0f),-(width_/2)/tan(scene.camera_.fovX/2*M_PI/180)});
-        Ray ray{origin, /* direction */ {0.0f, 0.0f, -1.0f}};
+        glm::vec3 direction = {x-origin.x, y-origin.y,-100.0f}/* glm::vec3{(x-width_/2.0f),(y-height_/2.0f),-(width_/2)/tan(scene.camera_.fovX/2*M_PI/180)} */;
+        Ray ray{origin, glm::normalize(direction) /* {0.0f, 0.0f, -1.0f} */};
 /*         std::cout<<"origin \n";
         std::cout<<ray.origin.x<<"\n"<<ray.origin.y<<"\n"<<ray.origin.z<<std::endl;
         std::cout<<"direction \n";
