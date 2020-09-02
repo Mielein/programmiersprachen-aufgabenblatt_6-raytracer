@@ -41,12 +41,12 @@ void Renderer::render(Scene const& scene){
       glm::vec3 origin{0,0,0};
       glm::vec3 direction = glm::normalize(glm::vec3{(x-width_/2.0f),(y-height_/2.0f),-(width_/2)/tan(scene.camera_.fovX/2*M_PI/180)});
       Ray ray{origin,{/* direction */ 0.0,0.0,-1.0}};
-      if(p.x == 42 && p.y == 42){
+/*       if(p.x == 42 && p.y == 42){
         std::cout<<"origin \n";
         std::cout<<ray.origin.x<<"\n"<<ray.origin.y<<"\n"<<ray.origin.z<<std::endl;
         std::cout<<"direction \n";
         std::cout<<ray.direction.x<<"\n"<<ray.direction.y<<"\n"<<ray.direction.z<<std::endl;
-      }
+      } */
       Color colour{0.0,0.0,0.0};
       colour = trace(ray,scene);
       p.color = colour;
@@ -61,9 +61,13 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
   std::shared_ptr<Shape> closest_o = nullptr;
   for(auto i : scene.shape_vec){ 
     auto t = i->intersect(ray);
-    if(glm::length(t.intersect_pt_-ray.origin)<glm::length(closest_t.intersect_pt_-ray.origin)){
+    std::cout<<t.distance_;
+    std::cout<<closest_t.distance_;
+    if(t.distance_< closest_t.distance_){
+
       closest_t = t;
       closest_o = i; 
+<<<<<<< HEAD
     }  
   }
   if(closest_o != nullptr){
@@ -72,7 +76,19 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
   }
   else{
     return scene.background_.colour_;
+=======
+      std::cout<<closest_t.name_;
+    }
+
+>>>>>>> 9d37a43f32507cf8f9aeceec243c83e30c2155fd
   }
+/*     if(closest_t != nullptr){
+      
+      return shade(scene,ray, closest_t);
+    }
+    else{
+      return scene.background_.colour_;
+    } */
 
   //(TO-DO)
 }
