@@ -19,6 +19,7 @@ class Shape{
     virtual float volume() const = 0;
     virtual HitPoint intersect(Ray const& ray) const = 0;
     virtual std::ostream& print( std::ostream& os) const;
+    std::shared_ptr<Material> getMat() const;
 
     protected:
     std::string name_;
