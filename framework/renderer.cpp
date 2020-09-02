@@ -70,10 +70,10 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
   //TO-DO
 }
 Color Renderer::shade (Scene const& scene, Ray const& ray, HitPoint hit){
- /*  Color ambientLight{0.0f,0.0f,0.0f};
+ Color ambientLight{0.0f,0.0f,0.0f};
   for(auto shapes : scene.shape_vec){
-    ambientLight = shapes.material_->ka * scene.background_;
-  } */
+    ambientLight = shapes->material_.ka * scene.background_;
+  }
 
   //TO-DO
 }
