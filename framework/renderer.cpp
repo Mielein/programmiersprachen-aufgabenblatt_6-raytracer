@@ -66,7 +66,7 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
     if(t.distance_< closest_t.distance_){
       closest_t = t;
       closest_o = i; 
-      std::cout<<closest_t.name_<<std::endl;
+/*       std::cout<<closest_t.name_<<std::endl; */
     }
   }
   if(closest_o != nullptr){
