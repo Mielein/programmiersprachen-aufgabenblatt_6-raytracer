@@ -76,14 +76,15 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
     }
   }
   if(closest_o != nullptr){
-      return shade(scene,ray, closest_t);
+      return shade(closest_o, scene, ray, closest_t);
     }
   return scene.background_.colour_;
 }
 
-Color Renderer::shade (Scene const& scene, Ray const& ray, HitPoint hit){
-  
-  
+Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, Ray const& ray, HitPoint hit){
+  Color ambientLight{shape->getMat()->ka_ * scene.background_.colour_};
+  return;
+
   /* 
    Color ambientLight{0.0f,0.0f,0.0f};
   for(auto shapes : scene.shape_vec){
