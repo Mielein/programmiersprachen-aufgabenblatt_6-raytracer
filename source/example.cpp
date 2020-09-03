@@ -20,17 +20,23 @@ int main(int argc, char* argv[]){
   std::map<std::string,std::shared_ptr<Material>> mat_map;
   Material green {"Green", {0.0f,1.0f,0.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}, 0.0f};
   Material orange {"Orange", {1.0f,0.65f,0.0f}, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f}, 0.0f};
+  Material random {"random", {0.815f,0.815f,0.815f}, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f}, 0.0f};
   std::shared_ptr<Material> green_ptr = std::make_shared<Material>(green);
   std::shared_ptr<Material> orange_ptr = std::make_shared<Material>(orange);
+  std::shared_ptr<Material> random_ptr = std::make_shared<Material>(random);
   mat_map.insert(std::make_pair("Green", green_ptr));
   mat_map.insert(std::make_pair("Orange", orange_ptr));
+  mat_map.insert(std::make_pair("Random", random_ptr));
 
-  Sphere sphere1{"pussy",{0.0f,0.0f,1.0f}, green_ptr,{0.0f,0.0f,-100.0f}, 5.0f};
-  Sphere sphere2{"pimpim",{1.0f,0.0f,0.0f}, orange_ptr,{0.0f,7.5f,-100.0f}, 5.0f};
-  std::shared_ptr<Shape>spheres1 = std::make_shared<Sphere>(sphere1);
-  std::shared_ptr<Shape>spheres2 = std::make_shared<Sphere>(sphere2);
-  shape_vec.push_back(spheres1);
-  shape_vec.push_back(spheres2);
+/*   Sphere sphere1{"pussy",{0.0f,0.0f,1.0f}, green_ptr,{0.0f,0.0f,-100.0f}, 5.0f};
+  Sphere sphere2{"pimpim",{1.0f,0.0f,0.0f}, orange_ptr,{0.0f,7.5f,-100.0f}, 5.0f}; */
+  Box box1{{-100.0f,-100.0f,-150.0f},{50.0f,50.0f,-96.0f},"jucyButt",{0.0f,0.0f,0.0f},random_ptr};
+/*   std::shared_ptr<Shape>spheres1 = std::make_shared<Sphere>(sphere1);
+  std::shared_ptr<Shape>spheres2 = std::make_shared<Sphere>(sphere2); */
+  std::shared_ptr<Shape>boxes1 = std::make_shared<Box>(box1);
+/*   shape_vec.push_back(spheres1);
+  shape_vec.push_back(spheres2); */
+  shape_vec.push_back(boxes1);
 
   Light light{};
   std::shared_ptr<Light>lights = std::make_shared<Light>(light);
