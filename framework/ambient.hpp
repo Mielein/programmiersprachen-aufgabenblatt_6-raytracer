@@ -4,7 +4,7 @@
 
 struct Ambient{
     std::string name_;
-    Color colour_;
+    Color color_;
 };
 
 

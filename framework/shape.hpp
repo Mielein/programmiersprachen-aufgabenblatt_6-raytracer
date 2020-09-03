@@ -23,7 +23,7 @@ class Shape{
 
     protected:
     std::string name_;
-    Color colour_;
+    Color color_;
     std::shared_ptr<Material> material_;
 };
 

@@ -50,9 +50,9 @@ void Renderer::render(Scene const& scene){
         std::cout<<ray.origin.x<<"\n"<<ray.origin.y<<"\n"<<ray.origin.z<<std::endl;
         std::cout<<"direction \n";
         std::cout<<ray.direction.x<<"\n"<<ray.direction.y<<"\n"<<ray.direction.z<<std::endl; */
-        Color colour{0.0,0.0,0.0};
-        colour = trace(ray,scene);
-        p.color = colour;
+        Color color{0.0,0.0,0.0};
+        color = trace(ray,scene);
+        p.color = color;
         write(p);
 
     }
@@ -81,7 +81,7 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
   if(closest_o != nullptr){
       return shade(closest_o, scene, ray, closest_t);
     }
-  return scene.background_.colour_;
+  return scene.background_.color_;
 }
 
 Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, Ray const& ray, HitPoint hit){
@@ -90,15 +90,15 @@ Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, R
 }
 
 Color Renderer::tonemapping (Color const& clr){
-  Color colour{0.0f,0.0f,0.0f};
-  colour.r = clr.r / (clr.r + 1.0f);
-  colour.g = clr.g / (clr.g + 1.0f);
-  colour.b = clr.b / (clr.b + 1.0f);
-  return colour;
+  Color color{0.0f,0.0f,0.0f};
+  color.r = clr.r / (clr.r + 1.0f);
+  color.g = clr.g / (clr.g + 1.0f);
+  color.b = clr.b / (clr.b + 1.0f);
+  return color;
 }
 
 Color Renderer::calculateAmbient(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){
-  Color ambientLight{shape->getMat()->ka_ * scene.background_.colour_};
+  Color ambientLight{shape->getMat()->ka_ * scene.background_.color_};
   return {ambientLight};
 }
 
@@ -120,7 +120,7 @@ Color Renderer::claculateDiffuse(HitPoint const& hit){
           obstacle = true;
         }
         if(!obstacle){
-          Color ip{light->colour_.r*light->brightness_,light->colour_.g*light->brightness_,light->colour_.b*light->brightness_};
+          Color ip{light->color_.r*light->brightness_,light->color_.g*light->brightness_,light->color_.b*light->brightness_};
           Color kd = hit.material_->kd_;
           float cross_prod = glm::dot(vec_lights,glm::normalize(hit.normal_));
           calc_clrs.push_back({kd.r*cross_prod*ip.r,kd.g*cross_prod*ip.g,kd.b*cross_prod*ip.b});
@@ -165,7 +165,7 @@ for(auto light : scene_.light_vec){
             cross_prod = -cross_prod;
           }
           Color ks = hit.material_->ks_;
-          Color ip{light->colour_.r*light->brightness_,light->colour_.g*light->brightness_,light->colour_.b*light->brightness_};
+          Color ip{light->color_.r*light->brightness_,light->color_.g*light->brightness_,light->color_.b*light->brightness_};
           float cos = pow(cross_prod,m);
           float m_2 = (m+2)/(2*M_PI);
           calc_clrs.push_back({ks.r*ip.r*cos*m_2,ks.g*ip.g*cos*m_2,ks.b*ip.b*cos*m_2});

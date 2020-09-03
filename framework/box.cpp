@@ -10,13 +10,13 @@ Box::Box(glm::vec3 min, glm::vec3 max):
     min_{min},
     max_{max}{}
 
-Box::Box(glm::vec3 min, glm::vec3 max,std::string name, Color colour):
-    Shape(name, colour),
+Box::Box(glm::vec3 min, glm::vec3 max,std::string name, Color color):
+    Shape(name, color),
     min_{min},
     max_{max}{}
 
-Box::Box(glm::vec3 min, glm::vec3 max,std::string name, Color colour, std::shared_ptr<Material> mat):
-    Shape(name, colour, mat),
+Box::Box(glm::vec3 min, glm::vec3 max,std::string name, Color color, std::shared_ptr<Material> mat):
+    Shape(name, color, mat),
     min_{min},
     max_{max}{}    
 
@@ -124,7 +124,7 @@ HitPoint Box::intersect(Ray const& ray) const{
         }
         hit.intersection_ = true;
         hit.distance_ = distance;
-        hit.colour_ = material_->kd_;
+        hit.color_ = material_->kd_;
         hit.name_ = name_;
     }
 
