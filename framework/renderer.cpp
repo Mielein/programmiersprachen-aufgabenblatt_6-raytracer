@@ -112,22 +112,25 @@ Color Renderer::claculateDiffuse(HitPoint const& hit){
   
   for(auto light : scene_.light_vec){
     bool obstacle = false;
-
     HitPoint hit;
+    
     glm::vec3 vec_lights = glm::normalize(light->pos_ - hit.intersect_pt_);
     Ray ray_lights{hit.intersect_pt_+0.1f*hit.normal_,vec_lights}; //checks if obstacle is between Light and intersection
-
-    for(std::shared_ptr<Shape> const& shapes : scene_.shape_vec){
-      if(hit.intersection_){
-        obstacle = true;
+    for(auto i : scene_.shape_vec){
+      hit = i->intersect(ray_lights);
+    
+      for(std::shared_ptr<Shape> const& shapes : scene_.shape_vec){
+        if(hit.intersection_){
+          obstacle = true;
+        }
+        if(!obstacle){
+          Color ip{light->colour_.r*light->brightness_,light->colour_.g*light->brightness_,light->colour_.b*light->brightness_};
+          Color kd = hit.material_->kd_;
+          float cross_prod = glm::dot(vec_lights,glm::normalize(hit.normal_));
+          calc_clrs.push_back({kd.r*cross_prod*ip.r,kd.g*cross_prod*ip.g,kd.b*cross_prod*ip.b});
+        }
       }
-      if(!obstacle){
-        Color ip{light->colour_.r*light->brightness_,light->colour_.g*light->brightness_,light->colour_.b*light->brightness_};
-        Color kd = hit.material_->kd_;
-        float cross_prod = glm::dot(vec_lights,glm::normalize(hit.normal_));
-        calc_clrs.push_back({kd.r*cross_prod*ip.r,kd.g*cross_prod*ip.g,kd.b*cross_prod*ip.b});
-      }
-    }
+    }  
     for(auto clr : calc_clrs){
       diffused_clr += clr;
     }  
@@ -139,8 +142,48 @@ Color Renderer::calculateReflection(HitPoint const& hit, int depth){
   //TO-DO
 }
 Color Renderer::calculateSpecular(HitPoint const& hit){
-  //TO-DO
+  Color spec_clr{0.0f,0.0f,0.0f};
+  std::vector<Color> calc_clrs;
+
+for(auto light : scene_.light_vec){
+    bool obstacle = false;
+    HitPoint hit;
+    
+    glm::vec3 vec_lights = glm::normalize(light->pos_ - hit.intersect_pt_);
+    Ray ray_lights{hit.intersect_pt_+0.1f*hit.normal_,vec_lights}; //checks if obstacle is between Light and intersection
+    for(auto i : scene_.shape_vec){
+      hit = i->intersect(ray_lights);
+    
+      for(std::shared_ptr<Shape> const& shapes : scene_.shape_vec){
+        if(hit.intersection_){
+          obstacle = true;
+        }
+        if(!obstacle){
+          float m = hit.material_->m_;
+          glm::vec3 r = 2.0f*glm::dot(hit.normal_,vec_lights)*hit.normal_-vec_lights;
+          glm::vec3 v = glm::normalize(scene_.camera_.pos_ - hit.intersect_pt_);
+
+          float cross_prod = glm::dot(r,v);
+
+          if(cross_prod < 0){
+            cross_prod = -cross_prod;
+          }
+          Color ks = hit.material_->ks_;
+          Color ip{light->colour_.r*light->brightness_,light->colour_.g*light->brightness_,light->colour_.b*light->brightness_};
+          float cos = pow(cross_prod,m);
+          float m_2 = (m+2)/(2*M_PI);
+          calc_clrs.push_back({ks.r*ip.r*cos*m_2,ks.g*ip.g*cos*m_2,ks.b*ip.b*cos*m_2});
+        }
+      }
+    }  
+    for(auto clr : calc_clrs){
+      spec_clr += clr;
+    }  
+
+  }
+  return spec_clr;
 }
+
 
 void Renderer::write(Pixel const& p){
   // flip pixels, because of opengl glDrawPixels
