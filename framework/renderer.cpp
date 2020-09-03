@@ -99,9 +99,9 @@ Color Renderer::tonemapping (Color const& clr){
   return colour;
 }
 
-Color Renderer::calculateAmbient(HitPoint const& hit){
-  Color ambient = scene_.background_.colour_;
-  Color ka = hit.material_->ka_;
+Color Renderer::calculateAmbient(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){
+  Color ambient = scene.background_.colour_;
+  Color ka = shape->getMat()->ka_;
   return {ambient*ka};
 }
 

@@ -28,7 +28,7 @@ public:
   Color trace(Ray const& ray, Scene const& scene);
   Color shade (std::shared_ptr<Shape> const& shape, Scene const& scene, Ray const& ray, HitPoint hit);
   Color tonemapping (Color const& clr);
-  Color calculateAmbient(HitPoint const& hit);
+  Color calculateAmbient(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit);
   Color claculateDiffuse(HitPoint const& hit);
   Color calculateSpecular(HitPoint const& hit);
   Color calculateReflection(HitPoint const& hit, int depth);  
