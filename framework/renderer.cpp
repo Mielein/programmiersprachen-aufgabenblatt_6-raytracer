@@ -73,7 +73,6 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
       closest_t = t;
       closest_o = i; 
 /*       std::cout<<closest_t.name_; */
-      
     }
   }
   if(closest_o != nullptr){
@@ -83,11 +82,14 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
 }
 
 Color Renderer::shade (Scene const& scene, Ray const& ray, HitPoint hit){
+  
+  
+  /* 
    Color ambientLight{0.0f,0.0f,0.0f};
   for(auto shapes : scene.shape_vec){
     ambientLight = shapes->getMat()->ka_ * scene.background_.colour_;
   }
-  return ambientLight;
+  return ambientLight; */
 }
 
 Color Renderer::tonemapping (Color const& clr){
