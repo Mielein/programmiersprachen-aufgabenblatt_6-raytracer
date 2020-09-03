@@ -38,8 +38,8 @@ float Sphere::volume() const{
 }
 HitPoint Sphere::intersect(Ray const& ray) const{
     float distance = 1.0f;
-    bool did_it_hit = glm::intersectRaySphere(ray.origin,glm::normalize(ray.direction), mid_, pow(radius_,2),distance);
-    return HitPoint{did_it_hit,distance,name_,color_,ray.origin+(distance*ray.direction),glm::normalize(ray.direction)};
+    bool did_it_hit = glm::intersectRaySphere(ray.origin_,glm::normalize(ray.direction_), mid_, pow(radius_,2),distance);
+    return HitPoint{did_it_hit,distance,name_,color_,ray.origin_+(distance*ray.direction_),glm::normalize(ray.direction_)};
 }
 std::ostream& Sphere::print(std::ostream& os) const{
     Shape::print(os);

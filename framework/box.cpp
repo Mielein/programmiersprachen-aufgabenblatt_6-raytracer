@@ -32,8 +32,94 @@ float Box::volume() const{
 }
 
 HitPoint Box::intersect(Ray const& ray) const{
-
     HitPoint hit;
+    float disrance = -1.0f;
+    bool was_hit = false;
+    float tmin = FLT_MAX;
+    Ray ray_local = ray.transform(world_transform_inv_);
+    ray_local.direction_ = glm::normalize(ray_local.direction_);
+
+    float tmin_x = (min_.x-ray_local.origin_.x)/ray_local.direction_.x;
+    float tmax_x = (max_.x-ray_local.origin_.x)/ray_local.direction_.x;
+
+    glm::vec3 p_x_min = ray_local.origin_ + tmin_x*ray_local.direction_;
+    glm::vec3 p_x_max = ray_local.origin_ + tmax_x*ray_local.direction_;
+
+    if(p_x_min.y <= max_.y && p_x_min.y >= min_.y && p_x_min.z <= max_.z && p_x_min.z >= min_.z){
+        was_hit = true;
+        hit.intersect_pt_ = p_x_min;
+        tmin = tmin_x;
+        hit.normal_ = glm::vec3{-1.0f,0.0f,0.0f};
+    }
+    if(p_x_max.y <= max_.y && p_x_max.y >= min_.y && p_x_max.z <= max_.z && p_x_max.z >= min_.z){
+        was_hit = true;
+        if(tmin_x > tmax_x){
+            hit.intersect_pt_ = p_x_max;
+            tmin = tmax_x;
+            hit.normal_ = glm::vec3{1.0f,0.0f,0.0f};    
+        }
+    }
+
+    float tmin_y = (min_.y-ray_local.origin_.y)/ray_local.direction_.y;
+    float tmax_y = (max_.y-ray_local.origin_.y)/ray_local.direction_.y;
+
+    glm::vec3 p_y_min = ray_local.origin_ + tmin_y*ray_local.direction_;
+    glm::vec3 p_y_max = ray_local.origin_ + tmax_y*ray_local.direction_;
+
+    if(p_y_min.x <= max_.x && p_y_min.x >= min_.x && p_y_min.z <= max_.z && p_y_min.z >= min_.z){
+        was_hit = true;
+        if(tmin > tmin_y){
+            hit.intersect_pt_ = p_y_min;
+            tmin = tmin_y;
+            hit.normal_ = glm::vec3{0.0f,-1.0f,0.0f};  
+        }
+
+    }
+    if(p_y_max.x <= max_.x && p_y_max.x >= min_.x && p_y_max.z <= max_.z && p_y_max.z >= min_.z){
+        was_hit = true;
+        if(tmin > tmax_y){
+            hit.intersect_pt_ = p_y_max;
+            tmin = tmax_y;
+            hit.normal_ = glm::vec3{0.0f,1.0f,0.0f};
+        }
+
+    }
+
+    float tmin_z = (min_.z-ray_local.origin_.z)/ray_local.direction_.z;
+    float tmax_z = (max_.z-ray_local.origin_.z)/ray_local.direction_.z;
+
+    glm::vec3 p_z_min = ray_local.origin_ + tmin_z*ray_local.direction_;
+    glm::vec3 p_z_max = ray_local.origin_ + tmax_z*ray_local.direction_;
+
+    if(p_z_min.x <= max_.x && p_z_min.x >= min_.x && p_z_min.y <= max_.y && p_z_min.y >= min_.y){
+        was_hit = true;
+        if(tmin > tmin_z){
+            hit.intersect_pt_ = p_z_min;
+            tmin = tmin_z;
+            hit.normal_ = glm::vec3{0.0f,0.0f,-1.0f};    
+        }
+    }
+    if(p_z_max.x <= max_.x && p_z_max.x >= min_.x && p_z_max.y <= max_.y && p_z_max.y >= min_.y){
+        was_hit = true;
+        if(tmin > tmax_z){
+            hit.intersect_pt_ = p_z_max;
+            tmin = tmax_z;
+            hit.normal_ = glm::vec3{0.0f,0.0f,1.0f};    
+        } 
+    }
+    if(was_hit){
+        std::cout<<"HIT!!!"<<std::endl;
+        glm::vec4 trans_pt = world_transform_*glm::vec4{hit.intersect_pt_,1};
+        glm::vec4 trans_normal = glm::normalize(glm::transpose(world_transform_inv_)*glm::vec4{hit.normal_,0});
+        hit.intersection_ = true;
+        hit.intersect_direction_ = ray.direction_;
+        hit.distance_ = tmin;
+        hit.normal_ = glm::vec3{trans_normal.x,trans_normal.y,trans_normal.z};
+        hit.intersect_pt_ = glm::vec3{trans_pt.x,trans_pt.y,trans_pt.z};
+    }
+    
+
+/*     HitPoint hit;
     float distance;
 
     Plane plane_min_x{min_, glm::vec3{-1,0,0}};
@@ -55,7 +141,7 @@ HitPoint Box::intersect(Ray const& ray) const{
     std::cout << dist_min_z << std::endl;
     std::cout << dist_max_x << std::endl;
     std::cout << dist_max_y << std::endl;
-    std::cout << dist_max_z << std::endl; */
+    std::cout << dist_max_z << std::endl; 
 
 
     std::vector<glm::vec3> normals_hit;
@@ -126,7 +212,7 @@ HitPoint Box::intersect(Ray const& ray) const{
         hit.distance_ = distance;
         hit.color_ = material_->kd_;
         hit.name_ = name_;
-    }
+    } */
 
     //printVec(hit_point);
     return hit; 
