@@ -82,15 +82,13 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
 }
 
 Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, Ray const& ray, HitPoint hit){
-  Color ambientLight{shape->getMat()->ka_ * scene.background_.colour_};
-  return;
-
-  /* 
-   Color ambientLight{0.0f,0.0f,0.0f};
+/*   Color ambientLight{shape->getMat()->ka_ * scene.background_.colour_};
+  return; */
+  Color ambientLight{0.0f,0.0f,0.0f};
   for(auto shapes : scene.shape_vec){
     ambientLight = shapes->getMat()->ka_ * scene.background_.colour_;
   }
-  return ambientLight; */
+  return claculateDiffuse(hit)+ambientLight+calculateSpecular(hit);
 }
 
 Color Renderer::tonemapping (Color const& clr){
