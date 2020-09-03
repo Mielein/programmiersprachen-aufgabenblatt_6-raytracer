@@ -9,6 +9,15 @@ struct Camera{
     glm::vec3 pos_{0.0f,0.0f,0.0f};
     glm::vec3 direction_{0.0f,0.0f,-1.0f};
     unsigned int fovX{45};
+
+
+
+    Ray constructEyeRay(float x, float y, float width, float height) const {
+        glm::vec3 origin{0,0,0};
+        glm::vec3 direction = glm::normalize(glm::vec3{x-(width*0.5f),y-(height*0.5f),-(width/2.0f)/tan((fovX/2.0f)*M_PI/180)});
+           // cout<<rayDirection.x<<" "<<rayDirection.y<<" "<<rayDirection.z<<endl;
+		return Ray{origin,direction};
+    }
 };
 
 

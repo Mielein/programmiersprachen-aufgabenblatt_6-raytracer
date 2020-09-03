@@ -32,9 +32,9 @@ int main(int argc, char* argv[]){
   Scene s{shape_vec,light_vec,mat_map,cam,amby};
   /* sdfParser("/home/marie/programmiersprachen-aufgabenblatt_6-raytracer/source/example.sdf"); */
 
-  for (auto a : s.shape_vec){
+/*   for (auto a : s.shape_vec){
     std::cout<< *a << std::endl;
-  }
+  } */
   
   std::cout<<"sdf read"<<std::endl;
   renderer.render(s);

@@ -33,15 +33,19 @@ void Renderer::render(Scene const& scene){
   for (unsigned y = 0; y < height_; ++y) {
     for (unsigned x = 0; x < width_; ++x) {
       Pixel p(x,y);
-/*       if ( ((x/checker_pattern_size)%2) != ((y/checker_pattern_size)%2)) {
+/*    if ( ((x/checker_pattern_size)%2) != ((y/checker_pattern_size)%2)) {
         p.color = Color{0.0f, 1.0f, float(x)/height_};
-      } else {
+      } 
+      else {
         p.color = Color{1.0f, 0.0f, float(y)/width_};
       } */
-        glm::vec3 origin{0,0,0};
-        glm::vec3 direction = {x-origin.x, y-origin.y,-200.0f}/* glm::vec3{(x-width_/2.0f),(y-height_/2.0f),-(width_/2)/tan(scene.camera_.fovX/2*M_PI/180)} */;
-        Ray ray{origin, glm::normalize(direction) /* {0.0f, 0.0f, -1.0f} */};
-/*         std::cout<<"origin \n";
+        glm::vec3 origin = scene.camera_.pos_;
+/*      float dir_x = scene.camera_.direction_.x + x-(width_*0.5f);
+        float dir_y = scene.camera_.direction_.y + y-(height_*0.5f);
+        float dir_z = scene.camera_.direction_.z + (width_/2.0f)/tan((scene.camera_.fovX/2.0f)*M_PI/180); */
+/*      glm::vec3 direction{dir_x,dir_y,-dir_z}; */
+        Ray ray = scene.camera_.constructEyeRay(x,y,width_,height_);
+/*      std::cout<<"origin \n";
         std::cout<<ray.origin.x<<"\n"<<ray.origin.y<<"\n"<<ray.origin.z<<std::endl;
         std::cout<<"direction \n";
         std::cout<<ray.direction.x<<"\n"<<ray.direction.y<<"\n"<<ray.direction.z<<std::endl; */
@@ -60,24 +64,21 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
   std::shared_ptr<Shape> closest_o = nullptr;
   for(auto i : scene.shape_vec){ 
     auto t = i->intersect(ray);
-/*     std::cout<<std::endl;
-    std::cout<<t.distance_<< std::endl;
+/*     std::cout<<t.distance_<< std::endl;
     std::cout<<closest_t.distance_ << std::endl; */
     
-    if(t.distance_< closest_t.distance_ && t.intersection_){
+    
+    if(t.distance_< closest_t.distance_  && t.intersection_ ){
       closest_t = t;
       closest_o = i; 
-      //std::cout<<closest_t.name_<<std::endl;
+      std::cout<<closest_t.name_;
+      
     }
   }
   if(closest_o != nullptr){
       return shade(scene,ray, closest_t);
     }
-    else{
-      return scene.background_.colour_;
-    }
-
-  //(TO-DO)
+  return scene.background_.colour_;
 }
 
 Color Renderer::shade (Scene const& scene, Ray const& ray, HitPoint hit){
@@ -126,11 +127,10 @@ Color Renderer::claculateDiffuse(HitPoint const& hit){
     }
     for(auto clr : calc_clrs){
       diffused_clr += clr;
-    }
-    return diffused_clr;
+    }  
 
   }
-  //TO-DO
+  return diffused_clr;
 }
 Color Renderer::calculateReflection(HitPoint const& hit, int depth){
   //TO-DO
