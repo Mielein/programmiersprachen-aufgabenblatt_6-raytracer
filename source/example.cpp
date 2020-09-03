@@ -19,18 +19,6 @@ int main(int argc, char* argv[]){
   std::vector<std::shared_ptr<Light>> light_vec;
   std::map<std::string,std::shared_ptr<Material>> mat_map;
   Material green {"Green", {0.0f,1.0f,0.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}, 0.0f};
-<<<<<<< HEAD
-  Material blue {"Blue",{0.0f,0.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f},0.0f};
-  std::shared_ptr<Material> green_ptr = std::make_shared<Material>(green);
-  std::shared_ptr<Material> blue_ptr = std::make_shared<Material>(blue);
-
-  //Sphere sphere{"pussy",{0.0f,0.0f,1.0f}, green_ptr,{0.0f,0.0f,-100.0f}, 5.0f};
-  Box box{{-2.0f,-2.0f,-2.0f},{0.0f,0.0f,0.0f},"pepe",{1.2,2.2,2.5},blue_ptr};
-  //std::shared_ptr<Shape>spheres = std::make_shared<Sphere>(sphere);
-  std::shared_ptr<Shape>boxes = std::make_shared<Box>(box);
-  //shape_vec.push_back(spheres);
-  shape_vec.push_back(boxes);
-=======
   Material orange {"Orange", {1.0f,0.65f,0.0f}, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f}, 0.0f};
   std::shared_ptr<Material> green_ptr = std::make_shared<Material>(green);
   std::shared_ptr<Material> orange_ptr = std::make_shared<Material>(orange);
@@ -44,7 +32,6 @@ int main(int argc, char* argv[]){
   shape_vec.push_back(spheres1);
   shape_vec.push_back(spheres2);
 
->>>>>>> eeaffbe67d63d693f57a2502f5aa301d234b623e
   Light light{};
   std::shared_ptr<Light>lights = std::make_shared<Light>(light);
   light_vec.push_back(lights);
