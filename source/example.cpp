@@ -39,7 +39,7 @@ int main(int argc, char* argv[]){
   shape_vec.push_back(boxes1);
 
   for(auto i : shape_vec){
-    std::cout << i << "\n" << std::endl;
+    std::cout << i <<  "{n"<< std::endl;
   }
 
   Light light{};
