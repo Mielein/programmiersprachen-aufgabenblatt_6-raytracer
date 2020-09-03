@@ -30,7 +30,7 @@ int main(int argc, char* argv[]){
 
 /*   Sphere sphere1{"pussy",{0.0f,0.0f,1.0f}, green_ptr,{0.0f,0.0f,-100.0f}, 5.0f};
   Sphere sphere2{"pimpim",{1.0f,0.0f,0.0f}, orange_ptr,{0.0f,7.5f,-100.0f}, 5.0f}; */
-  Box box1{{-100.0f,-100.0f,-150.0f},{50.0f,50.0f,-96.0f},"jucyButt",{0.0f,0.0f,0.0f},random_ptr};
+  Box box1{{-10.0f,-10.0f,-150.0f},{5.0f,5.0f,-96.0f},"jucyButt",{0.0f,0.0f,0.0f},random_ptr};
 /*   std::shared_ptr<Shape>spheres1 = std::make_shared<Sphere>(sphere1);
   std::shared_ptr<Shape>spheres2 = std::make_shared<Sphere>(sphere2); */
   std::shared_ptr<Shape>boxes1 = std::make_shared<Box>(box1);
