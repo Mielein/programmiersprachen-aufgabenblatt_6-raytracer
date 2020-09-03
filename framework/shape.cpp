@@ -17,6 +17,10 @@ Shape::~Shape(){
     std::cout<<"Shape destructor is here to destruct!!"<<std::endl;
 }
 
+std::shared_ptr<Material> Shape::getMat() const{
+    return material_;
+}
+
 std::ostream& Shape::print( std::ostream& os) const{
     os<<"name: "<<name_<<"\n"<<"colour: "<<colour_;
     return os;
