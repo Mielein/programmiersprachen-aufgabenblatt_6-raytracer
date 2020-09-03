@@ -1,4 +1,5 @@
 #include "box.hpp"
+#include "tools.hpp"
 #include <glm/glm.hpp>
 #include <cmath>
 #include <vector>
@@ -115,9 +116,11 @@ HitPoint Box::intersect(Ray const& ray) const{
         hit.distance_ = distance;
         hit.colour_ = material_->kd_;
         hit.name_ = name_;
-       
     }
+
+    //printVec(hit_point);
     return hit;
+
  } 
 
 

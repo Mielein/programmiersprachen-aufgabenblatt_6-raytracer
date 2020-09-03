@@ -5,6 +5,7 @@
 #include "plane.hpp"
 #include <glm/vec3.hpp>
 
+
 class Box : public Shape{
     public:
     Box(glm::vec3 min, glm::vec3 max);
