@@ -18,7 +18,10 @@ int main(int argc, char* argv[]){
   std::vector<std::shared_ptr<Shape>> shape_vec; 
   std::vector<std::shared_ptr<Light>> light_vec;
   std::map<std::string,std::shared_ptr<Material>> mat_map;
-  Sphere sphere{{0.0,0.0,-100.0}, 50.0f ,"pussy",{0.0,0.0,1.0}};
+  Material green {"Green", {0.0f,1.0f,0.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}, 0.0f};
+  std::shared_ptr<Material> green_ptr = std::make_shared<Material>(green);
+
+  Sphere sphere{"pussy",{0.0f,0.0f,1.0f}, green_ptr,{0.0f,0.0f,-100.0f}, 50.0f};
   std::shared_ptr<Shape>spheres = std::make_shared<Sphere>(sphere);
   shape_vec.push_back(spheres);
   Light light{};

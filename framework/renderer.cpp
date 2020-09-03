@@ -39,7 +39,7 @@ void Renderer::render(Scene const& scene){
         p.color = Color{1.0f, 0.0f, float(y)/width_};
       } */
         glm::vec3 origin{0,0,0};
-        glm::vec3 direction = {x-origin.x, y-origin.y,-100.0f}/* glm::vec3{(x-width_/2.0f),(y-height_/2.0f),-(width_/2)/tan(scene.camera_.fovX/2*M_PI/180)} */;
+        glm::vec3 direction = {x-origin.x, y-origin.y,-200.0f}/* glm::vec3{(x-width_/2.0f),(y-height_/2.0f),-(width_/2)/tan(scene.camera_.fovX/2*M_PI/180)} */;
         Ray ray{origin, glm::normalize(direction) /* {0.0f, 0.0f, -1.0f} */};
 /*         std::cout<<"origin \n";
         std::cout<<ray.origin.x<<"\n"<<ray.origin.y<<"\n"<<ray.origin.z<<std::endl;
@@ -79,17 +79,14 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
 
   //(TO-DO)
 }
+
 Color Renderer::shade (Scene const& scene, Ray const& ray, HitPoint hit){
-/*   Color ambientLight{0.0f,0.0f,0.0f};
+   Color ambientLight{0.0f,0.0f,0.0f};
   for(auto shapes : scene.shape_vec){
     ambientLight = shapes->getMat()->ka_ * scene.background_.colour_;
-  } */
-  return{0.34,0.67,2};
-  
+  }
+  return ambientLight;
 }
-
-
-
 
 Color Renderer::tonemapping (Color const& clr){
   Color colour{0.0f,0.0f,0.0f};
@@ -98,11 +95,13 @@ Color Renderer::tonemapping (Color const& clr){
   colour.b = clr.b / (clr.b + 1.0f);
   return colour;
 }
+
 Color Renderer::calculateAmbient(HitPoint const& hit){
   Color ambient = scene_.background_.colour_;
   Color ka = hit.material_->ka_;
   return {ambient.r*ka.r,ambient.g*ka.g,ambient.b*ka.b};
 }
+
 Color Renderer::claculateDiffuse(HitPoint const& hit){
   Color diffused_clr{0.0f,0.0f,0.0f};
   std::vector<Color> calc_clrs;
