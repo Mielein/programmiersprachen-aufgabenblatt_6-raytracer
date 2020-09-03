@@ -50,6 +50,14 @@ HitPoint Box::intersect(Ray const& ray) const{
     float dist_max_y = (glm::dot(plane_max_y.normal,plane_max_y.origin)-glm::dot(ray.origin,plane_max_y.normal)/glm::dot(ray.direction,plane_max_y.normal));
     float dist_max_z = (glm::dot(plane_max_z.normal,plane_max_z.origin)-glm::dot(ray.origin,plane_max_z.normal)/glm::dot(ray.direction,plane_max_z.normal));
 
+/*     std::cout << dist_min_x << std::endl;
+    std::cout << dist_min_y << std::endl;
+    std::cout << dist_min_z << std::endl;
+    std::cout << dist_max_x << std::endl;
+    std::cout << dist_max_y << std::endl;
+    std::cout << dist_max_z << std::endl; */
+
+
     std::vector<glm::vec3> normals_hit;
     std::vector<glm::vec3> points_hit;
     glm::vec3 hit_point;
@@ -62,6 +70,7 @@ HitPoint Box::intersect(Ray const& ray) const{
             normals_hit.push_back(plane_min_x.normal);
         }
     }    
+   
     if(dist_min_y > 0){
         hit_point = ray.origin + dist_min_y * ray.direction;
         if(hit_point.x <= max_.x && hit_point.x >= min_.x && hit_point.z <= max_.z && hit_point.z >= min_.z){
@@ -69,6 +78,7 @@ HitPoint Box::intersect(Ray const& ray) const{
             normals_hit.push_back(plane_min_y.normal);
         }
     }
+    
     if(dist_min_z > 0){
         hit_point = ray.origin + dist_min_z * ray.direction;
         if(hit_point.x <= max_.x && hit_point.x >= min_.x && hit_point.y <= max_.y && hit_point.y >= max_.y){
@@ -119,7 +129,7 @@ HitPoint Box::intersect(Ray const& ray) const{
     }
 
     //printVec(hit_point);
-    return hit;
+    return hit; 
 
  } 
 
