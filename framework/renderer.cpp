@@ -64,7 +64,10 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
   HitPoint closest_t;
   std::shared_ptr<Shape> closest_o = nullptr;
   for(auto i : scene.shape_vec){ 
+    //std::cout << *i << std::endl;
     auto t = i->intersect(ray);
+    //std::cout << t.name_ << std::endl;
+
 /*     std::cout<<t.distance_<< std::endl;
     std::cout<<closest_t.distance_ << std::endl; */
     
@@ -83,7 +86,7 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
 
 Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, Ray const& ray, HitPoint hit){
   return claculateDiffuse(hit) + calculateAmbient(shape, scene, hit) + calculateSpecular(hit);
-  
+
 }
 
 Color Renderer::tonemapping (Color const& clr){

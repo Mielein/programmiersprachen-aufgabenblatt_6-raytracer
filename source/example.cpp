@@ -38,6 +38,10 @@ int main(int argc, char* argv[]){
   shape_vec.push_back(spheres2); */
   shape_vec.push_back(boxes1);
 
+  for(auto i : shape_vec){
+    std::cout << i << "\n" << std::endl;
+  }
+
   Light light{};
   std::shared_ptr<Light>lights = std::make_shared<Light>(light);
   light_vec.push_back(lights);
