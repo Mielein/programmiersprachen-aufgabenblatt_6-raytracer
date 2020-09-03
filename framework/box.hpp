@@ -9,8 +9,8 @@
 class Box : public Shape{
     public:
     Box(glm::vec3 min, glm::vec3 max);
-    Box(glm::vec3 min, glm::vec3 max,std::string name, Color colour);
-    Box(glm::vec3 min, glm::vec3 max,std::string name, Color colour, std::shared_ptr<Material> mat);
+    Box(glm::vec3 min, glm::vec3 max,std::string name, Color color);
+    Box(glm::vec3 min, glm::vec3 max,std::string name, Color color, std::shared_ptr<Material> mat);
     float area() const override;
     float volume() const override;
     HitPoint intersect(Ray const& ray) const override;

@@ -2,16 +2,22 @@
 
 Shape::Shape():
     name_{" "},
-    colour_{1.0f,0.0f,0.0f}{}
+    color_{1.0f,0.0f,0.0f},
+    world_transform_(glm::mat4(1.0f)),
+    world_transform_inv_(glm::inverse(world_transform_)){}
 
-Shape::Shape(std::string name, Color colour):
+Shape::Shape(std::string name, Color color):
     name_{name},
-    colour_{colour}{}
+    color_{color},
+    world_transform_(glm::mat4(1.0f)),
+    world_transform_inv_(glm::inverse(world_transform_)){}
 
-Shape::Shape(std::string name, Color colour,std::shared_ptr<Material> material):
+Shape::Shape(std::string name, Color color,std::shared_ptr<Material> material):
     name_{name},
-    colour_{colour},
-    material_{material}{}
+    color_{color},
+    material_{material},
+    world_transform_(glm::mat4(1.0f)),
+    world_transform_inv_(glm::inverse(world_transform_)){}
 
 Shape::~Shape(){
     std::cout<<"Shape destructor is here to destruct!!"<<std::endl;
@@ -22,7 +28,7 @@ std::shared_ptr<Material> Shape::getMat() const{
 }
 
 std::ostream& Shape::print( std::ostream& os) const{
-    os<<"name: "<<name_<<"\n"<<"colour: "<<colour_;
+    os<<"name: "<<name_<<"\n"<<"color: "<<color_;
     return os;
 }
 std::ostream& operator<<(std::ostream& os ,Shape const& s){

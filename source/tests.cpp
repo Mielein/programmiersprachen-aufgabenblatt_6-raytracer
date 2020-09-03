@@ -141,13 +141,13 @@ int main(int argc, char *argv[]){
 creating s1                                 creating s1
 creating s2                                 creating s2
 name: sphere0                               name: sphere0  
-colour: (255,0,0)                           colour: (255,0,0)
+color: (255,0,0)                           color: (255,0,0)
 center: 0, 0, 0                             center: 0, 0, 0
 radius: 1.2                                 radius: 1.2
 volume: 18.0956                             volume: 18.0956
 surface area: 7.23823                       surface area: 7.23823
 name: sphere1                               name: sphere1
-colour: (255,0,0)                           colour: (255,0,0)
+color: (255,0,0)                           color: (255,0,0)
 center: 0, 0, 0                             center: 0, 0, 0
 radius: 1.2                                 radius: 1.2
 volume: 18.0956                             volume: 18.0956
