@@ -107,7 +107,7 @@ HitPoint Box::intersect(Ray const& ray) const{
             hit.normal_ = glm::vec3{0.0f,0.0f,1.0f};    
         } 
     }
-    if(was_hit){
+    if(was_hit == true){
         std::cout<<"HIT!!!"<<std::endl;
         glm::vec4 trans_pt = world_transform_*glm::vec4{hit.intersect_pt_,1};
         glm::vec4 trans_normal = glm::normalize(glm::transpose(world_transform_inv_)*glm::vec4{hit.normal_,0});
