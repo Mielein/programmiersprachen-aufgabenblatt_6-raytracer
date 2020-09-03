@@ -19,11 +19,16 @@ int main(int argc, char* argv[]){
   std::vector<std::shared_ptr<Light>> light_vec;
   std::map<std::string,std::shared_ptr<Material>> mat_map;
   Material green {"Green", {0.0f,1.0f,0.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}, 0.0f};
+  Material blue {"Blue",{0.0f,0.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f},0.0f};
   std::shared_ptr<Material> green_ptr = std::make_shared<Material>(green);
+  std::shared_ptr<Material> blue_ptr = std::make_shared<Material>(blue);
 
-  Sphere sphere{"pussy",{0.0f,0.0f,1.0f}, green_ptr,{0.0f,0.0f,-100.0f}, 50.0f};
-  std::shared_ptr<Shape>spheres = std::make_shared<Sphere>(sphere);
-  shape_vec.push_back(spheres);
+  //Sphere sphere{"pussy",{0.0f,0.0f,1.0f}, green_ptr,{0.0f,0.0f,-100.0f}, 5.0f};
+  Box box{{-2.0f,-2.0f,-2.0f},{0.0f,0.0f,0.0f},"pepe",{1.2,2.2,2.5},blue_ptr};
+  //std::shared_ptr<Shape>spheres = std::make_shared<Sphere>(sphere);
+  std::shared_ptr<Shape>boxes = std::make_shared<Box>(box);
+  //shape_vec.push_back(spheres);
+  shape_vec.push_back(boxes);
   Light light{};
   std::shared_ptr<Light>lights = std::make_shared<Light>(light);
   light_vec.push_back(lights);
@@ -32,9 +37,9 @@ int main(int argc, char* argv[]){
   Scene s{shape_vec,light_vec,mat_map,cam,amby};
   /* sdfParser("/home/marie/programmiersprachen-aufgabenblatt_6-raytracer/source/example.sdf"); */
 
-/*   for (auto a : s.shape_vec){
+    for (auto a : s.shape_vec){
     std::cout<< *a << std::endl;
-  } */
+  }
   
   std::cout<<"sdf read"<<std::endl;
   renderer.render(s);
