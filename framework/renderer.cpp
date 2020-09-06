@@ -29,7 +29,9 @@ Renderer::Renderer(unsigned w, unsigned h, std::string const& file, Scene const&
 
 void Renderer::render(Scene const& scene){
   /* std::size_t const checker_pattern_size = 20; */
-
+  for (auto i : scene.shape_vec){
+    std::cout << "Renderer 1: " << std::endl << *i << std::endl;
+  }
   for (unsigned y = 0; y < height_; ++y) {
     for (unsigned x = 0; x < width_; ++x) {
       Pixel p(x,y);
@@ -66,8 +68,10 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
   for(auto i : scene.shape_vec){ 
     //std::cout << *i << std::endl;
     auto t = i->intersect(ray);
-    //std::cout << t.name_ << std::endl;
-
+    if (t.name_ == "jucyButt"){ 
+      std::cout << t.name_ << std::endl;
+    }
+    
 /*     std::cout<<t.distance_<< std::endl;
     std::cout<<closest_t.distance_ << std::endl; */
     

@@ -9,15 +9,15 @@ Shape::Shape():
 Shape::Shape(std::string name, Color color):
     name_{name},
     color_{color},
-    world_transform_(glm::mat4(1.0f)),
-    world_transform_inv_(glm::inverse(world_transform_)){}
+    world_transform_{},
+    world_transform_inv_{}{}
 
 Shape::Shape(std::string name, Color color,std::shared_ptr<Material> material):
     name_{name},
     color_{color},
     material_{material},
-    world_transform_(glm::mat4(1.0f)),
-    world_transform_inv_(glm::inverse(world_transform_)){}
+    world_transform_{},
+    world_transform_inv_{}{}
 
 Shape::~Shape(){
     std::cout<<"Shape destructor is here to destruct!!"<<std::endl;
@@ -25,6 +25,10 @@ Shape::~Shape(){
 
 std::shared_ptr<Material> Shape::getMat() const{
     return material_;
+}
+
+std::string Shape::getName() const{
+    return name_;
 }
 
 std::ostream& Shape::print( std::ostream& os) const{

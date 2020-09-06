@@ -19,14 +19,15 @@ class Shape{
     virtual float volume() const = 0;
     virtual HitPoint intersect(Ray const& ray) const = 0;
     virtual std::ostream& print( std::ostream& os) const;
+    std::string getName() const;
     std::shared_ptr<Material> getMat() const;
 
     protected:
     std::string name_;
     Color color_;
     std::shared_ptr<Material> material_;
-    glm::mat4 world_transform_;
-    glm::mat4 world_transform_inv_;
+    glm::mat4 world_transform_{glm::mat4(1.0f)};
+    glm::mat4 world_transform_inv_{glm::inverse(world_transform_)};
 };
 
 std::ostream& operator<<(std::ostream& os ,Shape const& s);
