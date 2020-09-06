@@ -33,7 +33,6 @@ float Box::volume() const{
 
 HitPoint Box::intersect(Ray const& ray) const{
     HitPoint hit;
-    float disrance = -1.0f;
     bool was_hit = false;
     float tmin = FLT_MAX;
     Ray ray_local = ray.transform(world_transform_inv_);
