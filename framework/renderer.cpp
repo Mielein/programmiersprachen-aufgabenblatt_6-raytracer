@@ -156,7 +156,7 @@ for(auto light : scene_.light_vec){
         }
         if(!obstacle){
           float m = hit.material_->m_;
-          glm::vec3 r = 2.0f*glm::dot(hit.normal_,vec_lights)*hit.normal_-vec_lights;
+          glm::vec3 r = 2.0f*glm::dot(hit.normal_,vec_lights)*hit.normal_-vec_lights; //glm::dot -> Skalarprodukt
           glm::vec3 v = glm::normalize(scene_.camera_.pos_ - hit.intersect_pt_);
 
           float cross_prod = glm::dot(r,v);
