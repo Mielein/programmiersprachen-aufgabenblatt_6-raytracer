@@ -135,8 +135,9 @@ Color Renderer::claculateDiffuse(HitPoint const& hit){
   return diffused_clr;
 }
 Color Renderer::calculateReflection(HitPoint const& hit, int depth){
-  //TO-DO
+  
 }
+
 Color Renderer::calculateSpecular(HitPoint const& hit){
   Color spec_clr{0.0f,0.0f,0.0f};
   std::vector<Color> calc_clrs;
