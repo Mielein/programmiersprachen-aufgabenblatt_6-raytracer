@@ -79,12 +79,29 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
     }
   }
   if(closest_o != nullptr){
-      return shade(closest_o, scene, ray, closest_t);
+      return tonemapping(shade(closest_o, scene, ray, closest_t));
     }
   return scene.background_.color_;
 }
 
 Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, Ray const& ray, HitPoint hit){
+/*   Ray shadowRay;
+  glm::vec3 v;
+  glm::vec3 l;
+  bool shade = false;
+  Color result = calculateAmbient(shape, scene, hit);
+  for(auto i : scene.light_vec){ 
+    shadowRay.origin_ = hit.intersect_pt_;
+    shadowRay.direction_ = i->pos_ - hit.intersect_pt_ ;
+    if(shade == true){
+      l = glm::normalize(i->pos_ - hit.intersect_pt_);
+      v = -(glm::normalize(ray.direction_));
+    }
+    return {0.0f,0.0f,0.0f};
+  } */
+  
+
+  
   return claculateDiffuse(hit) + calculateAmbient(shape, scene, hit) + calculateSpecular(hit);
 
 }
