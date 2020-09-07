@@ -8,6 +8,7 @@
 #include "ray.hpp"
 #include <iostream>
 #include <memory>
+#include <glm/glm.hpp>
 
 class Shape{
     public:
