@@ -52,7 +52,6 @@ HitPoint Box::intersect(Ray const& ray) const{
         hit.intersect_pt_ = p_x_min;
         tmin = tmin_x;
         hit.normal_ = glm::vec3{-1.0f,0.0f,0.0f};
-        std::cout<<hit.intersect_pt_.x<<hit.intersect_pt_.y<<hit.intersect_pt_.z<<std::endl;
     }
     if(p_x_max.y <= max_.y && p_x_max.y >= min_.y && p_x_max.z <= max_.z && p_x_max.z >= min_.z){
         was_hit = true;
@@ -60,7 +59,6 @@ HitPoint Box::intersect(Ray const& ray) const{
             hit.intersect_pt_ = p_x_max;
             tmin = tmax_x;
             hit.normal_ = glm::vec3{1.0f,0.0f,0.0f};
-            std::cout<<hit.intersect_pt_.x<<hit.intersect_pt_.y<<hit.intersect_pt_.z<<std::endl;    
         }
     }
 
@@ -87,7 +85,6 @@ HitPoint Box::intersect(Ray const& ray) const{
             hit.intersect_pt_ = p_y_max;
             tmin = tmax_y;
             hit.normal_ = glm::vec3{0.0f,1.0f,0.0f};
-            std::cout<<tmin<<std::endl;
         }
 
     }
@@ -121,7 +118,7 @@ HitPoint Box::intersect(Ray const& ray) const{
         hit.distance_ = tmin;
         hit.world_transform(world_transform_,world_transform_inv_);
         //std::cout<<tmin<<std::endl;
-        std::cout<<hit.normal_.x<<hit.normal_.y<<hit.normal_.z<<std::endl;
+        //std::cout<<hit.normal_.x<<hit.normal_.y<<hit.normal_.z<<std::endl;
         //std::cout<<hit.distance_<<std::endl;
         //std::cout<<hit.intersect_direction_.x<<hit.intersect_direction_.y<<hit.intersect_direction_.z<<std::endl;
         //std::cout<<hit.intersect_pt_.x<<hit.intersect_pt_.y<<hit.intersect_pt_.z<<std::endl;
