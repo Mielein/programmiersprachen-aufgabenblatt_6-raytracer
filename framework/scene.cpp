@@ -48,12 +48,12 @@ Scene sdfParser(std::string const& file){
                 in_sstream >> ks_red >> ks_green >> ks_blue;
                 in_sstream >> m;
 
-                std::cout << material_name<<std::endl;
+/*                 std::cout << material_name<<std::endl;
                 std::cout << ka_red <<" "<<ka_green<<" "<<ka_blue<<std::endl;
                 std::cout << kd_red <<" "<<kd_green<<" "<<kd_blue<<std::endl;
                 std::cout << ks_red <<" "<<ks_green<<" "<<ks_blue<<std::endl;
                 std::cout << m << std::endl;
-
+ */
                 Material mat(material_name,{ka_red,ka_green,ka_blue},{kd_red,kd_green,kd_blue},{ks_red,ks_green,ks_blue},m);
                 auto mat_ptr = std::make_shared<Material>(mat);
                 s.mat_map.insert({material_name, mat_ptr}); 
@@ -77,10 +77,10 @@ Scene sdfParser(std::string const& file){
                 auto light_ptr = std::make_shared<Light>(light);
                 s.light_vec.push_back(light_ptr);  
 
-                std::cout<<light_name<<std::endl;
+/*                 std::cout<<light_name<<std::endl;
                 std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl;
                 std::cout<<pos.x<<" "<<pos.y<<" "<<pos.z<<std::endl; 
-                std::cout<<brightness<<std::endl;                  
+                std::cout<<brightness<<std::endl;  */                 
             }
             if("camera" == class_name){
                 std::string camera_name;
@@ -96,10 +96,10 @@ Scene sdfParser(std::string const& file){
                 in_sstream >> direction.z; */
                 in_sstream >> fovX;
 
-                std::cout<<camera_name<<std::endl;
-/*                 std::cout<<cam.pos_.x<<" "<<cam.pos_.y<<" "<<cam.pos_.z<<std::endl;
-                std::cout<<cam.direction_.x<<" "<<cam.direction_.y<<" "<<cam.direction_.z<<std::endl;  */
-                std::cout<<fovX<<std::endl; 
+/*                 std::cout<<camera_name<<std::endl;
+                std::cout<<cam.pos_.x<<" "<<cam.pos_.y<<" "<<cam.pos_.z<<std::endl;
+                std::cout<<cam.direction_.x<<" "<<cam.direction_.y<<" "<<cam.direction_.z<<std::endl;  
+                std::cout<<fovX<<std::endl;  */
 
                 s.camera_.fovX = fovX;
                 s.camera_.name_ = camera_name;
@@ -130,11 +130,11 @@ Scene sdfParser(std::string const& file){
                     std::shared_ptr<Shape> sphere_ptr = std::make_shared<Sphere>(sphere);                    
                     s.shape_vec.push_back(sphere_ptr); 
 
-                    std::cout<<sphere_name<<std::endl;
-/*                     std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl;
- */                 std::cout<<radius<<std::endl;
+/*                     std::cout<<sphere_name<<std::endl;
+                    std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl;
+                    std::cout<<radius<<std::endl;
                     std::cout<<mid.x<<" "<<mid.y<<" "<<mid.z<<std::endl; 
-                    std::cout<<mat_name<<std::endl; 
+                    std::cout<<mat_name<<std::endl;  */
                 }
                 if("box" == class_name){
                     std::cout<<"class content: "<<class_name<<std::endl;
@@ -160,12 +160,12 @@ Scene sdfParser(std::string const& file){
                     Box box({min.x,min.y,min.z},{max.x,max.y,max.z},box_name,{/* clr_r,clr_g,clr_b */},mat2->second);
                     std::shared_ptr<Shape> box_ptr = std::make_shared<Box>(box);
                     s.shape_vec.push_back(box_ptr); 
-
+/* 
                     std::cout<<box_name<<std::endl;
-                    /* std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl; */
+                    std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl;
                     std::cout<<min.x<<" "<<min.y<<" "<<min.z<<std::endl;
                     std::cout<<max.x<<" "<<max.y<<" "<<max.z<<std::endl; 
-                    std::cout<<mat_name<<std::endl; 
+                    std::cout<<mat_name<<std::endl;  */
                 } 
             }
             
@@ -187,9 +187,9 @@ Scene sdfParser(std::string const& file){
             s.background_.color_.g = clr_g;
             s.background_.color_.b = clr_b;
             s.background_.name_ = ambient_name;
-
+/* 
             std::cout<<ambient_name<<std::endl; 
-            std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl;
+            std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl; */
         }
         if("render" == class_name || "render" == identifier){
             std::cout<<"class content: "<<class_name<<std::endl;
@@ -205,11 +205,11 @@ Scene sdfParser(std::string const& file){
             in_sstream >> width;
             in_sstream >> height;
 
-            std::cout<<render_name<<std::endl;
+/*             std::cout<<render_name<<std::endl;
             std::cout<<cam_name<<std::endl;
             std::cout<<filename<<std::endl;
             std::cout<<width<<std::endl; 
-            std::cout<<height<<std::endl;
+            std::cout<<height<<std::endl; */
 
  
         }
