@@ -53,7 +53,7 @@ int main(int argc, char* argv[]){
   Camera cam{};
   Ambient amby{"a",{1.0,0.2,1.4}};
   Scene s{shape_vec,light_vec,mat_map,cam,amby}; 
-  Scene scene = sdfParser("../../source/example.sdf");
+  Scene scene = sdfParser("../programmiersprachen-aufgabenblatt_6-raytracer/source/example.sdf"); 
 
     for (auto a : s.shape_vec){
     std::cout<< *a << std::endl;
@@ -65,7 +65,7 @@ int main(int argc, char* argv[]){
 /*   std::cout<<"sdf read"<<std::endl;*/
    renderer.render(scene);
 
-/*   std::cout<<scene.background_.name_<<" ambient name"<<std::endl;
+  std::cout<<scene.background_.name_<<" ambient name"<<std::endl;
   std::cout<<scene.background_.color_.r<<" "<<scene.background_.color_.g<<" "<<scene.background_.color_.b<<" ambient colour"<<std::endl;
   std::cout<<scene.camera_.name_<<" camera name"<<std::endl;
   std::cout<<scene.camera_.pos_.x<<scene.camera_.pos_.y<<scene.camera_.pos_.z<<" camera pos"<<std::endl;
@@ -87,7 +87,6 @@ int main(int argc, char* argv[]){
   for(auto i : scene.shape_vec){
     std::cout<<*i<<std::endl;
   }
- */
   Window window{{image_width, image_height}};
 
   while (!window.should_close()) {

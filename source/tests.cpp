@@ -130,7 +130,6 @@ void aufgabe8(){
 }
 
 int main(int argc, char *argv[]){
-  Scene s = sdfParser("/home/marie/programmiersprachen-aufgabenblatt_6-raytracer/source/example.sdf");
   aufgabe8();
   return Catch::Session().run(argc, argv);
 }
