@@ -70,8 +70,7 @@ HitPoint Box::intersect(Ray const& ray) const{
 
     if(p_y_min.x <= max_.x && p_y_min.x >= min_.x && p_y_min.z <= max_.z && p_y_min.z >= min_.z){
         was_hit = true;
-        std::cout<<tmin<<std::endl;
-
+/*         std::cout<<tmin<<std::endl;*/
         if(tmin > tmin_y){
             hit.intersect_pt_ = p_y_min;
             tmin = tmin_y;

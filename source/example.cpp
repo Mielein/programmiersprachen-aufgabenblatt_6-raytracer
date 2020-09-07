@@ -15,7 +15,7 @@ int main(int argc, char* argv[]){
   Renderer renderer{image_width, image_height, filename};
 
   std::cout<<"reading sdf"<<std::endl;
-/*   std::vector<std::shared_ptr<Shape>> shape_vec; 
+  std::vector<std::shared_ptr<Shape>> shape_vec; 
   std::vector<std::shared_ptr<Light>> light_vec;
   std::map<std::string,std::shared_ptr<Material>> mat_map;
   Material green {"Green", {0.0f,1.0f,0.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}, 0.0f};
@@ -41,27 +41,29 @@ int main(int argc, char* argv[]){
   shape_vec.push_back(spheres1);
   shape_vec.push_back(spheres2);
   shape_vec.push_back(boxes1);
-  shape_vec.push_back(boxes2); */
+  shape_vec.push_back(boxes2);
 
-/* 
   for(auto i : shape_vec){
     std::cout << i <<  "\n"<< std::endl;
-  } */
-/* 
+  }
+
   Light light{};
   std::shared_ptr<Light>lights = std::make_shared<Light>(light);
   light_vec.push_back(lights);
   Camera cam{};
   Ambient amby{"a",{1.0,0.2,1.4}};
-  Scene s{shape_vec,light_vec,mat_map,cam,amby}; */
-  Scene scene = sdfParser("/home/marie/programmiersprachen-aufgabenblatt_6-raytracer/source/example.sdf"); 
+  Scene s{shape_vec,light_vec,mat_map,cam,amby}; 
+  Scene scene = sdfParser("../../source/example.sdf");
 
-/*     for (auto a : s.shape_vec){
+    for (auto a : s.shape_vec){
     std::cout<< *a << std::endl;
-  } */
+  }
   
-  std::cout<<"sdf read"<<std::endl;
-  renderer.render(scene);
+
+
+
+/*   std::cout<<"sdf read"<<std::endl;*/
+   renderer.render(scene);
 
 /*   std::cout<<scene.background_.name_<<" ambient name"<<std::endl;
   std::cout<<scene.background_.color_.r<<" "<<scene.background_.color_.g<<" "<<scene.background_.color_.b<<" ambient colour"<<std::endl;
@@ -84,8 +86,8 @@ int main(int argc, char* argv[]){
   }
   for(auto i : scene.shape_vec){
     std::cout<<*i<<std::endl;
-  } */
-
+  }
+ */
   Window window{{image_width, image_height}};
 
   while (!window.should_close()) {
