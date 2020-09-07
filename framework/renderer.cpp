@@ -104,8 +104,7 @@ Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, R
     return {0.0f,0.0f,0.0f};
   } */
   
-  return claculateDiffuse(hit, scene, shape) + calculateAmbient(shape, scene, hit) + calculateSpecular(hit);
-
+  return claculateDiffuse(shape, scene, hit) + calculateAmbient(shape, scene, hit) + calculateSpecular(hit);
 }
 
 Color Renderer::tonemapping (Color const& clr){
@@ -121,35 +120,36 @@ Color Renderer::calculateAmbient(std::shared_ptr<Shape> const& shape, Scene cons
   return {ambientLight};
 }
 
-Color Renderer::claculateDiffuse(HitPoint const& hit, Scene const& scene, std::shared_ptr<Shape> const& shape){
+Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){
+
   Color diffused_clr{0.0f,0.0f,0.0f};
   std::vector<Color> calc_clrs;
 
-  for(auto light : scene_.light_vec){
+  for(auto light : scene.light_vec){
     bool obstacle = true;
-    HitPoint light_hit;
-    
+    HitPoint light_hit;  
     glm::vec3 vec_lights = glm::normalize(light->pos_ - hit.intersect_pt_);
     Ray ray_lights{hit.intersect_pt_ + 0.1f * hit.normal_,vec_lights}; //checks if obstacle is between Light and intersection
+    
     for(auto i : scene_.shape_vec){
       light_hit = i->intersect(ray_lights);
-      
-      for(std::shared_ptr<Shape> const& shapes : scene_.shape_vec){
-        if(hit.intersection_){
-          obstacle = true;
-        }
-        if(!obstacle){
-          Color ip{light->color_.r*light->brightness_,light->color_.g*light->brightness_,light->color_.b*light->brightness_};
-          Color kd = hit.material_->kd_;
-          float cross_prod = glm::dot(vec_lights,glm::normalize(hit.normal_));
-          calc_clrs.push_back({kd.r*cross_prod*ip.r,kd.g*cross_prod*ip.g,kd.b*cross_prod*ip.b});
-        }
+
+      if(light_hit.intersection_){
+        obstacle = false;
       }
-    }  
+      if(obstacle){
+          Color ip{light->color_*light->brightness_};
+          Color kd = i->getMat()->kd_;
+          float cross_prod = glm::dot(hit.normal_,vec_lights);
+          cross_prod = std::max(cross_prod, 0.0f);
+          calc_clrs.push_back({(ip*kd)*cross_prod});
+      }
+    }
+
+
     for(auto clr : calc_clrs){
       diffused_clr += clr;
     }  
-
   }
   return diffused_clr;
 }
