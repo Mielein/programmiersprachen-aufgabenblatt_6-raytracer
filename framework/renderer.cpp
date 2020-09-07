@@ -153,7 +153,7 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
   }
   return diffused_clr;
 }
-Color Renderer::calculateReflection(HitPoint const& hit, int depth){
+Color Renderer::calculateReflection(HitPoint const& hit, int depth){  
   
 }
 
