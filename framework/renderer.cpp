@@ -104,9 +104,7 @@ Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, R
     return {0.0f,0.0f,0.0f};
   } */
   
-
-  
-  return claculateDiffuse(hit) + calculateAmbient(shape, scene, hit) + calculateSpecular(hit);
+  return claculateDiffuse(hit, scene, shape) + calculateAmbient(shape, scene, hit) + calculateSpecular(hit);
 
 }
 
@@ -123,19 +121,19 @@ Color Renderer::calculateAmbient(std::shared_ptr<Shape> const& shape, Scene cons
   return {ambientLight};
 }
 
-Color Renderer::claculateDiffuse(HitPoint const& hit){
+Color Renderer::claculateDiffuse(HitPoint const& hit, Scene const& scene, std::shared_ptr<Shape> const& shape){
   Color diffused_clr{0.0f,0.0f,0.0f};
   std::vector<Color> calc_clrs;
-  
+
   for(auto light : scene_.light_vec){
-    bool obstacle = false;
-    HitPoint hit;
+    bool obstacle = true;
+    HitPoint light_hit;
     
     glm::vec3 vec_lights = glm::normalize(light->pos_ - hit.intersect_pt_);
-    Ray ray_lights{hit.intersect_pt_+0.1f*hit.normal_,vec_lights}; //checks if obstacle is between Light and intersection
+    Ray ray_lights{hit.intersect_pt_ + 0.1f * hit.normal_,vec_lights}; //checks if obstacle is between Light and intersection
     for(auto i : scene_.shape_vec){
-      hit = i->intersect(ray_lights);
-    
+      light_hit = i->intersect(ray_lights);
+      
       for(std::shared_ptr<Shape> const& shapes : scene_.shape_vec){
         if(hit.intersection_){
           obstacle = true;

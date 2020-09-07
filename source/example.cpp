@@ -28,7 +28,7 @@ int main(int argc, char* argv[]){
   mat_map.insert(std::make_pair("Orange", orange_ptr));
   mat_map.insert(std::make_pair("Random", random_ptr));
 
-  Sphere sphere1{"pussy",{0.0f,0.0f,1.0f}, green_ptr,{0.0f,0.0f,-100.0f}, 5.0f};
+  Sphere sphere1{"pussy",{0.0f,0.0f,1.0f}, green_ptr,{0.0f,0.0f,-100.0f}, 7.0f};
   Sphere sphere2{"pimpim",{1.0f,0.0f,0.0f}, orange_ptr,{0.0f,7.5f,-100.0f}, 5.0f};
   Box box1{{10.0f, -5.0f,-70.0f},{20.0f, 5.0f,-120.0f},"jucyButt",{0.0f,0.0f,0.0f},random_ptr};
 /*   Box box2{{15.0f, -6.0f,-80.0f},{25.0f, 6.0f,-140.0f},"francesco",{0.0f,0.0f,0.0f},green_ptr};
