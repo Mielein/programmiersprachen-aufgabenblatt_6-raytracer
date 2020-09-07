@@ -96,12 +96,13 @@ Scene sdfParser(std::string const& file){
                 in_sstream >> direction.z; */
                 in_sstream >> fovX;
 
-                Camera cam({camera_name, {/* pos.x, pos.y, pos.z */}, {/* direction.x, direction.y, direction.z */}, fovX});
-
                 std::cout<<camera_name<<std::endl;
-                std::cout<<cam.pos_.x<<" "<<cam.pos_.y<<" "<<cam.pos_.z<<std::endl;
-                std::cout<<cam.direction_.x<<" "<<cam.direction_.y<<" "<<cam.direction_.z<<std::endl; 
+/*                 std::cout<<cam.pos_.x<<" "<<cam.pos_.y<<" "<<cam.pos_.z<<std::endl;
+                std::cout<<cam.direction_.x<<" "<<cam.direction_.y<<" "<<cam.direction_.z<<std::endl;  */
                 std::cout<<fovX<<std::endl; 
+
+                s.camera_.fovX = fovX;
+                s.camera_.name_ = camera_name;
             }
             if("shape" == class_name){
                 in_sstream>>class_name;
@@ -208,7 +209,9 @@ Scene sdfParser(std::string const& file){
             std::cout<<cam_name<<std::endl;
             std::cout<<filename<<std::endl;
             std::cout<<width<<std::endl; 
-                        std::cout<<height<<std::endl; 
+            std::cout<<height<<std::endl;
+
+ 
         }
     }
     return s;
