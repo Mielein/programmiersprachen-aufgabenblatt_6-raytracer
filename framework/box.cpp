@@ -34,7 +34,7 @@ float Box::volume() const{
 HitPoint Box::intersect(Ray const& ray) const{
     HitPoint hit;
     bool was_hit = false;
-    float tmin = FLT_MAX;
+    float tmin;
     Ray ray_local = ray.transform(world_transform_inv_);
 
     float tmin_x = (min_.x-ray_local.origin_.x)/ray_local.direction_.x;
@@ -106,13 +106,18 @@ HitPoint Box::intersect(Ray const& ray) const{
         } 
     }
     if(was_hit == true){
-        //std::cout<<"HIT!!!"<<std::endl;
+        /* std::cout<<"HIT!!!"<<std::endl; */
         hit.intersection_ = true;
         hit.intersect_direction_ = ray.direction_;
         hit.distance_ = tmin;
-        hit.world_transform(world_transform_, glm::transpose(world_transform_inv_));
-    }
+        hit.world_transform(world_transform_, glm::transpose( world_transform_inv_));
+        std::cout<<hit.normal_.x<<hit.normal_.y<<hit.normal_.z<<std::endl;
+    } 
+    return hit; 
     
+
+
+ } 
 
 /*     HitPoint hit;
     float distance;
@@ -210,9 +215,7 @@ HitPoint Box::intersect(Ray const& ray) const{
     } */
 
     //printVec(hit_point);
-    return hit; 
 
- } 
 
 
 std::ostream& Box::print( std::ostream& os) const{
