@@ -25,7 +25,7 @@ class Shape{
 
     protected:
     std::string name_;
-    Color color_;
+    Color color_{1.0f,0.0f,0.0f};
     std::shared_ptr<Material> material_;
     glm::mat4 world_transform_;
     glm::mat4 world_transform_inv_;
