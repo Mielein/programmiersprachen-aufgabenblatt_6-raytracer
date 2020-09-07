@@ -29,9 +29,9 @@ Renderer::Renderer(unsigned w, unsigned h, std::string const& file, Scene const&
 
 void Renderer::render(Scene const& scene){
   /* std::size_t const checker_pattern_size = 20; */
-  for (auto i : scene.shape_vec){
+/*   for (auto i : scene.shape_vec){
     std::cout << "Renderer 1: " << std::endl << *i << std::endl;
-  }
+  } */
   for (unsigned y = 0; y < height_; ++y) {
     for (unsigned x = 0; x < width_; ++x) {
       Pixel p(x,y);
