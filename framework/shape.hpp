@@ -26,8 +26,8 @@ class Shape{
     std::string name_;
     Color color_;
     std::shared_ptr<Material> material_;
-    glm::mat4 world_transform_{glm::mat4(1.0f)};
-    glm::mat4 world_transform_inv_{glm::inverse(world_transform_)};
+    glm::mat4 world_transform_;
+    glm::mat4 world_transform_inv_;
 };
 
 std::ostream& operator<<(std::ostream& os ,Shape const& s);

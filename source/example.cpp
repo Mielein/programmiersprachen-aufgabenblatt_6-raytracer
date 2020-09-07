@@ -31,12 +31,18 @@ int main(int argc, char* argv[]){
   Sphere sphere1{"pussy",{0.0f,0.0f,1.0f}, green_ptr,{0.0f,0.0f,-100.0f}, 5.0f};
   Sphere sphere2{"pimpim",{1.0f,0.0f,0.0f}, orange_ptr,{0.0f,7.5f,-100.0f}, 5.0f};
   Box box1{{10.0f, -5.0f,-70.0f},{20.0f, 5.0f,-120.0f},"jucyButt",{0.0f,0.0f,0.0f},random_ptr};
+/*   Box box2{{15.0f, -6.0f,-80.0f},{25.0f, 6.0f,-140.0f},"francesco",{0.0f,0.0f,0.0f},green_ptr};
+ */
   std::shared_ptr<Shape>spheres1 = std::make_shared<Sphere>(sphere1);
   std::shared_ptr<Shape>spheres2 = std::make_shared<Sphere>(sphere2);
   std::shared_ptr<Shape>boxes1 = std::make_shared<Box>(box1);
+/*   std::shared_ptr<Shape>boxes2 = std::make_shared<Box>(box2);
+ */
   shape_vec.push_back(spheres1);
   shape_vec.push_back(spheres2);
   shape_vec.push_back(boxes1);
+/*   shape_vec.push_back(boxes2);
+ */
 
   for(auto i : shape_vec){
     std::cout << i <<  "{n"<< std::endl;
