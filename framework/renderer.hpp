@@ -29,7 +29,7 @@ public:
   Color shade (std::shared_ptr<Shape> const& shape, Scene const& scene, Ray const& ray, HitPoint hit);
   Color tonemapping (Color const& clr);
   Color calculateAmbient(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit);
-  Color claculateDiffuse(HitPoint const& hit, Scene const& scene, std::shared_ptr<Shape> const& shape);
+  Color claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit);
   Color calculateSpecular(HitPoint const& hit);
   Color calculateReflection(HitPoint const& hit, int depth);  
   
