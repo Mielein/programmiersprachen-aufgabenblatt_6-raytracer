@@ -36,7 +36,6 @@ HitPoint Box::intersect(Ray const& ray) const{
     bool was_hit = false;
     float tmin = FLT_MAX;
     Ray ray_local = ray.transform(world_transform_inv_);
-    ray_local.direction_ = glm::normalize(ray_local.direction_);
 
     float tmin_x = (min_.x-ray_local.origin_.x)/ray_local.direction_.x;
     float tmax_x = (max_.x-ray_local.origin_.x)/ray_local.direction_.x;
@@ -108,13 +107,10 @@ HitPoint Box::intersect(Ray const& ray) const{
     }
     if(was_hit == true){
         //std::cout<<"HIT!!!"<<std::endl;
-        glm::vec4 trans_pt = world_transform_*glm::vec4{hit.intersect_pt_,1};
-        glm::vec4 trans_normal = glm::normalize(glm::transpose(world_transform_inv_)*glm::vec4{hit.normal_,0});
         hit.intersection_ = true;
         hit.intersect_direction_ = ray.direction_;
         hit.distance_ = tmin;
-        hit.normal_ = glm::vec3{trans_normal.x,trans_normal.y,trans_normal.z};
-        hit.intersect_pt_ = glm::vec3{trans_pt.x,trans_pt.y,trans_pt.z};
+        hit.world_transform(world_transform_, glm::transpose(world_transform_inv_));
     }
     
 
