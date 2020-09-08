@@ -68,7 +68,7 @@ int main(int argc, char* argv[]){
 
 /*   std::cout<<"sdf read"<<std::endl;*/
     /*  renderer.render(scene);  */
-      renderer.render(s); 
+      renderer.render(scene); 
        
 
   
