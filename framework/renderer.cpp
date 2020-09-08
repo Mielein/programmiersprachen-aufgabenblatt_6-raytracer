@@ -28,6 +28,12 @@ Renderer::Renderer(unsigned w, unsigned h, std::string const& file, Scene const&
 
 
 void Renderer::render(Scene const& scene){
+  std::cout << "" << std::endl;
+  std::cout << "" << std::endl;
+  std::cout << "Hallo Marie, ich rendere jetzt was, okay?" << std::endl;
+  std::cout << "" << std::endl;
+  std::cout << "" << std::endl;
+
   /* std::size_t const checker_pattern_size = 20; */
 /*   for (auto i : scene.shape_vec){
     std::cout << "Renderer 1: " << std::endl << *i << std::endl;
@@ -63,6 +69,9 @@ void Renderer::render(Scene const& scene){
 }
 
 Color Renderer::trace(Ray const& ray, Scene const& scene){
+  
+  
+
   HitPoint closest_t;
   std::shared_ptr<Shape> closest_o = nullptr;
   for(auto i : scene.shape_vec){ 
@@ -89,6 +98,7 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
 }
 
 Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, Ray const& ray, HitPoint hit){
+/*   std::cout << "Hallo Marie, ich rendere jetzt was, okay?" << std::endl; */
 /*   Ray shadowRay;
   glm::vec3 v;
   glm::vec3 l;
@@ -103,6 +113,10 @@ Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, R
     }
     return {0.0f,0.0f,0.0f};
   } */
+/*   std::cout << claculateDiffuse(shape,scene,hit) << std::endl;
+  std::cout << calculateAmbient(shape,scene,hit) << std::endl;
+  std::cout << calculateSpecular(shape,scene,hit) << std::endl; */
+
   
   return claculateDiffuse(shape, scene, hit) + calculateAmbient(shape, scene, hit) + calculateSpecular(shape, scene, hit);
 }
@@ -116,15 +130,16 @@ Color Renderer::tonemapping (Color const& clr){
 }
 
 Color Renderer::calculateAmbient(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){
-  Color ambientLight{shape->getMat()->ka_ * scene.background_.color_};
-  return {ambientLight};
+  /* Color ambientLight{scene.background_.color_}; */
+  Color ka = shape->getMat()->ka_;
+  return {ka * scene.background_.color_};
 }
 
 Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){
 
   Color diffused_clr{0.0f,0.0f,0.0f};
   std::vector<Color> calc_clrs;
-
+ 
   for(auto light : scene.light_vec){
     bool obstacle = false;
     HitPoint light_hit;  
@@ -150,7 +165,7 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
   for(auto clr : calc_clrs){
     Color clamp_clr = {glm::clamp(clr.r, clr.g, clr.b)};
     diffused_clr += clamp_clr;
-  }    
+  }   
   return diffused_clr;
 }
 Color Renderer::calculateReflection(HitPoint const& hit, int depth){  
@@ -180,7 +195,6 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
       glm::vec3 v = glm::normalize(scene.camera_.pos_ - hit.intersect_pt_);
       float cross_prod = glm::dot(r,v);
       cross_prod = std::max(cross_prod, 0.0f);
-
       if(cross_prod < 0){
         cross_prod = -cross_prod;}
       Color ks = shape->getMat()->ks_;
@@ -193,7 +207,7 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
   for(auto clr : calc_clrs){
     Color clamp_clr = {glm::clamp(clr.r, clr.g, clr.b)};
     spec_clr += clamp_clr;
-  }
+  } 
   return spec_clr;
 }
 

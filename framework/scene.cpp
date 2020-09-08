@@ -7,13 +7,8 @@ Scene sdfParser(std::string const& file){
     std::ifstream in_file;
     in_file.open(file);
     std::string line_buffer;
-
     std::string identifier;
     std::string class_name;
-
-    std::vector<std::shared_ptr<Shape>> shape_vec; 
-    std::vector<std::shared_ptr<Light>> light_vec;
-    std::map<std::string,std::shared_ptr<Material>> mat_map;
 
     Scene s;
 
@@ -48,12 +43,12 @@ Scene sdfParser(std::string const& file){
                 in_sstream >> ks_red >> ks_green >> ks_blue;
                 in_sstream >> m;
 
-                std::cout << material_name<<std::endl;
+/*                 std::cout << material_name<<std::endl;
                 std::cout << ka_red <<" "<<ka_green<<" "<<ka_blue<<std::endl;
                 std::cout << kd_red <<" "<<kd_green<<" "<<kd_blue<<std::endl;
                 std::cout << ks_red <<" "<<ks_green<<" "<<ks_blue<<std::endl;
-                std::cout << m << std::endl;
- 
+                std::cout << m << std::endl; */
+
                 Material mat(material_name,{ka_red,ka_green,ka_blue},{kd_red,kd_green,kd_blue},{ks_red,ks_green,ks_blue},m);
                 auto mat_ptr = std::make_shared<Material>(mat);
                 s.mat_map.insert({material_name, mat_ptr}); 
@@ -77,10 +72,10 @@ Scene sdfParser(std::string const& file){
                 auto light_ptr = std::make_shared<Light>(light);
                 s.light_vec.push_back(light_ptr);  
 
-                std::cout<<light_name<<std::endl;
+/*                 std::cout<<light_name<<std::endl;
                 std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl;
                 std::cout<<pos.x<<" "<<pos.y<<" "<<pos.z<<std::endl; 
-                std::cout<<brightness<<std::endl;                
+                std::cout<<brightness<<std::endl;   */              
             }
             if("camera" == class_name){
                 std::string camera_name;
@@ -96,10 +91,10 @@ Scene sdfParser(std::string const& file){
                 in_sstream >> direction.z; */
                 in_sstream >> fovX;
 
-                std::cout<<camera_name<<std::endl;
+                //std::cout<<camera_name<<std::endl;
 /*                 std::cout<<cam.pos_.x<<" "<<cam.pos_.y<<" "<<cam.pos_.z<<std::endl;
-                std::cout<<cam.direction_.x<<" "<<cam.direction_.y<<" "<<cam.direction_.z<<std::endl;  */ 
-                std::cout<<fovX<<std::endl;  
+                std::cout<<cam.direction_.x<<" "<<cam.direction_.y<<" "<<cam.direction_.z<<std::endl;  
+                std::cout<<fovX<<std::endl;   */
 
                 s.camera_.fovX = fovX;
                 s.camera_.name_ = camera_name;
@@ -125,16 +120,19 @@ Scene sdfParser(std::string const& file){
                     in_sstream >> radius;
                     in_sstream >> mat_name;
 
-                    auto mat1 = mat_map.find(mat_name);
+                    auto mat1 = s.mat_map.find(mat_name);
+                    if (mat1 == s.mat_map.end()){
+                        std::cerr << "Hier findet der doofe parser kein Material In einem Kreis" << std::endl;
+                    }                    
                     Sphere sphere(sphere_name,{0.0f,0.0f,0.0f},mat1->second,{mid.x,mid.y,mid.z},radius);
                     std::shared_ptr<Shape> sphere_ptr = std::make_shared<Sphere>(sphere);                    
                     s.shape_vec.push_back(sphere_ptr); 
 
-                    std::cout<<sphere_name<<std::endl;
-/*                     std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl; */
+/*                     std::cout<<sphere_name<<std::endl;
+                    std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl;
                     std::cout<<radius<<std::endl;
                     std::cout<<mid.x<<" "<<mid.y<<" "<<mid.z<<std::endl; 
-                    std::cout<<mat_name<<std::endl; 
+                    std::cout<<mat_name<<std::endl;  */
                 }
                 if("box" == class_name){
                     std::cout<<"class content: "<<class_name<<std::endl;
@@ -156,16 +154,19 @@ Scene sdfParser(std::string const& file){
                     in_sstream >> max.z;
                     in_sstream >> mat_name;
 
-                    auto mat2 = mat_map.find(mat_name);
+                    auto mat2 = s.mat_map.find(mat_name);
+                    if (mat2 == s.mat_map.end()){
+                        std::cerr << "Hier findet der doofe parser kein Material" << std::endl;
+                    }
                     Box box({min.x,min.y,min.z},{max.x,max.y,max.z},box_name,{0.0f,0.0f,0.0f},mat2->second);
                     std::shared_ptr<Shape> box_ptr = std::make_shared<Box>(box);
                     s.shape_vec.push_back(box_ptr); 
  
-                    std::cout<<box_name<<std::endl;
-/*                     std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl; */
+/*                     std::cout<<box_name<<std::endl;
+                    std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl; 
                     std::cout<<min.x<<" "<<min.y<<" "<<min.z<<std::endl;
                     std::cout<<max.x<<" "<<max.y<<" "<<max.z<<std::endl; 
-                    std::cout<<mat_name<<std::endl; 
+                    std::cout<<mat_name<<std::endl;  */
                 } 
             }
 /*             else {
@@ -186,8 +187,8 @@ Scene sdfParser(std::string const& file){
             s.background_.color_.b = clr_b;
             s.background_.name_ = ambient_name;
 
-            std::cout<<ambient_name<<std::endl; 
-            std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl; 
+/*             std::cout<<ambient_name<<std::endl; 
+            std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl;  */
         }
         if("render" == identifier){
             std::cout<<"class content: "<<class_name<<std::endl;
@@ -203,11 +204,11 @@ Scene sdfParser(std::string const& file){
             in_sstream >> width;
             in_sstream >> height;
 
-            std::cout<<render_name<<std::endl;
+/*             std::cout<<render_name<<std::endl;
             std::cout<<cam_name<<std::endl;
             std::cout<<filename<<std::endl;
             std::cout<<width<<std::endl; 
-            std::cout<<height<<std::endl;
+            std::cout<<height<<std::endl; */
         }
     }
     return s;

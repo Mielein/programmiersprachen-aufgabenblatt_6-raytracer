@@ -28,6 +28,7 @@ int main(int argc, char* argv[]){
   mat_map.insert(std::make_pair("Orange", orange_ptr));
   mat_map.insert(std::make_pair("Random", random_ptr));
 
+
   Sphere sphere1{"pussy",{0.0f,0.0f,1.0f}, green_ptr,{0.0f,0.0f,-100.0f}, 7.0f};
   Sphere sphere2{"pimpim",{1.0f,0.0f,0.0f}, orange_ptr,{0.0f,7.5f,-100.0f}, 5.0f};
   Box box1{{10.0f, -5.0f,-70.0f},{20.0f, 5.0f,-120.0f},"jucyButt",{0.0f,0.0f,0.0f},random_ptr};
@@ -37,6 +38,8 @@ int main(int argc, char* argv[]){
   std::shared_ptr<Shape>spheres2 = std::make_shared<Sphere>(sphere2);
   std::shared_ptr<Shape>boxes1 = std::make_shared<Box>(box1);
   std::shared_ptr<Shape>boxes2 = std::make_shared<Box>(box2);
+
+  std::cout << " hier ist bullshit: "<<sphere1.getMat()->ka_ << std::endl;
 
   shape_vec.push_back(spheres1);
   shape_vec.push_back(spheres2);
@@ -64,9 +67,12 @@ int main(int argc, char* argv[]){
 
 
 /*   std::cout<<"sdf read"<<std::endl;*/
-     renderer.render(scene); 
-    /*  renderer.render(s); */
+    /*  renderer.render(scene);  */
+      renderer.render(s); 
        
+
+  
+
 
   std::cout<<scene.background_.name_<<" ambient name"<<std::endl;
   std::cout<<scene.background_.color_.r<<" "<<scene.background_.color_.g<<" "<<scene.background_.color_.b<<" ambient colour"<<std::endl;
@@ -74,21 +80,30 @@ int main(int argc, char* argv[]){
   std::cout<<scene.camera_.pos_.x<<scene.camera_.pos_.y<<scene.camera_.pos_.z<<" camera pos"<<std::endl;
   std::cout<<scene.camera_.direction_.x<<scene.camera_.direction_.y<<scene.camera_.direction_.z<<" camera direction"<<std::endl;
   std::cout<<scene.camera_.fovX<< " camera fovX"<<std::endl;
+  std::cout << std::endl;
+
   for(auto i : scene.light_vec){
     std::cout<<i->name_<<" light name"<<std::endl;
     std::cout<<i->pos_.x<<i->pos_.y<<i->pos_.z<<" light pos"<<std::endl;
     std::cout<<i->color_.r<<i->color_.g<<i->color_.b<<" light colour"<<std::endl;
     std::cout<<i->brightness_<<std::endl;
+    std::cout << "" << std::endl;
+
   }
+  std::cout << std::endl;
+
   for(auto i : scene.mat_map){
     std::cout<<i.first<<" first mat"<<std::endl;
     std::cout<<i.second->name_<<" mat name"<<std::endl;
     std::cout<<i.second->ka_<<" mat ka"<<std::endl;
     std::cout<<i.second->kd_<<" mat kd"<<std::endl;
     std::cout<<i.second->ks_<<" mat ks"<<std::endl;
+    std::cout << "" << std::endl;
+
   }
   for(auto i : scene.shape_vec){
     std::cout<<*i<<std::endl;
+    std::cout << "" << std::endl;
   }
 
 
