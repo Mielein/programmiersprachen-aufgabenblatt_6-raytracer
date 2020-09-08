@@ -47,23 +47,26 @@ int main(int argc, char* argv[]){
     std::cout << i <<  "\n"<< std::endl;
   }
 
-  Light light{};
+  Light light{"stinkyLight",{-100.0f, 100.0 ,0.0f}, {0.5333f, 0.0f, 1.0f}, 10.0f};
   std::shared_ptr<Light>lights = std::make_shared<Light>(light);
   light_vec.push_back(lights);
+
   Camera cam{};
   Ambient amby{"a",{1.0,0.2,1.4}};
   Scene s{shape_vec,light_vec,mat_map,cam,amby}; 
   Scene scene = sdfParser("../../source/example.sdf"); 
 
-    for (auto a : s.shape_vec){
-    std::cout<< *a << std::endl;
+    for (auto a : s.light_vec){
+    std::cout<< a->name_ << std::endl;
   }
   
 
 
 
 /*   std::cout<<"sdf read"<<std::endl;*/
-   renderer.render(scene);
+     renderer.render(scene); 
+    /*  renderer.render(s); */
+       
 
   std::cout<<scene.background_.name_<<" ambient name"<<std::endl;
   std::cout<<scene.background_.color_.r<<" "<<scene.background_.color_.g<<" "<<scene.background_.color_.b<<" ambient colour"<<std::endl;
@@ -87,6 +90,8 @@ int main(int argc, char* argv[]){
   for(auto i : scene.shape_vec){
     std::cout<<*i<<std::endl;
   }
+
+
   Window window{{image_width, image_height}};
 
   while (!window.should_close()) {

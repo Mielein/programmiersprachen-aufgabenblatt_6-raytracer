@@ -104,7 +104,7 @@ Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, R
     return {0.0f,0.0f,0.0f};
   } */
   
-  return claculateDiffuse(shape, scene, hit) + calculateAmbient(shape, scene, hit) + calculateSpecular(hit);
+  return claculateDiffuse(shape, scene, hit) + calculateAmbient(shape, scene, hit) + calculateSpecular(shape, scene, hit);
 }
 
 Color Renderer::tonemapping (Color const& clr){
@@ -126,77 +126,74 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
   std::vector<Color> calc_clrs;
 
   for(auto light : scene.light_vec){
-    bool obstacle = true;
+    bool obstacle = false;
     HitPoint light_hit;  
     glm::vec3 vec_lights = glm::normalize(light->pos_ - hit.intersect_pt_);
     Ray ray_lights{hit.intersect_pt_ + 0.1f * hit.normal_,vec_lights}; //checks if obstacle is between Light and intersection
     
     for(auto i : scene_.shape_vec){
       light_hit = i->intersect(ray_lights);
-
       if(light_hit.intersection_){
-        obstacle = false;
-      }
-      if(obstacle){
-          Color ip{light->color_*light->brightness_};
-          Color kd = i->getMat()->kd_;
-          float cross_prod = glm::dot(hit.normal_,vec_lights);
-          cross_prod = std::max(cross_prod, 0.0f);
-          calc_clrs.push_back({(ip*kd)*cross_prod});
+        obstacle = true;
       }
     }
 
-
-    for(auto clr : calc_clrs){
-      diffused_clr += clr;
-    }  
+    if(obstacle){
+        Color ip{light->color_*light->brightness_};
+        Color kd = shape->getMat()->kd_;
+        float cross_prod = glm::dot(hit.normal_,vec_lights);
+        cross_prod = std::max(cross_prod, 0.0f);
+        calc_clrs.push_back({(ip*kd)*cross_prod});
+    }
   }
+
+  for(auto clr : calc_clrs){
+    Color clamp_clr = {glm::clamp(clr.r, clr.g, clr.b)};
+    diffused_clr += clamp_clr;
+  }    
   return diffused_clr;
 }
 Color Renderer::calculateReflection(HitPoint const& hit, int depth){  
   
 }
 
-Color Renderer::calculateSpecular(HitPoint const& hit){
+Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){
   Color spec_clr{0.0f,0.0f,0.0f};
-  std::vector<Color> calc_clrs;
+/*   std::vector<Color> calc_clrs;
 
-for(auto light : scene_.light_vec){
+  for(auto light : scene.light_vec){
     bool obstacle = false;
-    HitPoint hit;
+    HitPoint light_hit;
     
     glm::vec3 vec_lights = glm::normalize(light->pos_ - hit.intersect_pt_);
     Ray ray_lights{hit.intersect_pt_+0.1f*hit.normal_,vec_lights}; //checks if obstacle is between Light and intersection
-    for(auto i : scene_.shape_vec){
-      hit = i->intersect(ray_lights);
-    
-      for(std::shared_ptr<Shape> const& shapes : scene_.shape_vec){
-        if(hit.intersection_){
-          obstacle = true;
-        }
-        if(!obstacle){
-          float m = hit.material_->m_;
-          glm::vec3 r = 2.0f*glm::dot(hit.normal_,vec_lights)*hit.normal_-vec_lights; //glm::dot -> Skalarprodukt
-          glm::vec3 v = glm::normalize(scene_.camera_.pos_ - hit.intersect_pt_);
+    for(auto i : scene.shape_vec){
+      light_hit = i->intersect(ray_lights);
 
-          float cross_prod = glm::dot(r,v);
-
-          if(cross_prod < 0){
-            cross_prod = -cross_prod;
-          }
-          Color ks = hit.material_->ks_;
-          Color ip{light->color_.r*light->brightness_,light->color_.g*light->brightness_,light->color_.b*light->brightness_};
-          float cos = pow(cross_prod,m);
-          float m_2 = (m+2)/(2*M_PI);
-          calc_clrs.push_back({ks.r*ip.r*cos*m_2,ks.g*ip.g*cos*m_2,ks.b*ip.b*cos*m_2});
-        }
+      if(light_hit.intersection_){
+        obstacle = true;
       }
-    }  
-    for(auto clr : calc_clrs){
-      spec_clr += clr;
-    }  
+    }
+    if(obstacle){
+      float m = shape->getMat()->m_;
+      glm::vec3 r = 2.0f*glm::dot(hit.normal_,vec_lights)*hit.normal_-vec_lights; //glm::dot -> Skalarprodukt
+      glm::vec3 v = glm::normalize(scene.camera_.pos_ - hit.intersect_pt_);
+      float cross_prod = glm::dot(r,v);
+      cross_prod = std::max(cross_prod, 0.0f);
 
+      if(cross_prod < 0){
+        cross_prod = -cross_prod;}
+      Color ks = shape->getMat()->ks_;
+      Color ip{light->color_*light->brightness_};
+      float cos = pow(cross_prod,m);
+      float m_2 = (m+2)/(2*M_PI);
+      calc_clrs.push_back({ks.r*ip.r*cos*m_2,ks.g*ip.g*cos*m_2,ks.b*ip.b*cos*m_2});      
+    }    
   }
+  for(auto clr : calc_clrs){
+    Color clamp_clr = {glm::clamp(clr.r, clr.g, clr.b)};
+    spec_clr += clamp_clr;
+  } */
   return spec_clr;
 }
 

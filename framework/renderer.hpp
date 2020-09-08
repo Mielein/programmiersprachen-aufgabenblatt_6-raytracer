@@ -30,7 +30,7 @@ public:
   Color tonemapping (Color const& clr);
   Color calculateAmbient(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit);
   Color claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit);
-  Color calculateSpecular(HitPoint const& hit);
+  Color calculateSpecular(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit);
   Color calculateReflection(HitPoint const& hit, int depth);  
   
   void write(Pixel const& p);  
