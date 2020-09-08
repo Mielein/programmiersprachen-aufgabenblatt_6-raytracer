@@ -115,7 +115,7 @@ Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, R
   } */
   std::cout << claculateDiffuse(shape,scene,hit);
   std::cout << calculateAmbient(shape,scene,hit);
-  std::cout << calculateSpecular(shape,scene,hit) << std::endl; 
+  std::cout << calculateSpecular(shape,scene,hit) << std::endl;
 
   
   return claculateDiffuse(shape, scene, hit) + calculateAmbient(shape, scene, hit) + calculateSpecular(shape, scene, hit);
@@ -131,7 +131,7 @@ Color Renderer::tonemapping (Color const& clr){
 
 Color Renderer::calculateAmbient(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){
   /* Color ambientLight{scene.background_.color_}; */
-  Color ka = shape->getMat()->ka_;
+  Color ka = shape->getMat()->ka_;  
   return {ka * scene.background_.color_};
 }
 
@@ -139,7 +139,7 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
 
   Color diffused_clr{0.0f,0.0f,0.0f};
   std::vector<Color> calc_clrs;
- 
+  
   for(auto light : scene.light_vec){
     bool obstacle = false;
     HitPoint light_hit;  
@@ -153,7 +153,7 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
       }
     }
 
-    if(obstacle){
+    if(!obstacle){
         Color ip{light->color_*light->brightness_};
         Color kd = shape->getMat()->kd_;
         float cross_prod = glm::dot(hit.normal_,vec_lights);
@@ -163,6 +163,7 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
   }
 
   for(auto clr : calc_clrs){
+    
     Color clamp_clr = {glm::clamp(clr.r, clr.g, clr.b)};
     diffused_clr += clamp_clr;
   }   
@@ -189,7 +190,7 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
         obstacle = true;
       }
     }
-    if(obstacle){
+    if(!obstacle){
       float m = shape->getMat()->m_;
       glm::vec3 r = 2.0f*glm::dot(hit.normal_,vec_lights)*hit.normal_-vec_lights; //glm::dot -> Skalarprodukt
       glm::vec3 v = glm::normalize(scene.camera_.pos_ - hit.intersect_pt_);
@@ -205,6 +206,8 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
     } 
  
   }
+
+  //std::cout << calc_clrs.size();
   for(auto clr : calc_clrs){
     Color clamp_clr = {clamping(clr)};
     spec_clr += clamp_clr;
