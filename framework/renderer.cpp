@@ -159,7 +159,7 @@ Color Renderer::calculateReflection(HitPoint const& hit, int depth){
 
 Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){
   Color spec_clr{0.0f,0.0f,0.0f};
-/*   std::vector<Color> calc_clrs;
+  std::vector<Color> calc_clrs;
 
   for(auto light : scene.light_vec){
     bool obstacle = false;
@@ -193,7 +193,7 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
   for(auto clr : calc_clrs){
     Color clamp_clr = {glm::clamp(clr.r, clr.g, clr.b)};
     spec_clr += clamp_clr;
-  } */
+  }
   return spec_clr;
 }
 
