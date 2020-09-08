@@ -53,7 +53,7 @@ int main(int argc, char* argv[]){
   Camera cam{};
   Ambient amby{"a",{1.0,0.2,1.4}};
   Scene s{shape_vec,light_vec,mat_map,cam,amby}; 
-  Scene scene = sdfParser("../programmiersprachen-aufgabenblatt_6-raytracer/source/example.sdf"); 
+  Scene scene = sdfParser("../../source/example.sdf"); 
 
     for (auto a : s.shape_vec){
     std::cout<< *a << std::endl;
