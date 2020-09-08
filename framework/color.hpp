@@ -11,6 +11,7 @@
 #define BUW_COLOR_HPP
 
 #include <iostream>
+#include <glm/glm.hpp>
 
 struct Color
 {
@@ -88,6 +89,10 @@ struct Color
     auto tmp(a);
     tmp *= b;
     return tmp;
+  }
+
+  friend Color clamping(Color const& a){
+    return {glm::clamp(a.r,0.0f,1.0f),glm::clamp(a.g,0.0f,1.0f),glm::clamp(a.b,0.0f,1.0f)};
   }
 
 };

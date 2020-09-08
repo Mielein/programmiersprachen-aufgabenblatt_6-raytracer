@@ -202,12 +202,13 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
       float cos = pow(cross_prod,m);
       float m_2 = (m+2)/(2*M_PI);
       calc_clrs.push_back({ks.r*ip.r*cos*m_2,ks.g*ip.g*cos*m_2,ks.b*ip.b*cos*m_2});      
-    }    
+    } 
+ 
   }
   for(auto clr : calc_clrs){
-    Color clamp_clr = {glm::clamp(clr.r, clr.g, clr.b)};
+    Color clamp_clr = {clamping(clr)};
     spec_clr += clamp_clr;
-  } 
+  }  
   return spec_clr;
 }
 

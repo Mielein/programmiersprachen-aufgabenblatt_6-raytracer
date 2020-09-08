@@ -57,7 +57,7 @@ int main(int argc, char* argv[]){
   Camera cam{};
   Ambient amby{"a",{1.0,0.2,1.4}};
   Scene s{shape_vec,light_vec,mat_map,cam,amby}; 
-  Scene scene = sdfParser("../../source/example.sdf"); 
+  Scene scene = sdfParser("source/example.sdf"); 
 
     for (auto a : s.light_vec){
     std::cout<< a->name_ << std::endl;
