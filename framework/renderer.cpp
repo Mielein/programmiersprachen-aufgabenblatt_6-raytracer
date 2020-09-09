@@ -135,23 +135,22 @@ Color Renderer::calculateAmbient(std::shared_ptr<Shape> const& shape, Scene cons
 
 Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){
   Color diffused_clr{0.0f,0.0f,0.0f};
-  Color result{0.0f,0.0f,0.0f};
-  bool obstacle = false;
-  HitPoint light_hit;
+  std::vector<Color> result;
+
+
   for(auto light : scene.light_vec){
+    bool obstacle = false;
+    HitPoint light_hit;
+
     glm::vec3 vec_lights{light->pos_ - hit.intersect_pt_};
     Ray ray_lights{hit.intersect_pt_ + 0.1f * hit.normal_,glm::normalize(vec_lights)}; //checks if obstacle is between Light and intersection
+    
     for(auto i : scene.shape_vec){
       light_hit = i->intersect(ray_lights);
-<<<<<<< HEAD
-/*       std::cout<<light_hit.name_<<std::endl;
-      std::cout<<light_hit.intersection_<<std::endl; */
-=======
       //std::cout << i->intersect(ray_lights).name_ << std::endl;
->>>>>>> 95585a00c6583d813c27f8c93568e063b294e25d
-      if(light_hit.intersection_){
-        obstacle = true;
-      }
+    }
+    if(light_hit.intersection_){
+          obstacle = true;
     }
 
     if(obstacle){
@@ -160,28 +159,16 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
         Color kd = shape->getMat()->kd_;
         float cross_prod = glm::dot(hit.normal_,vec_lights);
         cross_prod = std::max(cross_prod, 0.0f);
-        result = {/* (ip*kd)*cross_prod */(ip.r*kd.r*cross_prod),(ip.g*kd.g*cross_prod),(ip.b*kd.g*cross_prod) };
-       Color clamp_clr = {glm::clamp(result.r, result.g, result.b)};
-      diffused_clr = clamp_clr;
+        result.push_back({(ip.r*kd.r*cross_prod),(ip.g*kd.g*cross_prod),(ip.b*kd.g*cross_prod)});
     } 
-
   }
-
   //std::cout << "the Vec has this many elements: " << calc_clrs.size() << std::endl; 
-<<<<<<< HEAD
-  //for(auto clr : calc_clrs){  
-
-  //}   
-  std::cout << diffused_clr << std::endl;
-  std::cout << "" << std::endl;
-=======
-  for(auto clr : calc_clrs){  
+  for(auto clr : result){  
     Color clamp_clr = {glm::clamp(clr.r, clr.g, clr.b)};
     diffused_clr += clamp_clr;
-  }   
+  } 
   //std::cout << diffused_clr << std::endl;
   //std::cout << "" << std::endl;
->>>>>>> 95585a00c6583d813c27f8c93568e063b294e25d
   return diffused_clr;
 }
 
