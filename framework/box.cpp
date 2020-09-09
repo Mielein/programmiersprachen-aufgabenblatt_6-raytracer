@@ -162,7 +162,7 @@ HitPoint Box::intersect(Ray const& ray) const{
         hit.intersection_ = true;
         hit.intersect_direction_ = ray.direction_;
         hit.distance_ = tmin;
-        std::cout<<min_.y<<" "<<max_.y<<" "<<p_x_min.y<<" "<<p_x_max.y<<std::endl;
+        //std::cout<<min_.y<<" "<<max_.y<<" "<<p_x_min.y<<" "<<p_x_max.y<<std::endl;
         //hit.world_transform(world_transform_,world_transform_inv_);
         //std::cout<<tmin<<std::endl;
         //std::cout<<hit.normal_.x<<hit.normal_.y<<hit.normal_.z<<std::endl;
