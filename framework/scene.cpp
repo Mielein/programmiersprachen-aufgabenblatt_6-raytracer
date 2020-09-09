@@ -15,15 +15,15 @@ Scene sdfParser(std::string const& file){
     while(std::getline(in_file, line_buffer)){
         //std::cout<<++line_count<<": "<<line_buffer<<std::endl;
         //construct stringstream using line_buffer string
-        std::cout<<"reading new line"<<std::endl;
+        //std::cout<<"reading new line"<<std::endl;
         std::istringstream in_sstream(line_buffer);
         in_sstream >> identifier;
-        std::cout<<"Identifier content: "<<identifier<<std::endl;
+        //std::cout<<"Identifier content: "<<identifier<<std::endl;
 
         //check for shapes / material / lights
         if("define" == identifier){
             in_sstream>>class_name;
-            std::cout<<"class content: "<<class_name<<std::endl;
+            //std::cout<<"class content: "<<class_name<<std::endl;
             //check for shape type, then: parse attributes (including material lookup)
         
             if("material" == class_name){
@@ -191,7 +191,7 @@ Scene sdfParser(std::string const& file){
             std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl;  */
         }
         if("render" == identifier){
-            std::cout<<"class content: "<<class_name<<std::endl;
+            //std::cout<<"class content: "<<class_name<<std::endl;
             std::string render_name;
             std::string cam_name;
             std::string filename;

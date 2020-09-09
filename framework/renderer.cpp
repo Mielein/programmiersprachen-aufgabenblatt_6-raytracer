@@ -76,7 +76,7 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
     //std::cout << *i << std::endl;
     auto t = i->intersect(ray);
     if (t.name_ == "jucyButt"){ 
-      std::cout << t.name_ << std::endl;
+      //std::cout << t.name_ << std::endl;
     }
     
 /*     std::cout<<t.distance_<< std::endl;
@@ -149,12 +149,12 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
       light_hit = i->intersect(ray_lights);
       //std::cout << i->intersect(ray_lights).name_ << std::endl;
     }
-    if(light_hit.intersection_){
-          obstacle = true;
+      if(light_hit.intersection_){
+        obstacle = true;
     }
-
+    
     if(!obstacle){
-        std::cout << "we use the obstacle, it is true" << std::endl;
+        //std::cout << "we use the obstacle, it is true" << std::endl;
         Color ip{light->color_*light->brightness_};
         Color kd = shape->getMat()->kd_;
         float cross_prod = glm::dot(hit.normal_,vec_lights);
