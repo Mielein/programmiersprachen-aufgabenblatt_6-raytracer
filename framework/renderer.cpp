@@ -149,7 +149,7 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
     
     for(auto i : scene.shape_vec){
       light_hit = i->intersect(ray_lights);
-      std::cout << i->intersect(ray_lights).name_ << std::endl;
+      //std::cout << i->intersect(ray_lights).name_ << std::endl;
       if(light_hit.intersection_){
         obstacle = true;
       }
@@ -170,8 +170,8 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
     Color clamp_clr = {glm::clamp(clr.r, clr.g, clr.b)};
     diffused_clr += clamp_clr;
   }   
-  std::cout << diffused_clr << std::endl;
-  std::cout << "" << std::endl;
+  //std::cout << diffused_clr << std::endl;
+  //std::cout << "" << std::endl;
   return diffused_clr;
 }
 
