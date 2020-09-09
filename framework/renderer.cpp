@@ -113,9 +113,9 @@ Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, R
     }
     return {0.0f,0.0f,0.0f};
   } */
-  std::cout << claculateDiffuse(shape,scene,hit);
+/*   std::cout << claculateDiffuse(shape,scene,hit);
   std::cout << calculateAmbient(shape,scene,hit);
-  std::cout << calculateSpecular(shape,scene,hit) << std::endl;
+  std::cout << calculateSpecular(shape,scene,hit) << std::endl; */
 
   
   return claculateDiffuse(shape, scene, hit) + calculateAmbient(shape, scene, hit) + calculateSpecular(shape, scene, hit);
