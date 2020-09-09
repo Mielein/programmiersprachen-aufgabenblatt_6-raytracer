@@ -165,7 +165,7 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
     }    
   }
 
-  std::cout << "the Vec has this many elements: " << calc_clrs.size() << std::endl; 
+  //std::cout << "the Vec has this many elements: " << calc_clrs.size() << std::endl; 
   for(auto clr : calc_clrs){  
     Color clamp_clr = {glm::clamp(clr.r, clr.g, clr.b)};
     diffused_clr += clamp_clr;
