@@ -1,5 +1,4 @@
 #include "box.hpp"
-#include "tools.hpp"
 #include <glm/glm.hpp>
 #include <cmath>
 #include <vector>

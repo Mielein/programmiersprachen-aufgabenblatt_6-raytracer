@@ -10,6 +10,7 @@
 #include "renderer.hpp"
 #include <memory>
 #include <glm/glm.hpp>
+#include "tools.hpp"
 
 Renderer::Renderer(unsigned w, unsigned h, std::string const& file):
   width_(w),
@@ -137,7 +138,6 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
   Color diffused_clr{0.0f,0.0f,0.0f};
   std::vector<Color> result;
 
-
   for(auto light : scene.light_vec){
     bool obstacle = false;
     HitPoint light_hit;
@@ -147,22 +147,31 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
     
     for(auto i : scene.shape_vec){
       light_hit = i->intersect(ray_lights);
-      //std::cout << i->intersect(ray_lights).name_ << std::endl;
+      // erstmal unwichtig  std::cout << i->intersect(ray_lights).intersect_pt_.x << " " << i->intersect(ray_lights).intersect_pt_.y << " " << i->intersect(ray_lights).intersect_pt_.z << std::endl;
+
     }
       if(light_hit.intersection_){
         obstacle = true;
     }
-    
-    if(!obstacle){
+    if(obstacle){
         //std::cout << "we use the obstacle, it is true" << std::endl;
         Color ip{light->color_*light->brightness_};
         Color kd = shape->getMat()->kd_;
-        float cross_prod = glm::dot(hit.normal_,vec_lights);
-        cross_prod = std::max(cross_prod, 0.0f);
-        result.push_back({(ip.r*kd.r*cross_prod),(ip.g*kd.g*cross_prod),(ip.b*kd.g*cross_prod)});
+        float cross_prod = -(glm::dot(hit.normal_,glm::normalize(vec_lights)));
+        //std::cout << cross_prod << std::endl;
+        //cross_prod = std::max(cross_prod, 0.0f);
+/*         std::cout << cross_prod << std::endl;
+        std::cout << kd; 
+        std::cout << ip;
+        printVec(vec_lights);
+        printVec(hit.normal_); */
+        //std::cout << ((ip*kd)*cross_prod) << std::endl;
+        result.push_back({(ip*kd)*cross_prod});
+        //std::cout << std::endl;
     } 
   }
-  //std::cout << "the Vec has this many elements: " << calc_clrs.size() << std::endl; 
+  //std::cout << "the Vec has this many elements: " << result.size() << std::endl; 
+  //std::cout << "first element: " << result[0] << std::endl;
   for(auto clr : result){  
     Color clamp_clr = clamping(clr);
     diffused_clr += clamp_clr;
