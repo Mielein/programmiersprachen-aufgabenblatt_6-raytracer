@@ -12,7 +12,9 @@ Ray transform(glm::mat4 const& mat) const{
       //origin{x,y,z,1}  
       glm::vec3 origin = glm::vec3(mat*glm::vec4(origin_, 1.0f));
       //direction{x,y,z,0}
-      glm::vec3 direction = glm::vec3(mat*glm::vec4(direction_,0.0f));   
+      glm::vec3 direction = glm::vec3(mat*glm::vec4(direction_,0.0f));  
+      //std::cout<< "origin: "<<origin.x<<","<<origin.y<<","<<origin.z<<"\n"<<"diection: "<<glm::normalize(direction).x<<","<<glm::normalize(direction).y<<","<<glm::normalize(direction).z<<std::endl;
+
       return {origin,glm::normalize(direction)};
 
 /*       glm::vec3 origin{mat*glm::vec4(origin_, 1.0f)};

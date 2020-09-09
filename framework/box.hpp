@@ -8,6 +8,7 @@
 
 class Box : public Shape{
     public:
+    Box();
     Box(glm::vec3 min, glm::vec3 max);
     Box(glm::vec3 min, glm::vec3 max,std::string name, Color color);
     Box(glm::vec3 min, glm::vec3 max,std::string name, Color color, std::shared_ptr<Material> mat);
