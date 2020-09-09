@@ -69,8 +69,6 @@ void Renderer::render(Scene const& scene){
 }
 
 Color Renderer::trace(Ray const& ray, Scene const& scene){
-  
-  
 
   HitPoint closest_t;
   std::shared_ptr<Shape> closest_o = nullptr;
@@ -136,40 +134,39 @@ Color Renderer::calculateAmbient(std::shared_ptr<Shape> const& shape, Scene cons
 }
 
 Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){
-
   Color diffused_clr{0.0f,0.0f,0.0f};
-  std::vector<Color> calc_clrs;
-  
- 
+  Color result{0.0f,0.0f,0.0f};
+  bool obstacle = false;
+  HitPoint light_hit;
   for(auto light : scene.light_vec){
-    bool obstacle = false;
-    HitPoint light_hit;
-    glm::vec3 vec_lights = glm::normalize(light->pos_ - hit.intersect_pt_);
-    Ray ray_lights{hit.intersect_pt_ + 0.1f * hit.normal_,vec_lights}; //checks if obstacle is between Light and intersection
-    
+    glm::vec3 vec_lights{light->pos_ - hit.intersect_pt_};
+    Ray ray_lights{hit.intersect_pt_ + 0.1f * hit.normal_,glm::normalize(vec_lights)}; //checks if obstacle is between Light and intersection
     for(auto i : scene.shape_vec){
       light_hit = i->intersect(ray_lights);
-      std::cout << i->intersect(ray_lights).name_ << std::endl;
+/*       std::cout<<light_hit.name_<<std::endl;
+      std::cout<<light_hit.intersection_<<std::endl; */
       if(light_hit.intersection_){
         obstacle = true;
       }
     }
 
     if(obstacle){
-        //std::cout << "we use the obstacle, it is true" << std::endl;
+        std::cout << "we use the obstacle, it is true" << std::endl;
         Color ip{light->color_*light->brightness_};
         Color kd = shape->getMat()->kd_;
         float cross_prod = glm::dot(hit.normal_,vec_lights);
         cross_prod = std::max(cross_prod, 0.0f);
-        calc_clrs.push_back({(ip*kd)*cross_prod});
-    }    
+        result = {/* (ip*kd)*cross_prod */(ip.r*kd.r*cross_prod),(ip.g*kd.g*cross_prod),(ip.b*kd.g*cross_prod) };
+       Color clamp_clr = {glm::clamp(result.r, result.g, result.b)};
+      diffused_clr = clamp_clr;
+    } 
+
   }
 
   //std::cout << "the Vec has this many elements: " << calc_clrs.size() << std::endl; 
-  for(auto clr : calc_clrs){  
-    Color clamp_clr = {glm::clamp(clr.r, clr.g, clr.b)};
-    diffused_clr += clamp_clr;
-  }   
+  //for(auto clr : calc_clrs){  
+
+  //}   
   std::cout << diffused_clr << std::endl;
   std::cout << "" << std::endl;
   return diffused_clr;
