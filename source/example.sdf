@@ -9,7 +9,7 @@ define shape sphere bsphere 0 0 -100 20 blue
 #transform bsphere rotate 45 0 0 1
 #transform bsphere translate 0 0 -10
 define light sun 500 800 0 1.0 0.3 0.8 60
-#define light spot1 -500 800 0 0.8 0.8 0.8 10
+define light spot1 -500 800 0 0.8 0.8 0.8 10
 ambient amby 0.1 0.1 0.1
 define camera eye 60.0
 #xform
