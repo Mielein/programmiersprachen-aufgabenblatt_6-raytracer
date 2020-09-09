@@ -66,7 +66,7 @@ HitPoint Box::intersect(Ray const& ray) const{
     //std::cout<<min_.x<<std::endl;
     //std::cout<<max_.x<<std::endl;
     //std::cout<<ray_local.origin_.x<<std::endl;
-    std::cout<<tmin_x<<"tmin_x"<<std::endl;
+    //std::cout<<tmin_x<<"tmin_x"<<std::endl;
     //std::cout<<ray_local.direction_.x;
     glm::vec3 p_x_min = ray_local.origin_ + tmin_x*ray_local.direction_;
     glm::vec3 p_x_max = ray_local.origin_ + tmax_x*ray_local.direction_;
@@ -140,7 +140,8 @@ HitPoint Box::intersect(Ray const& ray) const{
         hit.intersection_ = true;
         hit.intersect_direction_ = ray.direction_;
         hit.distance_ = tmin;
-        hit.world_transform(world_transform_,world_transform_inv_);
+        std::cout<<min_.y<<" "<<max_.y<<" "<<p_x_min.y<<" "<<p_x_max.y<<std::endl;
+        //hit.world_transform(world_transform_,world_transform_inv_);
         //std::cout<<tmin<<std::endl;
         //std::cout<<hit.normal_.x<<hit.normal_.y<<hit.normal_.z<<std::endl;
         //std::cout<<hit.distance_<<std::endl;
