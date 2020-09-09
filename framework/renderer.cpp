@@ -113,7 +113,7 @@ Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, R
     }
     return {0.0f,0.0f,0.0f};
   } */
-/*   std::cout << claculateDiffuse(shape,scene,hit);
+   /*std::cout << claculateDiffuse(shape,scene,hit);
   std::cout << calculateAmbient(shape,scene,hit);
   std::cout << calculateSpecular(shape,scene,hit) << std::endl; */
 
@@ -140,16 +140,17 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
   Color diffused_clr{0.0f,0.0f,0.0f};
   std::vector<Color> calc_clrs;
   
+ 
   for(auto light : scene.light_vec){
     bool obstacle = false;
-    /* HitPoint light_hit;   */
+    HitPoint light_hit;
     glm::vec3 vec_lights = glm::normalize(light->pos_ - hit.intersect_pt_);
     Ray ray_lights{hit.intersect_pt_ + 0.1f * hit.normal_,vec_lights}; //checks if obstacle is between Light and intersection
     
-    for(auto i : scene_.shape_vec){
-/*       light_hit = i->intersect(ray_lights); */
-      if(i->intersect(ray_lights).intersection_){
-        std::cout << "hier treffen wir was" << std::endl;
+    for(auto i : scene.shape_vec){
+      light_hit = i->intersect(ray_lights);
+      std::cout << i->intersect(ray_lights).name_ << std::endl;
+      if(light_hit.intersection_){
         obstacle = true;
       }
     }
@@ -161,7 +162,6 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
         float cross_prod = glm::dot(hit.normal_,vec_lights);
         cross_prod = std::max(cross_prod, 0.0f);
         calc_clrs.push_back({(ip*kd)*cross_prod});
-
     }    
   }
 
@@ -170,8 +170,11 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
     Color clamp_clr = {glm::clamp(clr.r, clr.g, clr.b)};
     diffused_clr += clamp_clr;
   }   
+  std::cout << diffused_clr << std::endl;
+  std::cout << "" << std::endl;
   return diffused_clr;
 }
+
 Color Renderer::calculateReflection(HitPoint const& hit, int depth){  
   
 }
