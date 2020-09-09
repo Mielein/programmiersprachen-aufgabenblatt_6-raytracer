@@ -18,9 +18,9 @@ int main(int argc, char* argv[]){
   std::vector<std::shared_ptr<Shape>> shape_vec; 
   std::vector<std::shared_ptr<Light>> light_vec;
   std::map<std::string,std::shared_ptr<Material>> mat_map;
-  Material green {"Green", {0.0f,1.0f,0.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}, 0.0f};
-  Material orange {"Orange", {1.0f,0.65f,0.0f}, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f}, 0.0f};
-  Material random {"random", {0.815f,0.815f,0.815f}, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f}, 0.0f};
+  Material green {"Green", {0.0f,1.0f,0.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}, 2.0f};
+  Material orange {"Orange", {1.0f,0.65f,0.0f}, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f}, 2.0f};
+  Material random {"random", {0.815f,0.815f,0.815f}, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f}, 2.0f};
   std::shared_ptr<Material> green_ptr = std::make_shared<Material>(green);
   std::shared_ptr<Material> orange_ptr = std::make_shared<Material>(orange);
   std::shared_ptr<Material> random_ptr = std::make_shared<Material>(random);
@@ -29,9 +29,9 @@ int main(int argc, char* argv[]){
   mat_map.insert(std::make_pair("Random", random_ptr));
 
 
-  Sphere sphere1{"pussy",{0.0f,0.0f,1.0f}, green_ptr,{0.0f,0.0f,-100.0f}, 7.0f};
-  Sphere sphere2{"pimpim",{1.0f,0.0f,0.0f}, orange_ptr,{0.0f,7.5f,-100.0f}, 5.0f};
-  Box box1{{10.0f, -5.0f,-70.0f},{20.0f, 5.0f,-120.0f},"jucyButt",{0.0f,0.0f,0.0f},random_ptr};
+  Sphere sphere1{"pussy",{0.0f,0.0f,1.0f}, green_ptr,{4.0f,0.0f,-100.0f}, 7.0f};
+  Sphere sphere2{"pimpim",{1.0f,0.0f,0.0f}, orange_ptr,{5.0f,7.5f,-100.0f}, 5.0f};
+  Box box1{{-10.0f, -15.0f,-70.0f},{-20.0f, -5.0f,-120.0f},"jucyButt",{0.0f,0.0f,0.0f},random_ptr};
   Box box2{{15.0f, -6.0f,-80.0f},{25.0f, 6.0f,-140.0f},"francesco",{0.0f,0.0f,0.0f},green_ptr};
 
   std::shared_ptr<Shape>spheres1 = std::make_shared<Sphere>(sphere1);
@@ -44,18 +44,18 @@ int main(int argc, char* argv[]){
   shape_vec.push_back(spheres1);
   shape_vec.push_back(spheres2);
   shape_vec.push_back(boxes1);
-  shape_vec.push_back(boxes2);
+  //shape_vec.push_back(boxes2);
 
   for(auto i : shape_vec){
     std::cout << i <<  "\n"<< std::endl;
   }
 
-  Light light{"stinkyLight",{-100.0f, 100.0 ,0.0f}, {0.5333f, 0.0f, 1.0f}, 10.0f};
+  Light light{"stinkyLight",{-100.0f, 100.0 ,0.0f}, {0.0f, 0.0f, 1.0f}, 2.0f};
   std::shared_ptr<Light>lights = std::make_shared<Light>(light);
   light_vec.push_back(lights);
 
   Camera cam{};
-  Ambient amby{"a",{1.0,0.2,1.4}};
+  Ambient amby{"a",{0.1,0.1,0.1}};
   Scene s{shape_vec,light_vec,mat_map,cam,amby}; 
   Scene scene = sdfParser("../../source/example.sdf"); 
 
@@ -63,16 +63,10 @@ int main(int argc, char* argv[]){
     std::cout<< a->name_ << std::endl;
   }
   
-
-
-
 /*   std::cout<<"sdf read"<<std::endl;*/
     /*  renderer.render(scene);  */
       renderer.render(scene); 
        
-
-  
-
 
   std::cout<<scene.background_.name_<<" ambient name"<<std::endl;
   std::cout<<scene.background_.color_.r<<" "<<scene.background_.color_.g<<" "<<scene.background_.color_.b<<" ambient colour"<<std::endl;
