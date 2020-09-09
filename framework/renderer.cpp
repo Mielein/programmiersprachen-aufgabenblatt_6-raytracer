@@ -10,6 +10,7 @@
 #include "renderer.hpp"
 #include <memory>
 #include <glm/glm.hpp>
+#include "tools.hpp"
 
 Renderer::Renderer(unsigned w, unsigned h, std::string const& file):
   width_(w),
@@ -116,7 +117,7 @@ Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, R
   std::cout << calculateSpecular(shape,scene,hit) << std::endl; */
 
   
-  return claculateDiffuse(shape, scene, hit) + calculateAmbient(shape, scene, hit) + calculateSpecular(shape, scene, hit);
+  return claculateDiffuse(shape, scene, hit) +  calculateAmbient(shape, scene, hit) + calculateSpecular(shape, scene, hit);
 }
 
 Color Renderer::tonemapping (Color const& clr){
@@ -137,7 +138,6 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
   Color diffused_clr{0.0f,0.0f,0.0f};
   std::vector<Color> result;
 
-
   for(auto light : scene.light_vec){
     bool obstacle = false;
     HitPoint light_hit;
@@ -147,22 +147,31 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
     
     for(auto i : scene.shape_vec){
       light_hit = i->intersect(ray_lights);
-      //std::cout << i->intersect(ray_lights).name_ << std::endl;
-    }
+      // erstmal unwichtig  std::cout << i->intersect(ray_lights).intersect_pt_.x << " " << i->intersect(ray_lights).intersect_pt_.y << " " << i->intersect(ray_lights).intersect_pt_.z << std::endl;
       if(light_hit.intersection_){
         obstacle = true;
+      }
     }
-    
-    if(!obstacle){
+
+    if(obstacle){
         //std::cout << "we use the obstacle, it is true" << std::endl;
         Color ip{light->color_*light->brightness_};
         Color kd = shape->getMat()->kd_;
-        float cross_prod = glm::dot(hit.normal_,vec_lights);
+        float cross_prod = -(glm::dot(hit.normal_,glm::normalize(vec_lights)));
+        //std::cout << cross_prod << std::endl;
         cross_prod = std::max(cross_prod, 0.0f);
-        result.push_back({(ip.r*kd.r*cross_prod),(ip.g*kd.g*cross_prod),(ip.b*kd.g*cross_prod)});
+        //std::cout << cross_prod << std::endl;
+        //std::cout << kd; 
+        //std::cout << ip;
+        //printVec(vec_lights);
+        //printVec(hit.normal_); 
+        //std::cout << ((ip*kd)*cross_prod) << std::endl;
+        result.push_back({(ip*kd)*cross_prod});
+        //std::cout << std::endl;
     } 
   }
-  //std::cout << "the Vec has this many elements: " << calc_clrs.size() << std::endl; 
+  //std::cout << "the Vec has this many elements: " << result.size() << std::endl; 
+  //std::cout << "first element: " << result[0] << std::endl;
   for(auto clr : result){  
     Color clamp_clr = clamping(clr);
     diffused_clr += clamp_clr;
@@ -184,19 +193,23 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
     bool obstacle = false;
     HitPoint light_hit;
     
-    glm::vec3 vec_lights = glm::normalize(light->pos_ - hit.intersect_pt_);
-    Ray ray_lights{hit.intersect_pt_+0.1f*hit.normal_,vec_lights}; //checks if obstacle is between Light and intersection
+    glm::vec3 vec_lights{light->pos_ - hit.intersect_pt_};
+    Ray ray_lights{hit.intersect_pt_ + 0.1f * hit.normal_,glm::normalize(vec_lights)}; //checks if obstacle is between Light and intersection
+
     for(auto i : scene.shape_vec){
       light_hit = i->intersect(ray_lights);
-
       if(light_hit.intersection_){
         obstacle = true;
       }
     }
+
     if(obstacle){
       float m = shape->getMat()->m_;
-      glm::vec3 r = 2.0f*glm::dot(hit.normal_,vec_lights)*hit.normal_-vec_lights; //glm::dot -> Skalarprodukt
+      glm::vec3 r = 2.0f*glm::dot(hit.normal_,glm::normalize(vec_lights))*hit.normal_-glm::normalize(vec_lights); //glm::dot -> Skalarprodukt
+      //printVec(r);
       glm::vec3 v = glm::normalize(scene.camera_.pos_ - hit.intersect_pt_);
+      //printVec(v);
+      //std::cout << std::endl;
       float cross_prod = glm::dot(r,v);
       cross_prod = std::max(cross_prod, 0.0f);
       if(cross_prod < 0){
@@ -205,7 +218,7 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
       Color ip{light->color_*light->brightness_};
       float cos = pow(cross_prod,m);
       float m_2 = (m+2)/(2*M_PI);
-      calc_clrs.push_back({ks.r*ip.r*cos*m_2,ks.g*ip.g*cos*m_2,ks.b*ip.b*cos*m_2});      
+      calc_clrs.push_back({((ks*ip)*cos)*m_2});      
     } 
  
   }
