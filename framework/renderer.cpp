@@ -153,7 +153,7 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
           obstacle = true;
     }
 
-    if(obstacle){
+    if(!obstacle){
         std::cout << "we use the obstacle, it is true" << std::endl;
         Color ip{light->color_*light->brightness_};
         Color kd = shape->getMat()->kd_;
@@ -164,7 +164,7 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
   }
   //std::cout << "the Vec has this many elements: " << calc_clrs.size() << std::endl; 
   for(auto clr : result){  
-    Color clamp_clr = {glm::clamp(clr.r, clr.g, clr.b)};
+    Color clamp_clr = clamping(clr);
     diffused_clr += clamp_clr;
   } 
   //std::cout << diffused_clr << std::endl;
