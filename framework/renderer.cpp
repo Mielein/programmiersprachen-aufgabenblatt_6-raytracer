@@ -143,8 +143,12 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
     Ray ray_lights{hit.intersect_pt_ + 0.1f * hit.normal_,glm::normalize(vec_lights)}; //checks if obstacle is between Light and intersection
     for(auto i : scene.shape_vec){
       light_hit = i->intersect(ray_lights);
+<<<<<<< HEAD
 /*       std::cout<<light_hit.name_<<std::endl;
       std::cout<<light_hit.intersection_<<std::endl; */
+=======
+      //std::cout << i->intersect(ray_lights).name_ << std::endl;
+>>>>>>> 95585a00c6583d813c27f8c93568e063b294e25d
       if(light_hit.intersection_){
         obstacle = true;
       }
@@ -164,11 +168,20 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
   }
 
   //std::cout << "the Vec has this many elements: " << calc_clrs.size() << std::endl; 
+<<<<<<< HEAD
   //for(auto clr : calc_clrs){  
 
   //}   
   std::cout << diffused_clr << std::endl;
   std::cout << "" << std::endl;
+=======
+  for(auto clr : calc_clrs){  
+    Color clamp_clr = {glm::clamp(clr.r, clr.g, clr.b)};
+    diffused_clr += clamp_clr;
+  }   
+  //std::cout << diffused_clr << std::endl;
+  //std::cout << "" << std::endl;
+>>>>>>> 95585a00c6583d813c27f8c93568e063b294e25d
   return diffused_clr;
 }
 

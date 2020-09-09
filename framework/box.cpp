@@ -18,27 +18,15 @@ Box::Box(glm::vec3 min, glm::vec3 max):
 Box::Box(glm::vec3 min, glm::vec3 max,std::string name, Color color):
     Shape(name, color)
     {
-        if(min.x < max.x){
-            min_ = min;
-            max_ = max;
-        }
-        else{
-            min_ = max;
-            max_ = min;
-        }
+        min_ = checkMin(min, max);
+        max_ = checkMax(min, max);
     }
 
 Box::Box(glm::vec3 min, glm::vec3 max,std::string name, Color color, std::shared_ptr<Material> mat):
     Shape(name, color, mat)
     {
-        if(min.x < max.x){
-            min_ = min;
-            max_ = max;
-        }
-        else{
-            min_ = max;
-            max_ = min;
-        }
+        min_ = checkMin(min, max);
+        max_ = checkMax(min, max);
     }
    
 
@@ -52,6 +40,42 @@ float Box::area() const{
 float Box::volume() const{
     return abs((min_.x-max_.x)*(min_.y-max_.y)*(min_.z-max_.z));
 }
+
+glm::vec3 checkMax(glm::vec3 input1, glm::vec3 input2){
+    glm::vec3 tmp;
+
+    if (input1.x >= input2.x){
+        tmp.x = input1.x;}
+    else{tmp.x = input2.x;}
+    
+    if (input1.y >= input2.y){
+        tmp.y = input1.y;}
+    else{tmp.y = input2.y;}
+
+    if (input1.z >= input2.z){
+        tmp.z = input1.z;}
+    else{tmp.z = input2.z;}
+
+    return tmp;
+};
+
+glm::vec3 checkMin(glm::vec3 input1, glm::vec3 input2){
+    glm::vec3 tmp;
+
+    if (input1.x <= input2.x){
+        tmp.x = input1.x;}
+    else{tmp.x = input2.x;}
+    
+    if (input1.y <= input2.y){
+        tmp.y = input1.y;}
+    else{tmp.y = input2.y;}
+
+    if (input1.z <= input2.z){
+        tmp.z = input1.z;}
+    else{tmp.z = input2.z;}
+
+    return tmp;
+};
 
 HitPoint Box::intersect(Ray const& ray) const{
     HitPoint hit;
@@ -85,7 +109,6 @@ HitPoint Box::intersect(Ray const& ray) const{
 
     if(p_x_min.y <= max_.y && p_x_min.y >= min_.y && p_x_min.z <= max_.z && p_x_min.z >= min_.z){
         was_hit = true;
-        std::cout<<" ICH BIN TRUE";
         hit.intersect_pt_ = p_x_min;
         tmin = tmin_x;
         hit.normal_ = glm::vec3{-1.0f,0.0f,0.0f};
@@ -94,7 +117,6 @@ HitPoint Box::intersect(Ray const& ray) const{
     if(p_x_max.y <= max_.y && p_x_max.y >= min_.y && p_x_max.z <= max_.z && p_x_max.z >= min_.z){
         was_hit = true;
         if(tmin_x > tmax_x){
-            std::cout<<" ICH BIN TRUE";
             hit.intersect_pt_ = p_x_max;
             tmin = tmax_x;
             hit.normal_ = glm::vec3{1.0f,0.0f,0.0f};
@@ -104,21 +126,21 @@ HitPoint Box::intersect(Ray const& ray) const{
     if(p_y_min.x <= max_.x && p_y_min.x >= min_.x && p_y_min.z <= max_.z && p_y_min.z >= min_.z){
         was_hit = true;
         if(tmin > tmin_y){
-            std::cout<<" ICH BIN TRUE";
             hit.intersect_pt_ = p_y_min;
             tmin = tmin_y;
             hit.normal_ = glm::vec3{0.0f,-1.0f,0.0f};  
         }
     }
+
     if(p_y_max.x <= max_.x && p_y_max.x >= min_.x && p_y_max.z <= max_.z && p_y_max.z >= min_.z){
         was_hit = true;
         if(tmin > tmax_y){
-        std::cout<<" ICH BIN TRUE";
             hit.intersect_pt_ = p_y_max;
             tmin = tmax_y;
             hit.normal_ = glm::vec3{0.0f,1.0f,0.0f};
         }
     }
+
     if(p_z_min.x <= max_.x && p_z_min.x >= min_.x && p_z_min.y <= max_.y && p_z_min.y >= min_.y){
         was_hit = true;
         if(tmin > tmin_z){
