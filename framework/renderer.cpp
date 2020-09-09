@@ -142,28 +142,31 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
   
   for(auto light : scene.light_vec){
     bool obstacle = false;
-    HitPoint light_hit;  
+    /* HitPoint light_hit;   */
     glm::vec3 vec_lights = glm::normalize(light->pos_ - hit.intersect_pt_);
     Ray ray_lights{hit.intersect_pt_ + 0.1f * hit.normal_,vec_lights}; //checks if obstacle is between Light and intersection
     
     for(auto i : scene_.shape_vec){
-      light_hit = i->intersect(ray_lights);
-      if(light_hit.intersection_){
+/*       light_hit = i->intersect(ray_lights); */
+      if(i->intersect(ray_lights).intersection_){
+        std::cout << "hier treffen wir was" << std::endl;
         obstacle = true;
       }
     }
 
-    if(!obstacle){
+    if(obstacle){
+        //std::cout << "we use the obstacle, it is true" << std::endl;
         Color ip{light->color_*light->brightness_};
         Color kd = shape->getMat()->kd_;
         float cross_prod = glm::dot(hit.normal_,vec_lights);
         cross_prod = std::max(cross_prod, 0.0f);
         calc_clrs.push_back({(ip*kd)*cross_prod});
-    }
+
+    }    
   }
 
-  for(auto clr : calc_clrs){
-    
+  std::cout << "the Vec has this many elements: " << calc_clrs.size() << std::endl; 
+  for(auto clr : calc_clrs){  
     Color clamp_clr = {glm::clamp(clr.r, clr.g, clr.b)};
     diffused_clr += clamp_clr;
   }   
@@ -190,7 +193,7 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
         obstacle = true;
       }
     }
-    if(!obstacle){
+    if(obstacle){
       float m = shape->getMat()->m_;
       glm::vec3 r = 2.0f*glm::dot(hit.normal_,vec_lights)*hit.normal_-vec_lights; //glm::dot -> Skalarprodukt
       glm::vec3 v = glm::normalize(scene.camera_.pos_ - hit.intersect_pt_);
