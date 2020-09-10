@@ -1,9 +1,8 @@
 #include "ray.hpp"
 
-Ray::Ray transformRay(glm::mat4 const& mat, Ray const& ray){
+void Ray::transformRay(glm::mat4 const& mat){
       //origin{x,y,z,1}  
-      glm::vec3 origin = glm::vec3(mat*glm::vec4(ray.origin_, 1.0f));
+      origin_ = glm::vec3(mat*glm::vec4(origin_, 1.0f));
       //direction{x,y,z,0}
-      glm::vec3 direction = glm::vec3(mat*glm::vec4(ray.direction_,0.0f));  
-      return {origin,glm::normalize(direction)};      
+      direction_ = glm::vec3(mat*glm::vec4(direction_,0.0f));  
 }

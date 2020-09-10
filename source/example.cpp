@@ -1,7 +1,6 @@
 #include "../framework/fensterchen.hpp"
 #include "renderer.hpp"
 #include "scene.hpp"
-#include "triangle.hpp"
 #include "shape.hpp"
 #include <GLFW/glfw3.h>
 #include <utility>
@@ -79,7 +78,8 @@ int main(int argc, char* argv[]){
   }
   
   Ray test{{0.0f,0.0f,0.0f},{1.0f,0.0f,-1.0f}};
-  test.transformRay(sphere1.getWorldInv(),test);
+  test.transformRay(sphere1.getWorldInv());
+
 /*   std::cout<<"sdf read"<<std::endl;*/
     /*  renderer.render(scene);  */
       //renderer.render(scene); 
