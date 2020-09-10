@@ -23,6 +23,7 @@ class Shape{
     virtual std::ostream& print( std::ostream& os) const;
     std::string getName() const;
     std::shared_ptr<Material> getMat() const;
+    void transformation(glm::mat4 const& mat);
     glm::mat4 getWorldInv() const;
 
     protected:

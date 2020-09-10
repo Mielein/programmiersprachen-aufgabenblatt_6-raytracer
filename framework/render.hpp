@@ -5,8 +5,9 @@
 #include <string>
 #include <glm/glm.hpp>
 
-struct Render {
+struct RenderBefehl {
     std::vector<Scene> render_me;
+
     for(auto i :: render_me){
         render(i);
     }

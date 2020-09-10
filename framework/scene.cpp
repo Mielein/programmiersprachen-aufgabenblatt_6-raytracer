@@ -230,8 +230,84 @@ Scene sdfParser(std::string const& file){
 /*             std::cout<<ambient_name<<std::endl; 
             std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl;  */
         }
+        if("transform" == identifier){
+            std::cout<<"identifier content: "<<identifier<<std::endl;
+            std::string transOb_name;
+            std::string transformation;
+            float x,y,z,angle;
+            in_sstream >> transOb_name;
+            in_sstream >> transformation;
+            in_sstream >> x;
+            in_sstream >> y;
+            in_sstream >> z;
+
+            if("scale" == transformation){
+                std::cout<<"transformation: "<<transformation<<std::endl;
+
+                glm::mat4 mat = glm::mat4{
+                    glm::vec4{x,0.0f,0.0f,0.0f},
+                    glm::vec4{0.0f,y,0.0f,0.0f},
+                    glm::vec4{0.0f,0.0f,z,0.0f},
+                    glm::vec4{0.0f,0.0f,0.0f,1.0f}                   
+                };
+                for(auto shape : s.shape_vec){
+                    shape->transformation(mat);
+                }
+            }
+            if("translate" == transformation){
+                std::cout<<"transformation: "<<transformation<<std::endl;
+
+                glm::mat4 mat = glm::mat4{
+                    glm::vec4{1.0f,0.0f,0.0f,x},
+                    glm::vec4{0.0f,1.0f,0.0f,y},
+                    glm::vec4{0.0f,0.0f,1.0f,z},
+                    glm::vec4{0.0f,0.0f,0.0f,1.0f}                    
+                };
+                for(auto shape : s.shape_vec){
+                    shape->transformation(mat);
+                }                
+            }
+            if("rotate" == transformation){
+                std::cout<<"transformation: "<<transformation<<std::endl;
+
+                in_sstream >> angle;
+                if(x == 1){
+                    glm::mat4 mat = glm::mat4{
+                    glm::vec4{1.0f,0.0f,0.0f,0.0f},
+                    glm::vec4{0.0f,cos(angle),-sin(angle),0.0f},
+                    glm::vec4{0.0f,sin(angle),cos(angle),0.0f},
+                    glm::vec4{0.0f,0.0f,0.0f,1.0f} 
+                    }; 
+                    for(auto shape : s.shape_vec){
+                        shape->transformation(mat);
+                    }                                       
+                }
+                if(y == 1){
+                    glm::mat4 mat = glm::mat4{
+                    glm::vec4{cos(angle),0.0f,-sin(angle),0.0f},
+                    glm::vec4{0.0f,1.0f,0.0f,0.0f},
+                    glm::vec4{sin(angle),0.0f,cos(angle),0.0},
+                    glm::vec4{0.0f,0.0f,0.0f,1.0f}                    
+                };
+                    for(auto shape : s.shape_vec){
+                        shape->transformation(mat);
+                    }   
+                }
+                if(z == 1){
+                    glm::mat4 mat = glm::mat4{
+                    glm::vec4{cos(angle),-sin(angle),0.0f,0.0f},
+                    glm::vec4{sin(angle),cos(angle),0.0f,0.0f},
+                    glm::vec4{0.0f,0.0f,1.0f,0.0f},
+                    glm::vec4{0.0f,0.0f,0.0f,1.0f},                    
+                    };
+                    for(auto shape : s.shape_vec){
+                        shape->transformation(mat);
+                    } 
+                }
+            }
+        }
         if("render" == identifier){
-            //std::cout<<"class content: "<<class_name<<std::endl;
+            std::cout<<"identifier content: "<<identifier<<std::endl;
             std::string render_name;
             std::string cam_name;
             std::string filename;
