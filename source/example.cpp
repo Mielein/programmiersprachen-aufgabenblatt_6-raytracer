@@ -90,6 +90,7 @@ int main(int argc, char* argv[]){
     std::cout<< a->name_ << std::endl;
   }
   
+  sdf_render("../../source/example.sdf");
   /* Ray test{{0.0f,0.0f,0.0f},{1.0f,0.0f,-1.0f}};
   test.transformRay(sphere1.getWorldInv()); */
 

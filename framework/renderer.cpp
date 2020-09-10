@@ -35,19 +35,11 @@ Renderer::Renderer(unsigned w, unsigned h, std::string const& file, Scene const&
   ppm_(width_, height_),
   scene_(scene){}
 
-Renderer::Renderer(unsigned w, unsigned h, std::string const& file, Scene const& scene, unsigned depth):
-  width_(w),
-  height_(h),
-  color_buffer_(w*h, Color{0.0, 0.0, 0.0}),
-  filename_(file),
-  ppm_(width_, height_),
-  scene_(scene),
-  depth_(depth){}
 
 void sdf_render(){
   Scene s;
-  s.
-  render(s);
+/*   s.
+  render(s); */
 }
 
 void Renderer::render(Scene const& scene){
@@ -292,4 +284,16 @@ void Renderer::write(Pixel const& p){
     color_buffer_[buf_pos] = p.color;
   }
   ppm_.write(p);
+}
+
+Renderer sdf_render(std::string const& filename){
+  Scene output = sdfParser(filename);
+  std::cout << std::endl;
+  Renderer tmp = {output.render_value.w, output.render_value.h, output.render_value.file, output.render_value.depth};
+  /* std::cout << output.render_value.w << std::endl;
+  std::cout << output.render_value.h << std::endl;
+  std::cout << output.render_value.file << std::endl;
+  std::cout << output.render_value.depth << std::endl; */
+  tmp.render(output);
+  return tmp;
 }

@@ -9,21 +9,19 @@
 //now single threaded again
 int main(int argc, char* argv[])
 {
-  unsigned const image_width = 800;
-  unsigned const image_height = 600;
-  std::string const filename = "./checkerboard.ppm";
-
-  Renderer renderer{image_width, image_height, filename};
 
   //renderer.render();
+  Renderer scene = sdf_render("../../source/example.sdf");
+  
 
-  Window window{{image_width, image_height}};
+  Window window{{scene.get_width(), scene.get_height()}};
 
   while (!window.should_close()) {
     if (window.get_key(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-      window.close();
+      window.close();      
     }
-    window.show(renderer.color_buffer());
+    //window.show(renderer.color_buffer());
+    window.show(scene.color_buffer());
   }
 
   return 0;
