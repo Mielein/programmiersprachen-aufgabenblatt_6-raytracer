@@ -316,23 +316,24 @@ s.background_.color_.r = clr_r;
             unsigned height;
             unsigned depth;
 
-            //in_sstream >> render_name;
+            in_sstream >> render_name;
             in_sstream >> cam_name;
             in_sstream >> filename;
             in_sstream >> width;
             in_sstream >> height;
             in_sstream >> depth;
 
-/*          std::cout<<render_name<<std::endl;
+/*             std::cout<<render_name<<std::endl;
             std::cout<<cam_name<<std::endl;
             std::cout<<filename<<std::endl;
             std::cout<<width<<std::endl; 
-            std::cout<<height<<std::endl; */
-/*             s.camera_.name_ = cam_name;
-            s.file = filename;
-            s.w = width;
-            s.h = height;
-            s.depth = depth; */
+            std::cout<<height<<std::endl; 
+            std::cout<<depth<<std::endl;  */
+            //s.camera_.name_ = cam_name;
+            s.render_value.file = filename;
+            s.render_value.w = width;
+            s.render_value.h = height;
+            s.render_value.depth = depth;
 
             
         }

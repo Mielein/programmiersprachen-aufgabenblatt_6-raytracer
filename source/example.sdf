@@ -16,4 +16,4 @@ define camera eye 60.0
 #xform
 #transform eye rotate -45 0 1 0
 #transform eye translate 100 0 100
-render renderPeter eye ./example.ppm 800 600 10
+render renderPeter eye example 800 600 10
