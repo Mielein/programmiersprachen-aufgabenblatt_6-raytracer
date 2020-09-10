@@ -29,9 +29,9 @@ Scene sdfParser(std::string const& file){
             if("material" == class_name){
                 //parse material attributes
                 std::string material_name;
-                //ka -> ambiente
-                //kd -> spiegeld
-                //ks -> reflexion
+                //ka -> ambient
+                //kd -> diffuse
+                //ks -> specular
                 float ka_red, ka_green, ka_blue;
                 float kd_red, kd_green, kd_blue;
                 float ks_red, ks_green, ks_blue;
