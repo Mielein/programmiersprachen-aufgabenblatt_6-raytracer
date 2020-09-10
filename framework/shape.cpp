@@ -41,7 +41,10 @@ std::string Shape::getName() const{
 glm::mat4 Shape::getWorldInv() const{
     return world_transform_inv_;
 }
-
+void Shape::transformation(glm::mat4 const& mat){
+    world_transform_ *= mat;
+    world_transform_inv_ = glm::inverse(world_transform_);
+}
 std::ostream& Shape::print( std::ostream& os) const{
     os<<"name: "<<name_<<"\n"<<"color: "<<color_;
     return os;
