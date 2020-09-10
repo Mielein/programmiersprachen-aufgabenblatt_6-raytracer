@@ -2,6 +2,7 @@
 #include "renderer.hpp"
 #include "scene.hpp"
 #include "triangle.hpp"
+#include "shape.hpp"
 #include <GLFW/glfw3.h>
 #include <utility>
 #include <cmath>
@@ -61,6 +62,7 @@ int main(int argc, char* argv[]){
 
   for(auto i : shape_vec){
     std::cout << i <<  "\n"<< std::endl;
+    
   }
 
   Light light{"stinkyLight",{-100.0f, 100.0 ,0.0f}, {0.0f, 0.0f, 1.0f}, 2.0f};
@@ -76,9 +78,11 @@ int main(int argc, char* argv[]){
     std::cout<< a->name_ << std::endl;
   }
   
+  Ray test{{0.0f,0.0f,0.0f},{1.0f,0.0f,-1.0f}};
+  test.transformRay(sphere1.getWorldInv(),test);
 /*   std::cout<<"sdf read"<<std::endl;*/
     /*  renderer.render(scene);  */
-      renderer.render(scene); 
+      //renderer.render(scene); 
        
 
 /*   std::cout<<scene.background_.name_<<" ambient name"<<std::endl;

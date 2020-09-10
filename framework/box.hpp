@@ -2,7 +2,6 @@
 #define BOX_HPP
 
 #include "shape.hpp"
-#include "plane.hpp"
 #include <glm/vec3.hpp>
 
 

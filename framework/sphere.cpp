@@ -1,5 +1,4 @@
 #include "sphere.hpp"
-#include "ray.hpp"
 #include <cmath>
 #include <glm/glm.hpp>
 #include <glm/gtx/intersect.hpp>
@@ -38,11 +37,13 @@ float Sphere::volume() const{
     return M_PI*pow(radius_,3)*4/3;
 }
 HitPoint Sphere::intersect(Ray const& ray) const{
-    Ray trans_ray = trans
+    Ray trans_ray;
+    trans_ray.transformRay(world_transform_inv_,ray);
     float distance = 1.0f;
     bool did_it_hit = glm::intersectRaySphere(ray.origin_,glm::normalize(ray.direction_), mid_, pow(radius_,2),distance);
     HitPoint hit_sphere{did_it_hit,distance,name_,color_,ray.origin_+(distance*ray.direction_),glm::normalize(ray.direction_)};
     hit_sphere.normal_ = glm::normalize(mid_-hit_sphere.intersect_pt_);
+    hit_sphere.world_transform(world_transform_,world_transform_inv_);
     return hit_sphere;
 }
 std::ostream& Sphere::print(std::ostream& os) const{

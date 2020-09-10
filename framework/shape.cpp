@@ -38,6 +38,10 @@ std::string Shape::getName() const{
     return name_;
 }
 
+glm::mat4 Shape::getWorldInv() const{
+    return world_transform_inv_;
+}
+
 std::ostream& Shape::print( std::ostream& os) const{
     os<<"name: "<<name_<<"\n"<<"color: "<<color_;
     return os;
