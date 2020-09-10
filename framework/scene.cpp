@@ -197,8 +197,9 @@ Scene sdfParser(std::string const& file){
                         std::cerr << "Hier findet der doofe parser kein Material" << std::endl;
                     }
                     Triangle triangle{triangle_name,mat3->second,a,b,c};
-                    std::shared_ptr<Shape> tri_ptr = std::make_shared<Box>(triangle);
+                    std::shared_ptr<Shape> tri_ptr = std::make_shared<Triangle>(triangle);
                     s.shape_vec.push_back(tri_ptr); 
+                }    
             }
 /*             else {
                 std::cout<<"Line was not valid!"<<std::endl;
