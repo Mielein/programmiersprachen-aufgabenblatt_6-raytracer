@@ -22,20 +22,25 @@ int main(int argc, char* argv[]){
   Material green {"Green", {0.0f,1.0f,0.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}, 2.0f};
   Material orange {"Orange", {1.0f,0.65f,0.0f}, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f}, 2.0f};
   Material random {"random", {0.815f,0.815f,0.815f}, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f}, 2.0f};
+  Material rand_pt_2 {"random_pt_2", {0.3f,0.67,0.7}, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f}, 2.0f};
+
   std::shared_ptr<Material> green_ptr = std::make_shared<Material>(green);
   std::shared_ptr<Material> orange_ptr = std::make_shared<Material>(orange);
   std::shared_ptr<Material> random_ptr = std::make_shared<Material>(random);
+  std::shared_ptr<Material> random2_ptr = std::make_shared<Material>(rand_pt_2);
+
   mat_map.insert(std::make_pair("Green", green_ptr));
   mat_map.insert(std::make_pair("Orange", orange_ptr));
   mat_map.insert(std::make_pair("Random", random_ptr));
+  mat_map.insert(std::make_pair("Random part 2", random2_ptr));
 
 
-  Sphere sphere1{"pussy",{0.0f,0.0f,1.0f}, green_ptr,{4.0f,0.0f,-100.0f}, 7.0f};
-  Sphere sphere2{"pimpim",{1.0f,0.0f,0.0f}, orange_ptr,{5.0f,7.5f,-100.0f}, 5.0f};
-  Sphere sphere3{"pullermann",{0.0f,1.0f,0.0f}, random_ptr,{6.0f,15.5f,-100.0f}, 5.0f};
+  Sphere sphere1{"pussy",{0.0f,0.0f,1.0f}, green_ptr,{4.0f,-15.0f,-100.0f}, 7.0f};
+  Sphere sphere2{"pimpim",{1.0f,0.0f,0.0f}, orange_ptr,{-15.0f,12.5f,-100.0f}, 5.0f};
+  Sphere sphere3{"pullermann",{0.0f,1.0f,0.0f}, random_ptr,{10.0f,25.5f,-100.0f}, 5.0f};
   Box box1{{-10.0f, -15.0f,-70.0f},{-20.0f, -5.0f,-120.0f},"jucyButt",{0.0f,0.0f,0.0f},random_ptr};
-  Box box2{{15.0f, -6.0f,-80.0f},{25.0f, 6.0f,-140.0f},"francesco",{0.0f,0.0f,0.0f},green_ptr};
-  Triangle triangle1{"pusspuss",green_ptr,{},{15.0f, 5.0f,30.0f},{55.0f,15.0f,30.0f},{80.0f, 30.0f,100.0f}};
+  Box box2{{15.0f, -6.0f,-80.0f},{25.0f, 6.0f,-140.0f},"francesco",{0.0f,0.0f,0.0f},random2_ptr};
+  Triangle triangle1{"pusspuss",random2_ptr,{},{4.0f,-15.0f,-100.0f},{-15.0f,12.5f,-100.0f},{10.0f,25.5f,-100.0f}};
  
   std::shared_ptr<Shape>spheres1 = std::make_shared<Sphere>(sphere1);
   std::shared_ptr<Shape>spheres2 = std::make_shared<Sphere>(sphere2);
