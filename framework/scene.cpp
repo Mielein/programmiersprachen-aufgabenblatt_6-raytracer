@@ -79,25 +79,31 @@ Scene sdfParser(std::string const& file){
             }
             if("camera" == class_name){
                 std::string camera_name;
-                glm::vec3 pos, direction;
+                glm::vec3 eye, dir, up;
                 unsigned int fovX;
 
                 in_sstream >> camera_name;
-/*                 in_sstream >> pos.x;
-                in_sstream >> pos.y;
-                in_sstream >> pos.z;
-                in_sstream >> direction.x;
-                in_sstream >> direction.y;
-                in_sstream >> direction.z; */
                 in_sstream >> fovX;
+                in_sstream >> eye.x;
+                in_sstream >> eye.y;
+                in_sstream >> eye.z;
+                in_sstream >> dir.x;
+                in_sstream >> dir.y;
+                in_sstream >> dir.z; 
+                in_sstream >> up.x;
+                in_sstream >> up.y;
+                in_sstream >> up.z;
 
                 //std::cout<<camera_name<<std::endl;
 /*                 std::cout<<cam.pos_.x<<" "<<cam.pos_.y<<" "<<cam.pos_.z<<std::endl;
                 std::cout<<cam.direction_.x<<" "<<cam.direction_.y<<" "<<cam.direction_.z<<std::endl;  
                 std::cout<<fovX<<std::endl;   */
-
-                s.camera_.fovX = fovX;
                 s.camera_.name_ = camera_name;
+                s.camera_.fovX = fovX;
+                s.camera_.pos_ = eye;
+                s.camera_.direction_ = dir;
+                s.camera_.up_ = up;
+                
             }
             if("shape" == class_name){
                 in_sstream>>class_name;
