@@ -76,8 +76,10 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
   for(auto i : scene.shape_vec){ 
     //std::cout << *i << std::endl;
     auto t = i->intersect(ray);
-    if (t.name_ == "pusspuss"){ 
-      //std::cout << t.name_ << std::endl;
+    if (t.intersection_){
+      if(t.name_ == "pusspuss"){ 
+        std::cout << "hit" << std::endl;
+      }
     }
     
 /*     std::cout<<t.distance_<< std::endl;
