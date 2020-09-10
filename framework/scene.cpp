@@ -334,8 +334,6 @@ s.background_.color_.r = clr_r;
             s.render_value.w = width;
             s.render_value.h = height;
             s.render_value.depth = depth;
-
-            
         }
     }
     return s;
