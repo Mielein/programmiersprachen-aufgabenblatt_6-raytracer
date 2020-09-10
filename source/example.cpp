@@ -47,7 +47,7 @@ int main(int argc, char* argv[]){
   std::shared_ptr<Shape>spheres3 = std::make_shared<Sphere>(sphere3);
   std::shared_ptr<Shape>boxes1 = std::make_shared<Box>(box1);
   std::shared_ptr<Shape>boxes2 = std::make_shared<Box>(box2);
-  std::shared_ptr<Shape>triangles1 = std::make_shared<Triangle>(triangle1);
+  //std::shared_ptr<Shape>triangles1 = std::make_shared<Triangle>(triangle1);
 
 
   std::cout << " hier ist bullshit: "<<sphere1.getMat()->ka_ << std::endl;
@@ -57,7 +57,7 @@ int main(int argc, char* argv[]){
   shape_vec.push_back(spheres3);
   shape_vec.push_back(boxes1);
   shape_vec.push_back(boxes2);
-  shape_vec.push_back(triangles1);
+  //shape_vec.push_back(triangles1);
 
   for(auto i : shape_vec){
     std::cout << i <<  "\n"<< std::endl;
