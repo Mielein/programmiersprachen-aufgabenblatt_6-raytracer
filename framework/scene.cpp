@@ -167,7 +167,38 @@ Scene sdfParser(std::string const& file){
                     std::cout<<min.x<<" "<<min.y<<" "<<min.z<<std::endl;
                     std::cout<<max.x<<" "<<max.y<<" "<<max.z<<std::endl; 
                     std::cout<<mat_name<<std::endl;  */
-                } 
+                }
+                if("triangle" == class_name){
+                    std::cout<<"class content: "<<class_name<<std::endl;
+                    std::string triangle_name;
+                    /* float clr_r, clr_g, clr_b; */
+                    glm::vec3 a;
+                    glm::vec3 b;
+                    glm::vec3 c;
+                    std::string mat_name;
+
+                    in_sstream >> triangle_name;
+/*                     in_sstream >> clr_r;
+                    in_sstream >> clr_g;
+                    in_sstream >> clr_b;  */
+                    in_sstream >> a.x;
+                    in_sstream >> a.y;
+                    in_sstream >> a.z;
+                    in_sstream >> b.x;
+                    in_sstream >> b.y;
+                    in_sstream >> b.z;
+                    in_sstream >> c.x;
+                    in_sstream >> c.y;
+                    in_sstream >> c.z;                    
+                    in_sstream >> mat_name;
+
+                    auto mat3 = s.mat_map.find(mat_name);
+                    if (mat3 == s.mat_map.end()){
+                        std::cerr << "Hier findet der doofe parser kein Material" << std::endl;
+                    }
+                    Triangle triangle{triangle_name,mat3->second,a,b,c};
+                    std::shared_ptr<Shape> tri_ptr = std::make_shared<Box>(triangle);
+                    s.shape_vec.push_back(tri_ptr); 
             }
 /*             else {
                 std::cout<<"Line was not valid!"<<std::endl;

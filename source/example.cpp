@@ -34,7 +34,7 @@ int main(int argc, char* argv[]){
   Sphere sphere2{"pimpim",{1.0f,0.0f,0.0f}, orange_ptr,{5.0f,7.5f,-100.0f}, 5.0f};
   Box box1{{-10.0f, -15.0f,-70.0f},{-20.0f, -5.0f,-120.0f},"jucyButt",{0.0f,0.0f,0.0f},random_ptr};
   Box box2{{15.0f, -6.0f,-80.0f},{25.0f, 6.0f,-140.0f},"francesco",{0.0f,0.0f,0.0f},green_ptr};
-  Triangle triangle1{"pusspuss",green_ptr,{},{15.0f, -5.0f,-80.0f},{55.0f,-15.0f,-90.0f},{80.0f, -30.0f,-200.0f}};
+  Triangle triangle1{"pusspuss",green_ptr,{},{15.0f, 5.0f,30.0f},{55.0f,15.0f,30.0f},{80.0f, 30.0f,100.0f}};
  
   std::shared_ptr<Shape>spheres1 = std::make_shared<Sphere>(sphere1);
   std::shared_ptr<Shape>spheres2 = std::make_shared<Sphere>(sphere2);

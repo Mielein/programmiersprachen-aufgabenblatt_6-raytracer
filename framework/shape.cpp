@@ -12,6 +12,13 @@ Shape::Shape(std::string name, Color color):
     world_transform_{glm::vec4{1.0f,0.0f,0.0f,0.0f},glm::vec4{0.0f,1.0f,0.0f,0.0f},glm::vec4{0.0f,0.0f,1.0f,0.0f},glm::vec4{0.0f,0.0f,0.0f,1.0f}},
     world_transform_inv_(glm::inverse(world_transform_)){}
 
+Shape::Shape(std::string name, std::shared_ptr<Material> material):
+    name_{name},
+    color_{1.0f,1.0f,1.0f},
+    material_{material},
+    world_transform_{glm::vec4{1.0f,0.0f,0.0f,0.0f},glm::vec4{0.0f,1.0f,0.0f,0.0f},glm::vec4{0.0f,0.0f,1.0f,0.0f},glm::vec4{0.0f,0.0f,0.0f,1.0f}},
+    world_transform_inv_(glm::inverse(world_transform_)){}    
+
 Shape::Shape(std::string name, Color color,std::shared_ptr<Material> material):
     name_{name},
     color_{color},

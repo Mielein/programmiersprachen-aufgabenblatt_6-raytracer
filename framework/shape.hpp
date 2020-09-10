@@ -14,6 +14,7 @@ class Shape{
     public:
     Shape();
     Shape(std::string name, Color color);
+    Shape(std::string name, std::shared_ptr<Material> material);
     Shape(std::string name, Color color,std::shared_ptr<Material> material);
     virtual ~Shape();
     virtual float area() const = 0;
