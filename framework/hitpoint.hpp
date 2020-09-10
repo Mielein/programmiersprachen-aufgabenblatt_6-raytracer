@@ -5,7 +5,6 @@
 #include <glm/glm.hpp>
 #include <string>
 #include "color.hpp"
-//#include "shape.hpp"
 #include <memory>
 #include "material.hpp"
 
