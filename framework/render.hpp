@@ -6,11 +6,11 @@
 #include <glm/glm.hpp>
 
 struct RenderBefehl {
-    std::vector<Scene> render_me;
+    //std::vector<Scene> render_me;
 
-    for(auto i :: render_me){
+    /* for(auto i :: render_me){
         render(i);
-    }
+    } */
 };
 
 

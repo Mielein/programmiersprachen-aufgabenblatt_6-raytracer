@@ -328,7 +328,7 @@ Scene sdfParser(std::string const& file){
             std::cout<<width<<std::endl; 
             std::cout<<height<<std::endl; */
             
-            s.render_vec.push_back();
+            //s.render_vec.push_back();
             
         }
     }

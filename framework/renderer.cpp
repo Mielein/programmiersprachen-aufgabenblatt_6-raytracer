@@ -261,8 +261,10 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
 
 
 Color Renderer::calculateReflection(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){  
-  glm::vec3 reflec_vec = glm::reflect(hit.intersect_direction_, hit.normal_);
-  std::cout << std::endl;
+  glm::vec3 reflect_vec = glm::reflect(hit.intersect_direction_, hit.normal_);
+  printVec(reflect_vec);
+  HitPoint reflect_hit;
+
 }
 
 void Renderer::write(Pixel const& p){

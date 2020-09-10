@@ -80,9 +80,10 @@ int main(int argc, char* argv[]){
   light_vec.push_back(lights2);
 
 
+
   Camera cam{};
   Ambient amby{"a",{0.42, 0.1, 0.18}};
-  Scene s{shape_vec,light_vec,mat_map,cam,amby}; 
+ // Scene s{shape_vec,light_vec, mat_map,  ,cam, amby}; 
   Scene scene = sdfParser("../../source/example.sdf"); 
 
   for (auto a : scene.light_vec){
@@ -93,7 +94,7 @@ int main(int argc, char* argv[]){
   test.transformRay(sphere1.getWorldInv()); */
 
 /*   std::cout<<"sdf read"<<std::endl;*/
-      renderer.render(scene); 
+      //renderer.render(scene); 
        
 
 /*   std::cout<<scene.background_.name_<<" ambient name"<<std::endl;
@@ -127,10 +128,10 @@ int main(int argc, char* argv[]){
     std::cout<<*i<<std::endl;
     std::cout << "" << std::endl;
   } */
-  for(auto i : s.shape_vec){
+/*   for(auto i : s.shape_vec){
     std::cout<<*i<<std::endl;
     std::cout << "" << std::endl;
-  }
+  } */
 
 
   Window window{{image_width, image_height}};
