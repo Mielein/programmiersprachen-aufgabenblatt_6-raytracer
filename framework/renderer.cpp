@@ -44,6 +44,11 @@ Renderer::Renderer(unsigned w, unsigned h, std::string const& file, Scene const&
   scene_(scene),
   depth_(depth){}
 
+void sdf_render(){
+  Scene s;
+  s.
+  render(s);
+}
 
 void Renderer::render(Scene const& scene){
   std::cout << "" << std::endl;
