@@ -116,7 +116,7 @@ Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, R
   Color diffuse = claculateDiffuse(shape, scene, hit);
   Color ambient = calculateAmbient(shape, scene, hit);
   Color spec = calculateSpecular(shape, scene, hit);
-  Color reflect = calculateReflection(shape, scene, hit, depth_);
+  Color reflect = calculateReflection(shape, scene, hit);
 
   Color shade{0.0f,0.0f,0.0f};
 
@@ -262,17 +262,18 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
 }
 
 
-Color Renderer::calculateReflection(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit, unsigned depth){  
+Color Renderer::calculateReflection(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){  
   glm::vec3 reflect_vec = glm::reflect(hit.intersect_direction_, hit.normal_);
   Ray reflect_ray{hit.intersect_pt_,glm::normalize(reflect_vec)};
   HitPoint next_hit;
-  depth_ = depth;
+  float depth = depth_;
+
   for(auto i : scene.shape_vec){
     next_hit = i->intersect(reflect_ray);
     if(next_hit.intersection_){
-      depth_-=1;
       if(depth_ > 0){
-        Color clr = calculateReflection(i,scene,next_hit,depth_);
+        Color clr = calculateReflection(i,scene,next_hit);
+        depth_-=1;
         return clr;
       }
       else{
