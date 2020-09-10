@@ -55,9 +55,9 @@ struct Color
   }
 
   Color& operator*(Color const& other){
-    r*other.r;
-    g*other.g;
-    b*other.b;
+    r*=other.r;
+    g*=other.g;
+    b*=other.b;
     return *this;
   }
 

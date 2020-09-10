@@ -119,7 +119,7 @@ Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, R
   std::cout << calculateSpecular(shape,scene,hit) << std::endl; */
 
   
-  return claculateDiffuse(shape, scene, hit) +  calculateAmbient(shape, scene, hit) + calculateSpecular(shape, scene, hit);
+  return claculateDiffuse(shape, scene, hit) + calculateAmbient(shape, scene, hit) +  calculateSpecular(shape, scene, hit);
 }
 
 Color Renderer::tonemapping (Color const& clr){
@@ -132,7 +132,11 @@ Color Renderer::tonemapping (Color const& clr){
 
 Color Renderer::calculateAmbient(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){
   /* Color ambientLight{scene.background_.color_}; */
-  Color ka = shape->getMat()->ka_;  
+  Color ka = shape->getMat()->ka_;
+  Color ambient_color = scene.background_.color_;  
+  //std::cout << ka;
+  //std::cout << ambient_color;
+  //std::cout << ka * ambient_color << std::endl;
   return {ka * scene.background_.color_};
 }
 
@@ -148,20 +152,27 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
     Ray ray_lights{hit.intersect_pt_ + 0.1f * hit.normal_,glm::normalize(vec_lights)}; //checks if obstacle is between Light and intersection
     
     for(auto i : scene.shape_vec){
-      light_hit = i->intersect(ray_lights);
-      // erstmal unwichtig  std::cout << i->intersect(ray_lights).intersect_pt_.x << " " << i->intersect(ray_lights).intersect_pt_.y << " " << i->intersect(ray_lights).intersect_pt_.z << std::endl;
-      if(light_hit.intersection_){
-        obstacle = true;
+      if(i == shape){
+        continue;
+      }
+      else{
+        light_hit = i->intersect(ray_lights);
+        // erstmal unwichtig  std::cout << i->intersect(ray_lights).intersect_pt_.x << " " << i->intersect(ray_lights).intersect_pt_.y << " " << i->intersect(ray_lights).intersect_pt_.z << std::endl;
+        if(light_hit.intersection_){
+          obstacle = true;
+          break;
+        }
       }
     }
 
-    if(obstacle){
+    if(!obstacle){
         //std::cout << "we use the obstacle, it is true" << std::endl;
         Color ip{light->color_*light->brightness_};
         Color kd = shape->getMat()->kd_;
         float cross_prod = -(glm::dot(hit.normal_,glm::normalize(vec_lights)));
         //std::cout << cross_prod << std::endl;
         cross_prod = std::max(cross_prod, 0.0f);
+        cross_prod = glm::clamp(cross_prod, 0.0f, 1.0f);
         //std::cout << cross_prod << std::endl;
         //std::cout << kd; 
         //std::cout << ip;
@@ -170,7 +181,11 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
         //std::cout << ((ip*kd)*cross_prod) << std::endl;
         result.push_back({(ip*kd)*cross_prod});
         //std::cout << std::endl;
-    } 
+    }
+/*     else{
+      Color kd = shape->getMat()->kd_;
+      result.push_back(kd*0.1f);
+    } */
   }
   //std::cout << "the Vec has this many elements: " << result.size() << std::endl; 
   //std::cout << "first element: " << result[0] << std::endl;
@@ -199,13 +214,20 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
     Ray ray_lights{hit.intersect_pt_ + 0.1f * hit.normal_,glm::normalize(vec_lights)}; //checks if obstacle is between Light and intersection
 
     for(auto i : scene.shape_vec){
-      light_hit = i->intersect(ray_lights);
-      if(light_hit.intersection_){
-        obstacle = true;
+      if(i == shape){
+        continue;
+      }
+      else{
+        light_hit = i->intersect(ray_lights);
+        // erstmal unwichtig  std::cout << i->intersect(ray_lights).intersect_pt_.x << " " << i->intersect(ray_lights).intersect_pt_.y << " " << i->intersect(ray_lights).intersect_pt_.z << std::endl;
+        if(light_hit.intersection_){
+          obstacle = true;
+          break;
+        }
       }
     }
 
-    if(obstacle){
+    if(!obstacle){
       float m = shape->getMat()->m_;
       glm::vec3 r = 2.0f*glm::dot(hit.normal_,glm::normalize(vec_lights))*hit.normal_-glm::normalize(vec_lights); //glm::dot -> Skalarprodukt
       //printVec(r);
@@ -221,8 +243,7 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
       float cos = pow(cross_prod,m);
       float m_2 = (m+2)/(2*M_PI);
       calc_clrs.push_back({((ks*ip)*cos)*m_2});      
-    } 
- 
+    }  
   }
 
   //std::cout << calc_clrs.size();

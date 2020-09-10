@@ -59,8 +59,8 @@ HitPoint Triangle::intersect(Ray const& ray) const{
     }
     float t = f*glm::dot(ac,w);
 
-    if(t > epsilon)[
-        hit.intersection_ {did_it_hit};
+    if(t > epsilon){
+        //hit.intersection_{did_it_hit};
         hit.intersect_pt_ = ray.origin_ + t*ray.direction_;
         hit.distance_ = glm::length(hit.intersect_pt_-ray.origin_);
         hit.material_ = material_;
