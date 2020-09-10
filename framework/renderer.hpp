@@ -36,7 +36,7 @@ public:
   Color calculateAmbient(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit);
   Color claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit);
   Color calculateSpecular(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit);
-  Color calculateReflection(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit);  
+  Color calculateReflection(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit, unsigned depth);  
   
   void write(Pixel const& p);  
   inline std::vector<Color> const& color_buffer() const 
