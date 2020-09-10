@@ -113,27 +113,24 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
 }
 
 Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, Ray const& ray, HitPoint hit){
-/*   std::cout << "Hallo Marie, ich rendere jetzt was, okay?" << std::endl; */
-/*   Ray shadowRay;
-  glm::vec3 v;
-  glm::vec3 l;
-  bool shade = false;
-  Color result = calculateAmbient(shape, scene, hit);
-  for(auto i : scene.light_vec){ 
-    shadowRay.origin_ = hit.intersect_pt_;
-    shadowRay.direction_ = i->pos_ - hit.intersect_pt_ ;
-    if(shade == true){
-      l = glm::normalize(i->pos_ - hit.intersect_pt_);
-      v = -(glm::normalize(ray.direction_));
-    }
-    return {0.0f,0.0f,0.0f};
-  } */
-   /*std::cout << claculateDiffuse(shape,scene,hit);
-  std::cout << calculateAmbient(shape,scene,hit);
-  std::cout << calculateSpecular(shape,scene,hit) << std::endl; */
+  Color diffuse = claculateDiffuse(shape, scene, hit);
+  Color ambient = calculateAmbient(shape, scene, hit);
+  Color spec = calculateSpecular(shape, scene, hit);
+  Color reflect = calculateReflection(shape, scene, hit, depth_);
 
-  
-  return claculateDiffuse(shape, scene, hit) + calculateAmbient(shape, scene, hit) +  calculateSpecular(shape, scene, hit);
+  Color shade{0.0f,0.0f,0.0f};
+
+  if(shape->getMat()->mirror_ > 0 && hit.material_->op_ > 0){
+    Color phong = (ambient + diffuse)*(1-shape->getMat()->mirror_)+reflect*shape->getMat()->mirror_+spec;
+    shade = phong*(1-shape->getMat()->op_);
+  }
+  else if(shape->getMat()->mirror_ > 0){
+    shade = (ambient + diffuse)*(1-shape->getMat()->mirror_)+reflect*shape->getMat()->mirror_ + spec; 
+  }
+  else{
+    shade = ambient + diffuse + spec;
+  }
+  return shade;
 }
 
 Color Renderer::tonemapping (Color const& clr){
@@ -265,10 +262,28 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
 }
 
 
-Color Renderer::calculateReflection(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){  
+Color Renderer::calculateReflection(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit, unsigned depth){  
   glm::vec3 reflect_vec = glm::reflect(hit.intersect_direction_, hit.normal_);
-  printVec(reflect_vec);
-  HitPoint reflect_hit;
+  Ray reflect_ray{hit.intersect_pt_,glm::normalize(reflect_vec)};
+  HitPoint next_hit;
+  depth_ = depth;
+  for(auto i : scene.shape_vec){
+    next_hit = i->intersect(reflect_ray);
+    if(next_hit.intersection_){
+      depth_-=1;
+      if(depth_ > 0){
+        Color clr = calculateReflection(i,scene,next_hit,depth_);
+        return clr;
+      }
+      else{
+        return {0.0f,0.0f,0.0f};
+      }
+    }
+    return {1.0f,1.0f,1.0f};
+  }
+  
+/*   printVec(reflect_vec); */
+
 
 }
 

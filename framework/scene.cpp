@@ -35,14 +35,14 @@ Scene sdfParser(std::string const& file){
                 float ka_red, ka_green, ka_blue;
                 float kd_red, kd_green, kd_blue;
                 float ks_red, ks_green, ks_blue;
-                float m;
-                float mirror;
+                float m, op, mirror;
 
                 in_sstream >> material_name;
                 in_sstream >> ka_red >> ka_green >> ka_blue; 
                 in_sstream >> kd_red >> kd_green >> kd_blue;
                 in_sstream >> ks_red >> ks_green >> ks_blue;
                 in_sstream >> m;
+                in_sstream >> op;
                 in_sstream >> mirror;
 
 /*              std::cout << material_name<<std::endl;
@@ -51,7 +51,7 @@ Scene sdfParser(std::string const& file){
                 std::cout << ks_red <<" "<<ks_green<<" "<<ks_blue<<std::endl;
                 std::cout << m << std::endl; */
 
-                Material mat(material_name,{ka_red,ka_green,ka_blue},{kd_red,kd_green,kd_blue},{ks_red,ks_green,ks_blue},m, mirror);
+                Material mat(material_name,{ka_red,ka_green,ka_blue},{kd_red,kd_green,kd_blue},{ks_red,ks_green,ks_blue},m,op,mirror);
                 auto mat_ptr = std::make_shared<Material>(mat);
                 s.mat_map.insert({material_name, mat_ptr}); 
             }

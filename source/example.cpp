@@ -19,11 +19,11 @@ int main(int argc, char* argv[]){
   std::vector<std::shared_ptr<Shape>> shape_vec; 
   std::vector<std::shared_ptr<Light>> light_vec;
   std::map<std::string,std::shared_ptr<Material>> mat_map;
-  Material green {"Green", {0.65, 1.00, 0.75},{0.65, 1.00, 0.75},{0.65, 1.00, 0.75}, 2.0f, 0.0f};
-  Material orange {"Orange", {0.26, 0.57, 0.97}, {0.26, 0.57, 0.97}, {0.26, 0.57, 0.97}, 5.0f, 0.0f};
-  Material random {"random", {0.815f,0.815f,0.815f}, {0.815f,0.815f,0.815f}, {0.815f,0.815f,0.815f}, 10.0f, 0.0f};
-  Material rand_pt_2 {"random_pt_2", {0.3f,0.67,0.7}, {0.3f,0.67,0.7}, {0.3f,0.67,0.7}, 15.0f, 0.0f};
-  Material vanilla {"Vanille", {0.47, 0.66, 0.97}, {0.47, 0.66, 0.97}, {0.47, 0.66, 0.97}, 2.0f, 0.0f};
+  Material green {"Green", {0.65, 1.00, 0.75},{0.65, 1.00, 0.75},{0.65, 1.00, 0.75}, 2.0f,0.0f, 0.0f};
+  Material orange {"Orange", {0.26, 0.57, 0.97}, {0.26, 0.57, 0.97}, {0.26, 0.57, 0.97}, 5.0f,0.0f, 0.0f};
+  Material random {"random", {0.815f,0.815f,0.815f}, {0.815f,0.815f,0.815f}, {0.815f,0.815f,0.815f}, 10.0f,0.0f, 0.0f};
+  Material rand_pt_2 {"random_pt_2", {0.3f,0.67,0.7}, {0.3f,0.67,0.7}, {0.3f,0.67,0.7}, 15.0f, 0.0f,0.0f};
+  Material vanilla {"Vanille", {0.47, 0.66, 0.97}, {0.47, 0.66, 0.97}, {0.47, 0.66, 0.97}, 2.0f,0.0f,0.0f};
 
   std::shared_ptr<Material> green_ptr = std::make_shared<Material>(green);
   std::shared_ptr<Material> orange_ptr = std::make_shared<Material>(orange);
@@ -95,7 +95,7 @@ int main(int argc, char* argv[]){
   test.transformRay(sphere1.getWorldInv()); */
 
 /*   std::cout<<"sdf read"<<std::endl;*/
-      //renderer.render(scene); 
+    renderer.render(scene); 
        
 
 /*   std::cout<<scene.background_.name_<<" ambient name"<<std::endl;
