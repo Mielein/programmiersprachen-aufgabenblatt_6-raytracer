@@ -222,7 +222,8 @@ Scene sdfParser(std::string const& file){
             in_sstream >> clr_g;
             in_sstream >> clr_b;
 
-            s.background_.color_.r = clr_r;
+            void sdf_render(unsigned const& w, unsigned const& h, std::string const& file, unsigned const& depth);
+s.background_.color_.r = clr_r;
             s.background_.color_.g = clr_g;
             s.background_.color_.b = clr_b;
             s.background_.name_ = ambient_name;
@@ -315,7 +316,7 @@ Scene sdfParser(std::string const& file){
             unsigned height;
             unsigned depth;
 
-            in_sstream >> render_name;
+            //in_sstream >> render_name;
             in_sstream >> cam_name;
             in_sstream >> filename;
             in_sstream >> width;
@@ -327,8 +328,17 @@ Scene sdfParser(std::string const& file){
             std::cout<<filename<<std::endl;
             std::cout<<width<<std::endl; 
             std::cout<<height<<std::endl; */
+<<<<<<< HEAD
             
             //s.render_vec.push_back();
+=======
+            s.camera_.name_ = cam_name;
+            s.file = filename;
+            s.w = width;
+            s.h = height;
+            s.depth = depth;
+
+>>>>>>> 0a92cd5c3e36056da40977bb6cb9dda85d2d2887
             
         }
     }

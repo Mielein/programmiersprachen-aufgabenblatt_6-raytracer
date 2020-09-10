@@ -18,6 +18,14 @@ Renderer::Renderer(unsigned w, unsigned h, std::string const& file):
   color_buffer_(w*h, Color{0.0, 0.0, 0.0}),
   filename_(file),
   ppm_(width_, height_){}
+  
+Renderer::Renderer(unsigned w, unsigned h, std::string const& file, unsigned depth):
+  width_(w),
+  height_(h),
+  color_buffer_(w*h, Color{0.0, 0.0, 0.0}),
+  filename_(file),
+  ppm_(width_, height_),
+  depth_(depth){}
 
 Renderer::Renderer(unsigned w, unsigned h, std::string const& file, Scene const& scene):
   width_(w),
