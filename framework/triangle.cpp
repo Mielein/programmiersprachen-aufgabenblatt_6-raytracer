@@ -30,24 +30,38 @@ HitPoint Triangle::intersect(Ray const& ray) const{
     glm::vec3 ab = b_ - a_;
     glm::vec3 ac = c_ - a_;
     glm::vec3 normal = glm::cross(ab,ac); 
-    bool did_it_hit = glm::intersectRayTriangle(ray.origin_,glm::normalize(ray.direction_),a_,b_,c_,baryPos);
+    //bool did_it_hit = glm::intersectRayTriangle(ray.origin_,glm::normalize(ray.direction_),a_,b_,c_,baryPos);
 
     glm::vec3 q = glm::cross(ray.direction_,ac);
     float a = glm::dot(ab,q);
     const float epsilon = 0.0000001;
 
+    if(a > -epsilon && a < epsilon){
+        hit.intersection_ = false;
+        return hit;
+    }
+    
     float f = 1/a;
-    glm::vec3 s = ray.origin_ - a;
+    glm::vec3 s = ray.origin_ - a_;
     float u = f*glm::dot(s,q);
 
+    if(u < 0.0f || u > 1.0f){
+        hit.intersection_ = false;
+        return hit;
+    }
+
     glm::vec3 w = glm::cross(s,ab);
-    float v = f*glm::dot(ray.direction_, w);
+    float v = f*glm::dot(ray.direction_,w);
+
+    if(v < 0.0f || u+v > 1.0f){
+        hit.intersection_ = false;
+        return hit;
+    }
 
     float t = f*glm::dot(ac,w);
-
     if(t > epsilon){
-        hit.intersection_ = did_it_hit;
-        hit.intersect_pt_ = ray.origin_ + t*ray.direction_;
+        hit.intersection_ = true;
+        hit.intersect_pt_ = ray.origin_ + ray.direction_;
         hit.distance_ = glm::length(hit.intersect_pt_-ray.origin_);
         hit.material_ = material_;
         hit.name_ = name_;
@@ -56,7 +70,6 @@ HitPoint Triangle::intersect(Ray const& ray) const{
         hit.normal_ = glm::normalize(normal);
         return hit;        
     }
-    return hit;
 
 }
 std::ostream& Triangle::print( std::ostream& os) const{
