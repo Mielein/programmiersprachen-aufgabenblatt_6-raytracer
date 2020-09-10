@@ -13,6 +13,7 @@
 #include "box.hpp"
 #include "camera.hpp"
 #include "sphere.hpp"
+#include "triangle.hpp"
 #include "light.hpp"
 #include "hitpoint.hpp"
 
