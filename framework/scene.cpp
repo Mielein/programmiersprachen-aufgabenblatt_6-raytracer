@@ -36,20 +36,22 @@ Scene sdfParser(std::string const& file){
                 float kd_red, kd_green, kd_blue;
                 float ks_red, ks_green, ks_blue;
                 float m;
+                float mirror;
 
                 in_sstream >> material_name;
                 in_sstream >> ka_red >> ka_green >> ka_blue; 
                 in_sstream >> kd_red >> kd_green >> kd_blue;
                 in_sstream >> ks_red >> ks_green >> ks_blue;
                 in_sstream >> m;
+                in_sstream >> mirror;
 
-/*                 std::cout << material_name<<std::endl;
+/*              std::cout << material_name<<std::endl;
                 std::cout << ka_red <<" "<<ka_green<<" "<<ka_blue<<std::endl;
                 std::cout << kd_red <<" "<<kd_green<<" "<<kd_blue<<std::endl;
                 std::cout << ks_red <<" "<<ks_green<<" "<<ks_blue<<std::endl;
                 std::cout << m << std::endl; */
 
-                Material mat(material_name,{ka_red,ka_green,ka_blue},{kd_red,kd_green,kd_blue},{ks_red,ks_green,ks_blue},m);
+                Material mat(material_name,{ka_red,ka_green,ka_blue},{kd_red,kd_green,kd_blue},{ks_red,ks_green,ks_blue},m, mirror);
                 auto mat_ptr = std::make_shared<Material>(mat);
                 s.mat_map.insert({material_name, mat_ptr}); 
             }
@@ -235,18 +237,23 @@ Scene sdfParser(std::string const& file){
             std::string filename;
             unsigned width;                                           
             unsigned height;
+            unsigned depth;
 
             in_sstream >> render_name;
             in_sstream >> cam_name;
             in_sstream >> filename;
             in_sstream >> width;
             in_sstream >> height;
+            in_sstream >> depth;
 
-/*             std::cout<<render_name<<std::endl;
+/*          std::cout<<render_name<<std::endl;
             std::cout<<cam_name<<std::endl;
             std::cout<<filename<<std::endl;
             std::cout<<width<<std::endl; 
             std::cout<<height<<std::endl; */
+            
+            s.render_vec.push_back();
+            
         }
     }
     return s;

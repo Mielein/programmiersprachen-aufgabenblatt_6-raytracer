@@ -23,6 +23,7 @@ class Renderer
 public:
   Renderer(unsigned w, unsigned h, std::string const& file);
   Renderer(unsigned w, unsigned h, std::string const& file, Scene const& scene);
+  Renderer(unsigned w, unsigned h, std::string const& file, Scene const& scene, unsigned depth);
 
   void render(Scene const& scene);
   Color trace(Ray const& ray, Scene const& scene);
@@ -31,7 +32,7 @@ public:
   Color calculateAmbient(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit);
   Color claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit);
   Color calculateSpecular(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit);
-  Color calculateReflection(HitPoint const& hit, int depth);  
+  Color calculateReflection(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit);  
   
   void write(Pixel const& p);  
   inline std::vector<Color> const& color_buffer() const     // was macht das hier? mal fragen nachher
@@ -47,6 +48,7 @@ private:
   std::string filename_;
   PpmWriter ppm_;
   Scene scene_;
+  unsigned depth_;
 };
 
 #endif // #ifndef BUW_RENDERER_HPP

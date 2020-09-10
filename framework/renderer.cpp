@@ -27,6 +27,15 @@ Renderer::Renderer(unsigned w, unsigned h, std::string const& file, Scene const&
   ppm_(width_, height_),
   scene_(scene){}
 
+Renderer::Renderer(unsigned w, unsigned h, std::string const& file, Scene const& scene, unsigned depth):
+  width_(w),
+  height_(h),
+  color_buffer_(w*h, Color{0.0, 0.0, 0.0}),
+  filename_(file),
+  ppm_(width_, height_),
+  scene_(scene),
+  depth_(depth){}
+
 
 void Renderer::render(Scene const& scene){
   std::cout << "" << std::endl;
@@ -198,10 +207,6 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
   return diffused_clr;
 }
 
-Color Renderer::calculateReflection(HitPoint const& hit, int depth){  
-  
-}
-
 Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){
   Color spec_clr{0.0f,0.0f,0.0f};
   std::vector<Color> calc_clrs;
@@ -254,6 +259,11 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
   return spec_clr;
 }
 
+
+Color Renderer::calculateReflection(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){  
+  glm::vec3 reflec_vec = glm::reflect(hit.intersect_direction_, hit.normal_);
+  std::cout << std::endl;
+}
 
 void Renderer::write(Pixel const& p){
   // flip pixels, because of opengl glDrawPixels
