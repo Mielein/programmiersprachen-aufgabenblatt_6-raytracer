@@ -16,7 +16,6 @@
 #include "triangle.hpp"
 #include "light.hpp"
 #include "hitpoint.hpp"
-#include "render.hpp"
 
 #include <iostream> //debug prints
 #include <fstream> //open / read / write / close files
@@ -28,9 +27,12 @@ struct Scene{
     std::vector<std::shared_ptr<Shape>> shape_vec; 
     std::vector<std::shared_ptr<Light>> light_vec;
     std::map<std::string,std::shared_ptr<Material>> mat_map;
-    std::vector<Scene> render_vec;
     Camera camera_;
     Ambient background_;
+    unsigned w;
+    unsigned h; 
+    std::string file; 
+    unsigned depth;
 };
 
 Scene sdfParser(std::string const& file);
