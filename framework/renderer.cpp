@@ -48,7 +48,7 @@ void Renderer::render(Scene const& scene){
   std::cout << "Hallo Marie, ich rendere jetzt was, okay?" << std::endl;
   std::cout << "" << std::endl;
   std::cout << "" << std::endl;
-  
+
   /* std::size_t const checker_pattern_size = 20; */
 /*   for (auto i : scene.shape_vec){
     std::cout << "Renderer 1: " << std::endl << *i << std::endl;
@@ -64,19 +64,27 @@ void Renderer::render(Scene const& scene){
       } */
         glm::vec3 origin = scene.camera_.pos_;
         float dir_x = scene.camera_.direction_.x + x-(width_*0.5f);
-        float dir_y = (scene.camera_.direction_.y + y-(height_*0.5f));
+        float dir_y = scene.camera_.direction_.y + y-(height_*0.5f);
         float dir_z = scene.camera_.direction_.z + (width_/2.0f)/tan((scene.camera_.fovX/2.0f)*M_PI/180);
-        glm::vec3 direction{glm::cross({dir_x,dir_y,-dir_z},scene.camera_.up_)}; 
-        direction = glm::cross(direction, scene.camera_.up_); 
-        //Ray ray = scene.camera_.constructEyeRay(x,y,width_,height_);
+        glm::vec3 direction{dir_x,dir_y,-dir_z}; 
+
+        glm::vec4 u = glm::vec4(glm::normalize(glm::cross(direction,scene.camera_.up_)),0.0f);
+        glm::vec4 v = glm::vec4(glm::normalize(glm::cross({u.x,u.y,u.z},direction)),0.0f);
+        glm::mat4 c{u,v,glm::vec4{glm::normalize(-direction),0},glm::vec4{origin,1}};
         Ray ray{origin, glm::normalize(direction)};
+        glm::vec4 org = c*glm::vec4(ray.origin_,1.0f);
+        glm::vec4 dir = c*glm::vec4(ray.direction_,0.0f);
+        Ray c_ray{{org.x,org.y,org.z},{dir.x,dir.y,dir.z}};
+        //Ray ray = scene.camera_.constructEyeRay(x,y,width_,height_);
+        
+
 /*      std::cout<<"origin \n";
         std::cout<<ray.origin.x<<"\n"<<ray.origin.y<<"\n"<<ray.origin.z<<std::endl;
         std::cout<<"direction \n";
         std::cout<<ray.direction.x<<"\n"<<ray.direction.y<<"\n"<<ray.direction.z<<std::endl; */
-        Color color{0.0,0.0,0.0};
+        Color color{0.0f,0.0f,0.0f};
         depth_ = 10;
-        color = tonemapping(trace(ray,scene));
+        color = tonemapping(trace(c_ray,scene));
         p.color = color;
         write(p);
 
@@ -92,11 +100,11 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
   for(auto i : scene.shape_vec){ 
     //std::cout << *i << std::endl;
     auto t = i->intersect(ray);
-/*     if (t.intersection_){
+    if (t.intersection_){
       if(t.name_ == "pusspuss"){ 
         std::cout << "hit" << std::endl;
       }
-    } */
+    }
     
 /*     std::cout<<t.distance_<< std::endl;
     std::cout<<closest_t.distance_ << std::endl; */
@@ -109,56 +117,30 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
     }
   }
   if(closest_o != nullptr){
-      return shade(closest_o, scene, ray, closest_t);
+      return tonemapping(shade(closest_o, scene, ray, closest_t));
     }
   return scene.background_.color_;
 }
 
-Color Renderer::shade(std::shared_ptr<Shape> const& shape,Scene const& scene, Ray const& ray, HitPoint hit){
+Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, Ray const& ray, HitPoint hit){
   Color diffuse = claculateDiffuse(shape, scene, hit);
   Color ambient = calculateAmbient(shape, scene, hit);
   Color spec = calculateSpecular(shape, scene, hit);
-  Color shade = ambient + diffuse + spec;
-  Color reflect;
+  //Color reflect = calculateReflection(shape, scene, hit);
 
-  //printColor(reflect);
-  
-  if(depth_ > 0 && shape->getMat()->mirror_ > 0){
-    reflect = calculateReflection(shape, scene, hit);
-    shade = (reflect * shape->getMat()->mirror_) + shade * (1 - shape->getMat()->mirror_);
-    return shade;
+  Color shade{0.0f,0.0f,0.0f};
+/* 
+  if(shape->getMat()->mirror_ > 0 && hit.material_->op_ > 0){
+    Color phong = (ambient + diffuse)*(1-shape->getMat()->mirror_)+reflect*shape->getMat()->mirror_+spec;
+    shade = phong*(1-shape->getMat()->op_);
   }
-  else{
-    return shade;
+  else if(shape->getMat()->mirror_ > 0){
+    shade = (ambient + diffuse)*(1-shape->getMat()->mirror_)+reflect*shape->getMat()->mirror_ + spec; 
   }
-}
-
-Color Renderer::calculateReflection(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){  
-  glm::vec3 reflect_vec = glm::reflect(glm::normalize(hit.intersect_direction_), glm::normalize(hit.normal_));
-  //printVec(reflect_vec);
-  Ray reflect_ray{hit.intersect_pt_ + hit.normal_,glm::normalize(reflect_vec)};
-  depth_--;
-  Color reflect_color = trace(reflect_ray, scene);
-  return reflect_color;
-  //std::cout << next_hit.intersect_pt_.x << next_hit.intersect_pt_.y << std::endl;
-  
-
-/*   if(next_hit.intersection_){
-    std::cout<<"tell me something"<<std::endl;
-    if(depth > 0){
-      for(int j = 0; j < depth; ++j){
-        Color clr = calculateReflection(shape,scene,next_hit);
-        depth--;
-        return clr;
-      }
-    }
-    else{
-      return {0.0f,0.0f,0.0f};
-    }
-  }
-  return {1.0f,1.0f,1.0f}; */
-  
-/*   printVec(reflect_vec); */
+  else{ */
+    shade = ambient + diffuse + spec;
+  //}
+  return shade;
 }
 
 Color Renderer::tonemapping (Color const& clr){
@@ -170,8 +152,12 @@ Color Renderer::tonemapping (Color const& clr){
 }
 
 Color Renderer::calculateAmbient(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){
+  /* Color ambientLight{scene.background_.color_}; */
   Color ka = shape->getMat()->ka_;
-  Color ambient_color = scene.background_.color_; 
+  Color ambient_color = scene.background_.color_;  
+  //std::cout << ka;
+  //std::cout << ambient_color;
+  //std::cout << ka * ambient_color << std::endl;
   return {ka * scene.background_.color_};
 }
 
@@ -182,6 +168,7 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
   for(auto light : scene.light_vec){
     bool obstacle = false;
     HitPoint light_hit;
+
     glm::vec3 vec_lights{light->pos_ - hit.intersect_pt_};
     Ray ray_lights{hit.intersect_pt_ + 0.1f * hit.normal_,glm::normalize(vec_lights)}; //checks if obstacle is between Light and intersection
     
@@ -191,6 +178,7 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
       }
       else{
         light_hit = i->intersect(ray_lights);
+        // erstmal unwichtig  std::cout << i->intersect(ray_lights).intersect_pt_.x << " " << i->intersect(ray_lights).intersect_pt_.y << " " << i->intersect(ray_lights).intersect_pt_.z << std::endl;
         if(light_hit.intersection_){
           obstacle = true;
           break;
@@ -284,7 +272,33 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
 }
 
 
+Color Renderer::calculateReflection(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){  
+  glm::vec3 reflect_vec = glm::reflect(hit.intersect_direction_, hit.normal_);
+  Ray reflect_ray{hit.intersect_pt_,glm::normalize(reflect_vec)};
+  HitPoint next_hit;
+  float depth = depth_;
 
+  for(auto i : scene.shape_vec){
+    next_hit = i->intersect(reflect_ray);
+    if(next_hit.intersection_){
+      if(depth > 0){
+        for(int j = 0; j < depth; ++j){
+          Color clr = calculateReflection(i,scene,next_hit);
+          depth-=1;
+          return clr;
+        }
+      }
+      else{
+        return {0.0f,0.0f,0.0f};
+      }
+    }
+    return {1.0f,1.0f,1.0f};
+  }
+  
+/*   printVec(reflect_vec); */
+
+
+}
 
 void Renderer::write(Pixel const& p){
   // flip pixels, because of opengl glDrawPixels
