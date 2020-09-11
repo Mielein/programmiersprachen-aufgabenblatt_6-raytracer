@@ -15,6 +15,16 @@ add_dependencies(raytracer glfw ${FRAMEWORK_NAME} ${COPY_BINARY})
 
 install(TARGETS raytracer DESTINATION .)
 
+add_executable(animation animation.cpp)
+
+target_link_libraries(animation ${FRAMEWORK_NAME} ${LIBRARIES}
+  glfw
+  ${GLFW_LIBRARIES}
+  )
+add_dependencies(animation glfw ${FRAMEWORK_NAME} ${COPY_BINARY})
+
+install(TARGETS animation DESTINATION .)
+
 # Build tests
 add_executable(tests
   tests.cpp)

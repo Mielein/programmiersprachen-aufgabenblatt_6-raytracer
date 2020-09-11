@@ -43,12 +43,11 @@ void sdf_render(){
 }
 
 void Renderer::render(Scene const& scene){
-  std::cout << "" << std::endl;
+/*   std::cout << "" << std::endl;
   std::cout << "" << std::endl;
   std::cout << "Hallo Marie, ich rendere jetzt was, okay?" << std::endl;
   std::cout << "" << std::endl;
   std::cout << "" << std::endl;
-
   /* std::size_t const checker_pattern_size = 20; */
 /*   for (auto i : scene.shape_vec){
     std::cout << "Renderer 1: " << std::endl << *i << std::endl;
