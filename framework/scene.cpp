@@ -223,7 +223,7 @@ Scene sdfParser(std::string const& file){
             in_sstream >> clr_b;
 
             void sdf_render(unsigned const& w, unsigned const& h, std::string const& file, unsigned const& depth);
-s.background_.color_.r = clr_r;
+            s.background_.color_.r = clr_r;
             s.background_.color_.g = clr_g;
             s.background_.color_.b = clr_b;
             s.background_.name_ = ambient_name;
@@ -242,6 +242,12 @@ s.background_.color_.r = clr_r;
             in_sstream >> y;
             in_sstream >> z;
 
+/*             std::cout<< transOb_name <<std::endl;
+            std::cout<< transformation <<std::endl;
+            std::cout<< x <<std::endl;
+            std::cout<< y <<std::endl;
+            std::cout<< z <<std::endl; */
+
             if("scale" == transformation){
                 std::cout<<"transformation: "<<transformation<<std::endl;
 
@@ -252,7 +258,9 @@ s.background_.color_.r = clr_r;
                     glm::vec4{0.0f,0.0f,0.0f,1.0f}                   
                 };
                 for(auto shape : s.shape_vec){
-                    shape->transformation(mat);
+                    if (shape->getName() == transOb_name){
+                        shape->transformation(mat);
+                    }
                 }
             }
             if("translate" == transformation){
@@ -265,7 +273,9 @@ s.background_.color_.r = clr_r;
                     glm::vec4{0.0f,0.0f,0.0f,1.0f}                    
                 };
                 for(auto shape : s.shape_vec){
-                    shape->transformation(mat);
+                    if (shape->getName() == transOb_name){
+                        shape->transformation(mat);
+                    }
                 }                
             }
             if("rotate" == transformation){
@@ -280,8 +290,10 @@ s.background_.color_.r = clr_r;
                     glm::vec4{0.0f,0.0f,0.0f,1.0f} 
                     }; 
                     for(auto shape : s.shape_vec){
-                        shape->transformation(mat);
-                    }                                       
+                        if (shape->getName() == transOb_name){
+                            shape->transformation(mat);
+                        }
+                    }                                      
                 }
                 if(y == 1){
                     glm::mat4 mat = glm::mat4{
@@ -291,8 +303,10 @@ s.background_.color_.r = clr_r;
                     glm::vec4{0.0f,0.0f,0.0f,1.0f}                    
                 };
                     for(auto shape : s.shape_vec){
-                        shape->transformation(mat);
-                    }   
+                        if (shape->getName() == transOb_name){
+                            shape->transformation(mat);
+                        }
+                    } 
                 }
                 if(z == 1){
                     glm::mat4 mat = glm::mat4{
@@ -302,8 +316,10 @@ s.background_.color_.r = clr_r;
                     glm::vec4{0.0f,0.0f,0.0f,1.0f},                    
                     };
                     for(auto shape : s.shape_vec){
-                        shape->transformation(mat);
-                    } 
+                        if (shape->getName() == transOb_name){
+                            shape->transformation(mat);
+                        }
+                    }
                 }
             }
         }

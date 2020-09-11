@@ -116,10 +116,10 @@ Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, R
   Color diffuse = claculateDiffuse(shape, scene, hit);
   Color ambient = calculateAmbient(shape, scene, hit);
   Color spec = calculateSpecular(shape, scene, hit);
-  Color reflect = calculateReflection(shape, scene, hit);
+  //Color reflect = calculateReflection(shape, scene, hit);
 
   Color shade{0.0f,0.0f,0.0f};
-
+/* 
   if(shape->getMat()->mirror_ > 0 && hit.material_->op_ > 0){
     Color phong = (ambient + diffuse)*(1-shape->getMat()->mirror_)+reflect*shape->getMat()->mirror_+spec;
     shade = phong*(1-shape->getMat()->op_);
@@ -127,9 +127,9 @@ Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, R
   else if(shape->getMat()->mirror_ > 0){
     shade = (ambient + diffuse)*(1-shape->getMat()->mirror_)+reflect*shape->getMat()->mirror_ + spec; 
   }
-  else{
+  else{ */
     shade = ambient + diffuse + spec;
-  }
+  //}
   return shade;
 }
 
