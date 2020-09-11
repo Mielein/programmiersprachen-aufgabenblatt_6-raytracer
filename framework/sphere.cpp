@@ -42,7 +42,7 @@ HitPoint Sphere::intersect(Ray const& ray) const{
     float distance = 1.0f;
     bool did_it_hit = glm::intersectRaySphere(ray.origin_,glm::normalize(ray.direction_), mid_, pow(radius_,2),distance);
     HitPoint hit_sphere{did_it_hit,distance,name_,color_,ray.origin_+(distance*ray.direction_),glm::normalize(ray.direction_)};
-    hit_sphere.normal_ = glm::normalize(mid_-hit_sphere.intersect_pt_);
+    hit_sphere.normal_ = glm::normalize(hit_sphere.intersect_pt_-mid_);
     hit_sphere.world_transform(world_transform_,world_transform_inv_);
     return hit_sphere;
 }

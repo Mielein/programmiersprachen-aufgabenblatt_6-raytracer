@@ -74,7 +74,7 @@ void Renderer::render(Scene const& scene){
         std::cout<<"direction \n";
         std::cout<<ray.direction.x<<"\n"<<ray.direction.y<<"\n"<<ray.direction.z<<std::endl; */
         Color color{0.0,0.0,0.0};
-        color = trace(ray,scene);
+        color = tonemapping(trace(ray,scene));
         p.color = color;
         write(p);
 
@@ -107,45 +107,31 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
     }
   }
   if(closest_o != nullptr){
-      return tonemapping(shade(closest_o, scene, ray, closest_t));
+      return shade(closest_o, scene, ray, closest_t);
     }
   return scene.background_.color_;
 }
 
-Color Renderer::shade (std::shared_ptr<Shape> const& shape,Scene const& scene, Ray const& ray, HitPoint hit){
+Color Renderer::shade(std::shared_ptr<Shape> const& shape,Scene const& scene, Ray const& ray, HitPoint hit){
   Color diffuse = claculateDiffuse(shape, scene, hit);
   Color ambient = calculateAmbient(shape, scene, hit);
   Color spec = calculateSpecular(shape, scene, hit);
   Color shade = ambient + diffuse + spec;
-
+  Color reflect;
+  
   if(depth_ > 0 && shape->getMat()->mirror_ > 0){
-    shade = shade * (1 - shape->getMat()->mirror_);
-    Color reflect = calculateReflection(shape, scene, hit);
-    return reflect;
-    shade = shade + (reflect * shape->getMat()->mirror_);
+    reflect = calculateReflection(shape, scene, hit);
+    shade = (reflect * shape->getMat()->mirror_) + shade * (1 - shape->getMat()->mirror_);
+    return shade;
   }
   else{
     depth_ = 10;
     return shade;
   }
-
-
-
-  /* Color phong = (ambient + diffuse)*(1-shape->getMat()->mirror_)+reflect*shape->getMat()->mirror_+spec;
-    shade = phong*(1-shape->getMat()->op_);
-  }
-  else if(shape->getMat()->mirror_ > 0){
-    shade = (ambient + diffuse)*(1-shape->getMat()->mirror_)+reflect*shape->getMat()->mirror_ + spec; 
-  }
-  else{ 
-    shade = ambient + diffuse + spec;
-  }
- */
-  return shade;
 }
 
 Color Renderer::calculateReflection(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){  
-  glm::vec3 reflect_vec = glm::reflect(hit.intersect_direction_, hit.normal_);
+  glm::vec3 reflect_vec = glm::reflect(glm::normalize(hit.intersect_direction_), glm::normalize(hit.normal_));
   //printVec(reflect_vec);
   Ray reflect_ray{hit.intersect_pt_ + 0.1f * hit.normal_,glm::normalize(reflect_vec)};
   depth_--;
