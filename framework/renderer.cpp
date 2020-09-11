@@ -48,7 +48,7 @@ void Renderer::render(Scene const& scene){
   std::cout << "Hallo Marie, ich rendere jetzt was, okay?" << std::endl;
   std::cout << "" << std::endl;
   std::cout << "" << std::endl;
-
+  
   /* std::size_t const checker_pattern_size = 20; */
 /*   for (auto i : scene.shape_vec){
     std::cout << "Renderer 1: " << std::endl << *i << std::endl;
@@ -74,6 +74,7 @@ void Renderer::render(Scene const& scene){
         std::cout<<"direction \n";
         std::cout<<ray.direction.x<<"\n"<<ray.direction.y<<"\n"<<ray.direction.z<<std::endl; */
         Color color{0.0,0.0,0.0};
+        depth_ = 10;
         color = tonemapping(trace(ray,scene));
         p.color = color;
         write(p);
@@ -118,6 +119,8 @@ Color Renderer::shade(std::shared_ptr<Shape> const& shape,Scene const& scene, Ra
   Color spec = calculateSpecular(shape, scene, hit);
   Color shade = ambient + diffuse + spec;
   Color reflect;
+
+  //printColor(reflect);
   
   if(depth_ > 0 && shape->getMat()->mirror_ > 0){
     reflect = calculateReflection(shape, scene, hit);
@@ -125,7 +128,6 @@ Color Renderer::shade(std::shared_ptr<Shape> const& shape,Scene const& scene, Ra
     return shade;
   }
   else{
-    depth_ = 10;
     return shade;
   }
 }
@@ -133,7 +135,7 @@ Color Renderer::shade(std::shared_ptr<Shape> const& shape,Scene const& scene, Ra
 Color Renderer::calculateReflection(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){  
   glm::vec3 reflect_vec = glm::reflect(glm::normalize(hit.intersect_direction_), glm::normalize(hit.normal_));
   //printVec(reflect_vec);
-  Ray reflect_ray{hit.intersect_pt_ + 0.1f * hit.normal_,glm::normalize(reflect_vec)};
+  Ray reflect_ray{hit.intersect_pt_ + hit.normal_,glm::normalize(reflect_vec)};
   depth_--;
   Color reflect_color = trace(reflect_ray, scene);
   return reflect_color;
@@ -167,12 +169,8 @@ Color Renderer::tonemapping (Color const& clr){
 }
 
 Color Renderer::calculateAmbient(std::shared_ptr<Shape> const& shape, Scene const& scene, HitPoint const& hit){
-  /* Color ambientLight{scene.background_.color_}; */
   Color ka = shape->getMat()->ka_;
-  Color ambient_color = scene.background_.color_;  
-  //std::cout << ka;
-  //std::cout << ambient_color;
-  //std::cout << ka * ambient_color << std::endl;
+  Color ambient_color = scene.background_.color_; 
   return {ka * scene.background_.color_};
 }
 
@@ -192,7 +190,6 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
       }
       else{
         light_hit = i->intersect(ray_lights);
-        // erstmal unwichtig  std::cout << i->intersect(ray_lights).intersect_pt_.x << " " << i->intersect(ray_lights).intersect_pt_.y << " " << i->intersect(ray_lights).intersect_pt_.z << std::endl;
         if(light_hit.intersection_){
           obstacle = true;
           break;
