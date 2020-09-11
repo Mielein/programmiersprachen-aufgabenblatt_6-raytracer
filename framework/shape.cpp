@@ -46,7 +46,7 @@ void Shape::transformation(glm::mat4 const& mat){
     world_transform_inv_ = glm::inverse(world_transform_);
 }
 void Shape::rotate(float angle,  glm::vec3 const& axis){
-    world_transform_ = glm::rotate(world_transform_,/* glm::radians( */angle,axis); //glm::radians Converts degrees to radians and returns the result
+    world_transform_ = glm::rotate(world_transform_,angle,axis); 
     world_transform_inv_ = glm::inverse(world_transform_);
 
 }
