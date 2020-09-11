@@ -1,7 +1,7 @@
-define material red 0.26 0.57 0.97 0.26 0.57 0.97 0.26 0.57 0.97 5 0 1
-define material blue 0.65 1.00 0.75 0.65 1.00 0.75 0.65 1.00 0.75 5 0 0
-#define shape box rbottom 10 -18 -70 25.0 -3.0 -120 red
-define shape sphere bsphere1 -30 -10 -80 10 blue
+define material red 0.26 0.57 0.97 0.26 0.57 0.97 0.26 0.57 0.97 5 0 0.5
+define material blue 0.65 1.00 0.75 0.65 1.00 0.75 0.65 1.00 0.75 5 0 0.5
+#define shape box rbottom 10 -18 -50 20.0 -8.0 -70 blue
+define shape sphere bsphere1 -25 -10 -100 20 blue
 define shape sphere bsphere2 0 0 -100 20 red
 #define shape composite root rbottom bsphere
 #xform
