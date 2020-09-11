@@ -83,15 +83,8 @@ HitPoint Box::intersect(Ray const& ray) const{
     Ray ray_local{ray};
     ray_local.transformRay(world_transform_inv_); 
 
-    //std::cout<<ray_local.direction_.x<<" "<<ray_local.direction_.y<<" "<<ray_local.direction_.z<<std::endl;
-
     float tmin_x = (min_.x-ray_local.origin_.x)/ray_local.direction_.x;
     float tmax_x = (max_.x-ray_local.origin_.x)/ray_local.direction_.x;
-    //std::cout<<min_.x<<std::endl;
-    //std::cout<<max_.x<<std::endl;
-    //std::cout<<ray_local.origin_.x<<std::endl;
-    //std::cout<<tmin_x<<"tmin_x"<<std::endl;
-    //std::cout<<ray_local.direction_.x;
     glm::vec3 p_x_min = ray_local.origin_ + tmin_x*ray_local.direction_;
     glm::vec3 p_x_max = ray_local.origin_ + tmax_x*ray_local.direction_;
 
@@ -113,7 +106,6 @@ HitPoint Box::intersect(Ray const& ray) const{
         tmin = tmin_x;
         hit.normal_ = glm::vec3{-1.0f,0.0f,0.0f};
     }
-    //std::cout<<p_x_min.y<<" p_x_min.y "<<max_.y<< " max_.y"<<std::endl;
     if(p_x_max.y <= max_.y && p_x_max.y >= min_.y && p_x_max.z <= max_.z && p_x_max.z >= min_.z){
         was_hit = true;
         if(tmin_x > tmax_x){
@@ -158,17 +150,9 @@ HitPoint Box::intersect(Ray const& ray) const{
         } 
     }
     if(was_hit == true){
-        /* std::cout<<"HIT!!!"<<std::endl; */
         hit.intersection_ = true;
         hit.intersect_direction_ = ray.direction_;
         hit.distance_ = tmin;
-        //std::cout<<min_.y<<" "<<max_.y<<" "<<p_x_min.y<<" "<<p_x_max.y<<std::endl;
-        //hit.world_transform(world_transform_,world_transform_inv_);
-        //std::cout<<tmin<<std::endl;
-        //std::cout<<hit.normal_.x<<hit.normal_.y<<hit.normal_.z<<std::endl;
-        //std::cout<<hit.distance_<<std::endl;
-        //std::cout<<hit.intersect_direction_.x<<hit.intersect_direction_.y<<hit.intersect_direction_.z<<std::endl;
-        //std::cout<<hit.intersect_pt_.x<<hit.intersect_pt_.y<<hit.intersect_pt_.z<<std::endl;
         hit.world_transform(world_transform_,world_transform_inv_);
     } 
     return hit; 

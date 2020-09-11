@@ -13,25 +13,15 @@ Scene sdfParser(std::string const& file){
     Scene s;
 
     while(std::getline(in_file, line_buffer)){
-        //std::cout<<++line_count<<": "<<line_buffer<<std::endl;
-        //construct stringstream using line_buffer string
-        //std::cout<<"reading new line"<<std::endl;
         std::istringstream in_sstream(line_buffer);
         in_sstream >> identifier;
-        //std::cout<<"Identifier content: "<<identifier<<std::endl;
 
-        //check for shapes / material / lights
         if("define" == identifier){
             in_sstream>>class_name;
-            //std::cout<<"class content: "<<class_name<<std::endl;
-            //check for shape type, then: parse attributes (including material lookup)
-        
+
             if("material" == class_name){
-                //parse material attributes
                 std::string material_name;
-                //ka -> ambient
-                //kd -> diffuse
-                //ks -> specular
+
                 float ka_red, ka_green, ka_blue;
                 float kd_red, kd_green, kd_blue;
                 float ks_red, ks_green, ks_blue;
@@ -43,12 +33,6 @@ Scene sdfParser(std::string const& file){
                 in_sstream >> ks_red >> ks_green >> ks_blue;
                 in_sstream >> m;
                 in_sstream >> mirror;
-
-/*              std::cout << material_name<<std::endl;
-                std::cout << ka_red <<" "<<ka_green<<" "<<ka_blue<<std::endl;
-                std::cout << kd_red <<" "<<kd_green<<" "<<kd_blue<<std::endl;
-                std::cout << ks_red <<" "<<ks_green<<" "<<ks_blue<<std::endl;
-                std::cout << m << std::endl; */
 
                 Material mat(material_name,{ka_red,ka_green,ka_blue},{kd_red,kd_green,kd_blue},{ks_red,ks_green,ks_blue},m,mirror);
                 auto mat_ptr = std::make_shared<Material>(mat);
@@ -73,10 +57,6 @@ Scene sdfParser(std::string const& file){
                 auto light_ptr = std::make_shared<Light>(light);
                 s.light_vec.push_back(light_ptr);  
 
-/*                 std::cout<<light_name<<std::endl;
-                std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl;
-                std::cout<<pos.x<<" "<<pos.y<<" "<<pos.z<<std::endl; 
-                std::cout<<brightness<<std::endl;   */              
             }
             if("camera" == class_name){
                 std::string camera_name;
@@ -95,10 +75,6 @@ Scene sdfParser(std::string const& file){
                 in_sstream >> up.y;
                 in_sstream >> up.z;
 
-                //std::cout<<camera_name<<std::endl;
-/*                 std::cout<<cam.pos_.x<<" "<<cam.pos_.y<<" "<<cam.pos_.z<<std::endl;
-                std::cout<<cam.direction_.x<<" "<<cam.direction_.y<<" "<<cam.direction_.z<<std::endl;  
-                std::cout<<fovX<<std::endl;   */
                 s.camera_.name_ = camera_name;
                 s.camera_.fovX = fovX;
                 s.camera_.pos_ = eye;
@@ -109,18 +85,12 @@ Scene sdfParser(std::string const& file){
             if("shape" == class_name){
                 in_sstream>>class_name;
                 if("sphere" == class_name){
-                    //std::cout<<"class content: "<<class_name<<std::endl;
                     std::string sphere_name;
-                    /* float clr_r,clr_g,clr_b; */
                     float radius;
                     glm::vec3 mid;
                     std::string mat_name;
 
                     in_sstream >> sphere_name;
-/*                     in_sstream >> clr_r;
-                    in_sstream >> clr_g;
-                    in_sstream >> clr_b;
-                     */
                     in_sstream >> mid.x;
                     in_sstream >> mid.y;
                     in_sstream >> mid.z;
@@ -135,24 +105,14 @@ Scene sdfParser(std::string const& file){
                     std::shared_ptr<Shape> sphere_ptr = std::make_shared<Sphere>(sphere);                    
                     s.shape_vec.push_back(sphere_ptr); 
 
-/*                     std::cout<<sphere_name<<std::endl;
-                    std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl;
-                    std::cout<<radius<<std::endl;
-                    std::cout<<mid.x<<" "<<mid.y<<" "<<mid.z<<std::endl; 
-                    std::cout<<mat_name<<std::endl;  */
                 }
                 if("box" == class_name){
-                    //std::cout<<"class content: "<<class_name<<std::endl;
                     std::string box_name;
-                    /* float clr_r, clr_g, clr_b; */
                     glm::vec3 min;
                     glm::vec3 max;
                     std::string mat_name;
 
                     in_sstream >> box_name;
-/*                     in_sstream >> clr_r;
-                    in_sstream >> clr_g;
-                    in_sstream >> clr_b;  */
                     in_sstream >> min.x;
                     in_sstream >> min.y;
                     in_sstream >> min.z;
@@ -169,25 +129,16 @@ Scene sdfParser(std::string const& file){
                     std::shared_ptr<Shape> box_ptr = std::make_shared<Box>(box);
                     s.shape_vec.push_back(box_ptr); 
  
-/*                     std::cout<<box_name<<std::endl;
-                    std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl; 
-                    std::cout<<min.x<<" "<<min.y<<" "<<min.z<<std::endl;
-                    std::cout<<max.x<<" "<<max.y<<" "<<max.z<<std::endl; 
-                    std::cout<<mat_name<<std::endl;  */
                 }
                 if("triangle" == class_name){
-                    //std::cout<<"class content: "<<class_name<<std::endl;
                     std::string triangle_name;
-                    /* float clr_r, clr_g, clr_b; */
+
                     glm::vec3 a;
                     glm::vec3 b;
                     glm::vec3 c;
                     std::string mat_name;
 
                     in_sstream >> triangle_name;
-/*                     in_sstream >> clr_r;
-                    in_sstream >> clr_g;
-                    in_sstream >> clr_b;  */
                     in_sstream >> a.x;
                     in_sstream >> a.y;
                     in_sstream >> a.z;
@@ -208,9 +159,6 @@ Scene sdfParser(std::string const& file){
                     s.shape_vec.push_back(tri_ptr); 
                 }    
             }
-/*             else {
-                std::cout<<"Line was not valid!"<<std::endl;
-            } */
         }
         if("ambient" == identifier){
             std::string ambient_name; 
@@ -226,12 +174,8 @@ Scene sdfParser(std::string const& file){
             s.background_.color_.g = clr_g;
             s.background_.color_.b = clr_b;
             s.background_.name_ = ambient_name;
-
-/*             std::cout<<ambient_name<<std::endl; 
-            std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl;  */
         }
         if("transform" == identifier){
-            //std::cout<<"identifier content: "<<identifier<<std::endl;
             std::string transOb_name;
             std::string transformation;
             float x,y,z,angle;
@@ -240,15 +184,8 @@ Scene sdfParser(std::string const& file){
             in_sstream >> x;
             in_sstream >> y;
             in_sstream >> z;
-
-/*             std::cout<< transOb_name <<std::endl;
-            std::cout<< transformation <<std::endl;
-            std::cout<< x <<std::endl;
-            std::cout<< y <<std::endl;
-            std::cout<< z <<std::endl; */
-
             if("scale" == transformation){
-                //std::cout<<"transformation: "<<transformation<<std::endl;
+                
                 for(auto shape : s.shape_vec){
                     if (shape->getName() == transOb_name){
                         shape->scale({x,y,z});
@@ -256,7 +193,6 @@ Scene sdfParser(std::string const& file){
                 }
             }
             if("translate" == transformation){
-                //std::cout<<"transformation: "<<transformation<<std::endl;
                 for(auto shape : s.shape_vec){
                     if (shape->getName() == transOb_name){
                         shape->translate({x,y,z});
@@ -264,7 +200,6 @@ Scene sdfParser(std::string const& file){
                 }                
             }
             if("rotate" == transformation){
-                //std::cout<<"transformation: "<<transformation<<std::endl;
 
                 in_sstream >> angle;
                 for(auto shape : s.shape_vec){
@@ -276,7 +211,6 @@ Scene sdfParser(std::string const& file){
             }
         }
         if("render" == identifier){
-            //std::cout<<"identifier content: "<<identifier<<std::endl;
             std::string render_name;
             std::string cam_name;
             std::string filename;
@@ -291,13 +225,6 @@ Scene sdfParser(std::string const& file){
             in_sstream >> height;
             in_sstream >> depth;
 
-/*             std::cout<<render_name<<std::endl;
-            std::cout<<cam_name<<std::endl;
-            std::cout<<filename<<std::endl;
-            std::cout<<width<<std::endl; 
-            std::cout<<height<<std::endl; 
-            std::cout<<depth<<std::endl;  */
-            //s.camera_.name_ = cam_name;
             s.render_value.file = filename;
             s.render_value.w = width;
             s.render_value.h = height;

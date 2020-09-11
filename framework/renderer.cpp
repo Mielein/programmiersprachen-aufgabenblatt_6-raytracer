@@ -38,8 +38,6 @@ Renderer::Renderer(unsigned w, unsigned h, std::string const& file, Scene const&
 
 void sdf_render(){
   Scene s;
-/*   s.
-  render(s); */
 }
 
 void Renderer::render(Scene const& scene){
@@ -55,12 +53,6 @@ void Renderer::render(Scene const& scene){
   for (unsigned y = 0; y < height_; ++y) {
     for (unsigned x = 0; x < width_; ++x) {
       Pixel p(x,y);
-/*    if ( ((x/checker_pattern_size)%2) != ((y/checker_pattern_size)%2)) {
-        p.color = Color{0.0f, 1.0f, float(x)/height_};
-      } 
-      else {
-        p.color = Color{1.0f, 0.0f, float(y)/width_};
-      } */
         glm::vec3 origin = scene.camera_.pos_;
         float dir_x = scene.camera_.direction_.x + x-(width_*0.5f);
         float dir_y = scene.camera_.direction_.y + y-(height_*0.5f);
@@ -97,7 +89,6 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
   HitPoint closest_t;
   std::shared_ptr<Shape> closest_o = nullptr;
   for(auto i : scene.shape_vec){ 
-    //std::cout << *i << std::endl;
     auto t = i->intersect(ray);
     if (t.intersection_){
       if(t.name_ == "pusspuss"){ 
@@ -112,7 +103,6 @@ Color Renderer::trace(Ray const& ray, Scene const& scene){
     if(t.distance_< closest_t.distance_  && t.intersection_ ){
       closest_t = t;
       closest_o = i; 
-/*       std::cout<<closest_t.name_; */
     }
   }
   if(closest_o != nullptr){
@@ -169,7 +159,7 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
     HitPoint light_hit;
 
     glm::vec3 vec_lights{light->pos_ - hit.intersect_pt_};
-    Ray ray_lights{hit.intersect_pt_ + 0.1f * hit.normal_,glm::normalize(vec_lights)}; //checks if obstacle is between Light and intersection
+    Ray ray_lights{hit.intersect_pt_ + 0.1f * hit.normal_,glm::normalize(vec_lights)}; 
     
     for(auto i : scene.shape_vec){
       if(i == shape){
@@ -186,35 +176,18 @@ Color Renderer::claculateDiffuse(std::shared_ptr<Shape> const& shape, Scene cons
     }
 
     if(!obstacle){
-        //std::cout << "we use the obstacle, it is true" << std::endl;
         Color ip{light->color_*light->brightness_};
         Color kd = shape->getMat()->kd_;
         float cross_prod = -(glm::dot(hit.normal_,glm::normalize(vec_lights)));
-        //std::cout << cross_prod << std::endl;
         cross_prod = std::max(cross_prod, 0.0f);
         cross_prod = glm::clamp(cross_prod, 0.0f, 1.0f);
-        //std::cout << cross_prod << std::endl;
-        //std::cout << kd; 
-        //std::cout << ip;
-        //printVec(vec_lights);
-        //printVec(hit.normal_); 
-        //std::cout << ((ip*kd)*cross_prod) << std::endl;
         result.push_back({(ip*kd)*cross_prod});
-        //std::cout << std::endl;
     }
-/*     else{
-      Color kd = shape->getMat()->kd_;
-      result.push_back(kd*0.1f);
-    } */
   }
-  //std::cout << "the Vec has this many elements: " << result.size() << std::endl; 
-  //std::cout << "first element: " << result[0] << std::endl;
   for(auto clr : result){  
     Color clamp_clr = clamping(clr);
     diffused_clr += clamp_clr;
   } 
-  //std::cout << diffused_clr << std::endl;
-  //std::cout << "" << std::endl;
   return diffused_clr;
 }
 
@@ -235,7 +208,6 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
       }
       else{
         light_hit = i->intersect(ray_lights);
-        // erstmal unwichtig  std::cout << i->intersect(ray_lights).intersect_pt_.x << " " << i->intersect(ray_lights).intersect_pt_.y << " " << i->intersect(ray_lights).intersect_pt_.z << std::endl;
         if(light_hit.intersection_){
           obstacle = true;
           break;
@@ -246,10 +218,7 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
     if(!obstacle){
       float m = shape->getMat()->m_;
       glm::vec3 r = 2.0f*glm::dot(hit.normal_,glm::normalize(vec_lights))*hit.normal_-glm::normalize(vec_lights); //glm::dot -> Skalarprodukt
-      //printVec(r);
       glm::vec3 v = glm::normalize(scene.camera_.pos_ - hit.intersect_pt_);
-      //printVec(v);
-      //std::cout << std::endl;
       float cross_prod = glm::dot(r,v);
       cross_prod = std::max(cross_prod, 0.0f);
       if(cross_prod < 0){
@@ -262,7 +231,6 @@ Color Renderer::calculateSpecular(std::shared_ptr<Shape> const& shape, Scene con
     }  
   }
 
-  //std::cout << calc_clrs.size();
   for(auto clr : calc_clrs){
     Color clamp_clr = {clamping(clr)};
     spec_clr += clamp_clr;
@@ -317,10 +285,6 @@ Renderer sdf_render(std::string const& filename){
   Scene output = sdfParser(filename);
   std::cout << std::endl;
   Renderer tmp = {output.render_value.w, output.render_value.h, output.render_value.file, output.render_value.depth};
-  /* std::cout << output.render_value.w << std::endl;
-  std::cout << output.render_value.h << std::endl;
-  std::cout << output.render_value.file << std::endl;
-  std::cout << output.render_value.depth << std::endl; */
   tmp.render(output);
   return tmp;
 }

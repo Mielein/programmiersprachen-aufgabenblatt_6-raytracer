@@ -32,7 +32,6 @@ HitPoint Triangle::intersect(Ray const& ray) const{
     glm::vec3 ab = b_ - a_;
     glm::vec3 ac = c_ - a_;
     glm::vec3 normal = glm::cross(ab,ac); 
-    //bool did_it_hit = glm::intersectRayTriangle(ray.origin_,glm::normalize(ray.direction_),a_,b_,c_,baryPos);
 
     glm::vec3 q = glm::cross(trans_ray.direction_,ac);
     float a = glm::dot(ab,q);
