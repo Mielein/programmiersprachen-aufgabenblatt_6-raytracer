@@ -109,7 +109,7 @@ Scene sdfParser(std::string const& file){
             if("shape" == class_name){
                 in_sstream>>class_name;
                 if("sphere" == class_name){
-                    std::cout<<"class content: "<<class_name<<std::endl;
+                    //std::cout<<"class content: "<<class_name<<std::endl;
                     std::string sphere_name;
                     /* float clr_r,clr_g,clr_b; */
                     float radius;
@@ -142,7 +142,7 @@ Scene sdfParser(std::string const& file){
                     std::cout<<mat_name<<std::endl;  */
                 }
                 if("box" == class_name){
-                    std::cout<<"class content: "<<class_name<<std::endl;
+                    //std::cout<<"class content: "<<class_name<<std::endl;
                     std::string box_name;
                     /* float clr_r, clr_g, clr_b; */
                     glm::vec3 min;
@@ -176,7 +176,7 @@ Scene sdfParser(std::string const& file){
                     std::cout<<mat_name<<std::endl;  */
                 }
                 if("triangle" == class_name){
-                    std::cout<<"class content: "<<class_name<<std::endl;
+                    //std::cout<<"class content: "<<class_name<<std::endl;
                     std::string triangle_name;
                     /* float clr_r, clr_g, clr_b; */
                     glm::vec3 a;
@@ -231,7 +231,7 @@ Scene sdfParser(std::string const& file){
             std::cout<<clr_r<<" "<<clr_g<<" "<<clr_b<<std::endl;  */
         }
         if("transform" == identifier){
-            std::cout<<"identifier content: "<<identifier<<std::endl;
+            //std::cout<<"identifier content: "<<identifier<<std::endl;
             std::string transOb_name;
             std::string transformation;
             float x,y,z,angle;
@@ -248,7 +248,7 @@ Scene sdfParser(std::string const& file){
             std::cout<< z <<std::endl; */
 
             if("scale" == transformation){
-                std::cout<<"transformation: "<<transformation<<std::endl;
+                //std::cout<<"transformation: "<<transformation<<std::endl;
                 for(auto shape : s.shape_vec){
                     if (shape->getName() == transOb_name){
                         shape->scale({x,y,z});
@@ -256,7 +256,7 @@ Scene sdfParser(std::string const& file){
                 }
             }
             if("translate" == transformation){
-                std::cout<<"transformation: "<<transformation<<std::endl;
+                //std::cout<<"transformation: "<<transformation<<std::endl;
                 for(auto shape : s.shape_vec){
                     if (shape->getName() == transOb_name){
                         shape->translate({x,y,z});
@@ -264,7 +264,7 @@ Scene sdfParser(std::string const& file){
                 }                
             }
             if("rotate" == transformation){
-                std::cout<<"transformation: "<<transformation<<std::endl;
+                //std::cout<<"transformation: "<<transformation<<std::endl;
 
                 in_sstream >> angle;
                 for(auto shape : s.shape_vec){
@@ -276,7 +276,7 @@ Scene sdfParser(std::string const& file){
             }
         }
         if("render" == identifier){
-            std::cout<<"identifier content: "<<identifier<<std::endl;
+            //std::cout<<"identifier content: "<<identifier<<std::endl;
             std::string render_name;
             std::string cam_name;
             std::string filename;

@@ -27,7 +27,7 @@ Shape::Shape(std::string name, Color color,std::shared_ptr<Material> material):
     world_transform_inv_(glm::inverse(world_transform_)){}
 
 Shape::~Shape(){
-    std::cout<<"Shape destructor is here to destruct!!"<<std::endl;
+    //std::cout<<"Shape destructor is here to destruct!!"<<std::endl;
 }
 
 std::shared_ptr<Material> Shape::getMat() const{

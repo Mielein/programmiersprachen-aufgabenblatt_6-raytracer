@@ -43,12 +43,12 @@ void sdf_render(){
 }
 
 void Renderer::render(Scene const& scene){
-  std::cout << "" << std::endl;
+/*   std::cout << "" << std::endl;
   std::cout << "" << std::endl;
   std::cout << "Hallo Marie, ich rendere jetzt was, okay?" << std::endl;
   std::cout << "" << std::endl;
   std::cout << "" << std::endl;
-  
+   */
   /* std::size_t const checker_pattern_size = 20; */
 /*   for (auto i : scene.shape_vec){
     std::cout << "Renderer 1: " << std::endl << *i << std::endl;
@@ -66,8 +66,8 @@ void Renderer::render(Scene const& scene){
         float dir_x = scene.camera_.direction_.x + x-(width_*0.5f);
         float dir_y = (scene.camera_.direction_.y + y-(height_*0.5f));
         float dir_z = scene.camera_.direction_.z + (width_/2.0f)/tan((scene.camera_.fovX/2.0f)*M_PI/180);
-        glm::vec3 direction{glm::cross({dir_x,dir_y,-dir_z},scene.camera_.up_)}; 
-        direction = glm::cross(direction, scene.camera_.up_); 
+        glm::vec3 direction{dir_x,dir_y,-dir_z}; 
+        //direction = glm::cross(direction, scene.camera_.up_); 
         //Ray ray = scene.camera_.constructEyeRay(x,y,width_,height_);
         Ray ray{origin, glm::normalize(direction)};
 /*      std::cout<<"origin \n";

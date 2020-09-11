@@ -9,10 +9,10 @@ Sphere::Sphere(glm::vec3 mid,float rad):
     mid_{mid},
     radius_{abs(rad)}{
         if(radius_< 0){
-            std::cout<<"your radius has been turned positive";
+            //std::cout<<"your radius has been turned positive";
         }
         if(radius_ == 0){
-            std::cout<<"your sphere will not be visible with a radius of 0"<<std::endl;
+            //std::cout<<"your sphere will not be visible with a radius of 0"<<std::endl;
         } 
     }
 
@@ -27,7 +27,7 @@ Sphere::Sphere(std::string name,Color color,std::shared_ptr<Material> mat,glm::v
     radius_{rad}{}
 
 Sphere::~Sphere(){
-    std::cout<<"a wild sphere destructor has appeared"<<std::endl;
+    //std::cout<<"a wild sphere destructor has appeared"<<std::endl;
 }
     
 float Sphere::area() const{
