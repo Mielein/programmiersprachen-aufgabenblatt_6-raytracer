@@ -28,9 +28,9 @@ class Shape{
     std::shared_ptr<Material> getMat() const;
     void transformation(glm::mat4 const& mat);
     glm::mat4 getWorldInv() const;
-    glm::mat4 rotate(float angle, float x,float y,float z);
-    glm::mat4 scale(glm::mat4 mat,float x,float y,float z);
-    glm::mat4 translate(glm::mat4 mat,float x,float y,float z);
+    void rotate(float angle,  glm::vec3 const& axis);
+    void scale(glm::vec3 const& scale_vec);
+    void translate(glm::vec3 transl_vec);
 
     protected:
     std::string name_;

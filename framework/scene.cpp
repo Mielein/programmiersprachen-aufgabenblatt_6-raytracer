@@ -35,14 +35,13 @@ Scene sdfParser(std::string const& file){
                 float ka_red, ka_green, ka_blue;
                 float kd_red, kd_green, kd_blue;
                 float ks_red, ks_green, ks_blue;
-                float m, op, mirror;
+                float m, mirror;
 
                 in_sstream >> material_name;
                 in_sstream >> ka_red >> ka_green >> ka_blue; 
                 in_sstream >> kd_red >> kd_green >> kd_blue;
                 in_sstream >> ks_red >> ks_green >> ks_blue;
                 in_sstream >> m;
-                in_sstream >> op;
                 in_sstream >> mirror;
 
 /*              std::cout << material_name<<std::endl;
@@ -51,7 +50,7 @@ Scene sdfParser(std::string const& file){
                 std::cout << ks_red <<" "<<ks_green<<" "<<ks_blue<<std::endl;
                 std::cout << m << std::endl; */
 
-                Material mat(material_name,{ka_red,ka_green,ka_blue},{kd_red,kd_green,kd_blue},{ks_red,ks_green,ks_blue},m,op,mirror);
+                Material mat(material_name,{ka_red,ka_green,ka_blue},{kd_red,kd_green,kd_blue},{ks_red,ks_green,ks_blue},m,mirror);
                 auto mat_ptr = std::make_shared<Material>(mat);
                 s.mat_map.insert({material_name, mat_ptr}); 
             }
@@ -250,31 +249,17 @@ Scene sdfParser(std::string const& file){
 
             if("scale" == transformation){
                 std::cout<<"transformation: "<<transformation<<std::endl;
-
-                glm::mat4 mat = glm::mat4{
-                    glm::vec4{x,0.0f,0.0f,0.0f},
-                    glm::vec4{0.0f,y,0.0f,0.0f},
-                    glm::vec4{0.0f,0.0f,z,0.0f},
-                    glm::vec4{0.0f,0.0f,0.0f,1.0f}                   
-                }; 
                 for(auto shape : s.shape_vec){
                     if (shape->getName() == transOb_name){
-                        shape->scale(mat,x,y,z);
+                        shape->scale({x,y,z});
                     }
                 }
             }
             if("translate" == transformation){
                 std::cout<<"transformation: "<<transformation<<std::endl;
-
-                glm::mat4 mat = glm::mat4{
-                    glm::vec4{1.0f,0.0f,0.0f,x},
-                    glm::vec4{0.0f,1.0f,0.0f,y},
-                    glm::vec4{0.0f,0.0f,1.0f,z},
-                    glm::vec4{0.0f,0.0f,0.0f,1.0f}                    
-                };
                 for(auto shape : s.shape_vec){
                     if (shape->getName() == transOb_name){
-                        shape->translate(mat,x,y,z);
+                        shape->translate({x,y,z});
                     }
                 }                
             }
@@ -284,48 +269,10 @@ Scene sdfParser(std::string const& file){
                 in_sstream >> angle;
                 for(auto shape : s.shape_vec){
                     if (shape->getName() == transOb_name){
-                        shape->rotate(angle,x,y,z);
+                        shape->rotate(angle,{x,y,z});
                     }
                 }                
-                /* if(x == 1){
-                    glm::mat4 mat = glm::mat4{
-                    glm::vec4{1.0f,0.0f,0.0f,0.0f},
-                    glm::vec4{0.0f,cos(angle),-sin(angle),0.0f},
-                    glm::vec4{0.0f,sin(angle),cos(angle),0.0f},
-                    glm::vec4{0.0f,0.0f,0.0f,1.0f} 
-                    }; 
-                    for(auto shape : s.shape_vec){
-                        if (shape->getName() == transOb_name){
-                            shape->transformation(mat);
-                        }
-                    }                                      
-                }
-                if(y == 1){
-                    glm::mat4 mat = glm::mat4{
-                    glm::vec4{cos(angle),0.0f,-sin(angle),0.0f},
-                    glm::vec4{0.0f,1.0f,0.0f,0.0f},
-                    glm::vec4{sin(angle),0.0f,cos(angle),0.0},
-                    glm::vec4{0.0f,0.0f,0.0f,1.0f}                    
-                };
-                    for(auto shape : s.shape_vec){
-                        if (shape->getName() == transOb_name){
-                            shape->transformation(mat);
-                        }
-                    } 
-                }
-                if(z == 1){
-                    glm::mat4 mat = glm::mat4{
-                    glm::vec4{cos(angle),-sin(angle),0.0f,0.0f},
-                    glm::vec4{sin(angle),cos(angle),0.0f,0.0f},
-                    glm::vec4{0.0f,0.0f,1.0f,0.0f},
-                    glm::vec4{0.0f,0.0f,0.0f,1.0f},                    
-                    };
-                    for(auto shape : s.shape_vec){
-                        if (shape->getName() == transOb_name){
-                            shape->transformation(mat);
-                        }
-                    }
-                } */
+               
             }
         }
         if("render" == identifier){
