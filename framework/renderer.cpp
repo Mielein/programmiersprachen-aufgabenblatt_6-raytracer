@@ -64,9 +64,10 @@ void Renderer::render(Scene const& scene){
       } */
         glm::vec3 origin = scene.camera_.pos_;
         float dir_x = scene.camera_.direction_.x + x-(width_*0.5f);
-        float dir_y = scene.camera_.direction_.y + y-(height_*0.5f);
+        float dir_y = (scene.camera_.direction_.y + y-(height_*0.5f));
         float dir_z = scene.camera_.direction_.z + (width_/2.0f)/tan((scene.camera_.fovX/2.0f)*M_PI/180);
-        glm::vec3 direction{dir_x,dir_y,-dir_z}; 
+        glm::vec3 direction{glm::cross({dir_x,dir_y,-dir_z},scene.camera_.up_)}; 
+        direction = glm::cross(direction, scene.camera_.up_); 
         //Ray ray = scene.camera_.constructEyeRay(x,y,width_,height_);
         Ray ray{origin, glm::normalize(direction)};
 /*      std::cout<<"origin \n";
