@@ -268,7 +268,7 @@ Color Renderer::calculateReflection(std::shared_ptr<Shape> const& shape, Scene c
   HitPoint next_hit;
   float depth = depth_;
 
-  for(auto i : scene.shape_vec){
+/*   for(auto i : scene.shape_vec){
     next_hit = i->intersect(reflect_ray);
     if(next_hit.intersection_){
       if(depth > 0){
@@ -283,7 +283,7 @@ Color Renderer::calculateReflection(std::shared_ptr<Shape> const& shape, Scene c
       }
     }
     return {1.0f,1.0f,1.0f};
-  }
+  } */
   
 /*   printVec(reflect_vec); */
 
