@@ -271,10 +271,12 @@ Color Renderer::calculateReflection(std::shared_ptr<Shape> const& shape, Scene c
   for(auto i : scene.shape_vec){
     next_hit = i->intersect(reflect_ray);
     if(next_hit.intersection_){
-      if(depth_ > 0){
-        Color clr = calculateReflection(i,scene,next_hit);
-        depth_-=1;
-        return clr;
+      if(depth > 0){
+        for(int j = 0; j < depth; ++j){
+          Color clr = calculateReflection(i,scene,next_hit);
+          depth-=1;
+          return clr;
+        }
       }
       else{
         return {0.0f,0.0f,0.0f};
