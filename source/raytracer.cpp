@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 {
 
   //renderer.render();
-  Renderer scene = sdf_render("../../source/example.sdf");
+  Renderer scene = sdf_render("../../source/raytracer.sdf");
   
 
   Window window{{scene.get_width(), scene.get_height()}};
