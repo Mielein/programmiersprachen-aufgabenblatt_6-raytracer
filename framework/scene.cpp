@@ -256,10 +256,10 @@ Scene sdfParser(std::string const& file){
                     glm::vec4{0.0f,y,0.0f,0.0f},
                     glm::vec4{0.0f,0.0f,z,0.0f},
                     glm::vec4{0.0f,0.0f,0.0f,1.0f}                   
-                };
+                }; 
                 for(auto shape : s.shape_vec){
                     if (shape->getName() == transOb_name){
-                        shape->transformation(mat);
+                        shape->scale(mat,x,y,z);
                     }
                 }
             }
@@ -274,7 +274,7 @@ Scene sdfParser(std::string const& file){
                 };
                 for(auto shape : s.shape_vec){
                     if (shape->getName() == transOb_name){
-                        shape->transformation(mat);
+                        shape->translate(mat,x,y,z);
                     }
                 }                
             }
@@ -282,7 +282,12 @@ Scene sdfParser(std::string const& file){
                 std::cout<<"transformation: "<<transformation<<std::endl;
 
                 in_sstream >> angle;
-                if(x == 1){
+                for(auto shape : s.shape_vec){
+                    if (shape->getName() == transOb_name){
+                        shape->rotate(angle,x,y,z);
+                    }
+                }                
+                /* if(x == 1){
                     glm::mat4 mat = glm::mat4{
                     glm::vec4{1.0f,0.0f,0.0f,0.0f},
                     glm::vec4{0.0f,cos(angle),-sin(angle),0.0f},
@@ -320,7 +325,7 @@ Scene sdfParser(std::string const& file){
                             shape->transformation(mat);
                         }
                     }
-                }
+                } */
             }
         }
         if("render" == identifier){

@@ -5,8 +5,8 @@ define shape sphere bsphere1 -20 -10 -90 10 blue
 define shape sphere bsphere2 0 0 -100 20 red
 #define shape composite root rbottom bsphere
 #xform
-transform rbottom translate 30 30 30 1
-#transform rbottom rotate 30 30 15 1
+#transform rbottom translate 30 30 30 1
+transform rbottom rotate 30 30 15 1 45 
 #transform rbottom translate 0 0 -10
 #transform bsphere rotate 45 0 0 1
 #transform bsphere translate 0 0 -10

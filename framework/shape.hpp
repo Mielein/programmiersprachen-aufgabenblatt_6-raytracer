@@ -9,6 +9,9 @@
 #include <iostream>
 #include <memory>
 #include <glm/glm.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtx/transform.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 class Shape{
     public:
@@ -25,6 +28,9 @@ class Shape{
     std::shared_ptr<Material> getMat() const;
     void transformation(glm::mat4 const& mat);
     glm::mat4 getWorldInv() const;
+    glm::mat4 rotate(float angle, float x,float y,float z);
+    glm::mat4 scale(glm::mat4 mat,float x,float y,float z);
+    glm::mat4 translate(glm::mat4 mat,float x,float y,float z);
 
     protected:
     std::string name_;
