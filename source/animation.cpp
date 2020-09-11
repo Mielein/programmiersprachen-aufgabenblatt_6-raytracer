@@ -7,10 +7,10 @@
 #include <cmath>
 
 //now single threaded again
-int main(int argc, char* argv[])
+/* int main(int argc, char* argv[])
 {
 /*     std::cout << "Hallu ich bin eine animation" << std::endl;
- */ unsigned const image_width = 500;
+  unsigned const image_width = 500;
     unsigned const image_height = 500;
     for(int i = 0; i < 360; i++){
     std::cout << i << std::endl;
@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     scene.camera_.direction_.z = scene.camera_.direction_.z + cam_value;
     renderer.render(scene);
 
-    }
+    } */
     
     
     
